@@ -2239,3 +2239,15 @@ RiamLmsStack | 25/34 | 23:32:13 | CREATE_COMPLETE      | AWS::EC2::SecurityGroup
 RiamLmsStack | 25/34 | 23:32:13 | CREATE_IN_PROGRESS   | AWS::EC2::SecurityGroupEgress                   | RiamLmsService/LB/SecurityGroup/to RiamLmsStackRiamLmsServiceSecurityGroup604B60A6:8000 (RiamLmsServiceLBSecurityGrouptoRiamLmsStackRiamLmsServiceSecurityGroup604B60A6800073D2AEB7) Resource creation Initiated
 RiamLmsStack | 26/34 | 23:32:13 | CREATE_COMPLETE      | AWS::EC2::SecurityGroupEgress                   | RiamLmsService/LB/SecurityGroup/to RiamLmsStackRiamLmsServiceSecurityGroup604B60A6:8000 (RiamLmsServiceLBSecurityGrouptoRiamLmsStackRiamLmsServiceSecurityGroup604B60A6800073D2AEB7) 
 26/34 Currently in progress: RiamLmsStack, RiamLmsServiceLB97A66689, UiDistribution3836E805
+RiamLmsStack | 27/34 | 23:34:40 | CREATE_COMPLETE      | AWS::ElasticLoadBalancingV2::LoadBalancer       | RiamLmsService/LB (RiamLmsServiceLB97A66689) 
+RiamLmsStack | 27/34 | 23:34:41 | CREATE_IN_PROGRESS   | AWS::ElasticLoadBalancingV2::Listener           | RiamLmsService/LB/PublicListener (RiamLmsServiceLBPublicListener9E124493) 
+RiamLmsStack | 27/34 | 23:34:42 | CREATE_IN_PROGRESS   | AWS::ElasticLoadBalancingV2::Listener           | RiamLmsService/LB/PublicListener (RiamLmsServiceLBPublicListener9E124493) Resource creation Initiated
+RiamLmsStack | 28/34 | 23:34:43 | CREATE_COMPLETE      | AWS::ElasticLoadBalancingV2::Listener           | RiamLmsService/LB/PublicListener (RiamLmsServiceLBPublicListener9E124493) 
+RiamLmsStack | 28/34 | 23:34:43 | CREATE_IN_PROGRESS   | AWS::ECS::Service                               | RiamLmsService/Service/Service (RiamLmsServiceBDEB2ED9) 
+RiamLmsStack | 28/34 | 23:34:45 | CREATE_IN_PROGRESS   | AWS::ECS::Service                               | RiamLmsService/Service/Service (RiamLmsServiceBDEB2ED9) Resource creation Initiated
+RiamLmsStack | 29/34 | 23:35:16 | CREATE_COMPLETE      | AWS::CloudFront::Distribution                   | UiDistribution (UiDistribution3836E805) 
+RiamLmsStack | 29/34 | 23:35:16 | CREATE_IN_PROGRESS   | Custom::CDKBucketDeployment                     | UiDeployment/CustomResource/Default (UiDeploymentCustomResource13C95213) 
+29/34 Currently in progress: RiamLmsStack, RiamLmsServiceBDEB2ED9, UiDeploymentCustomResource13C95213
+RiamLmsStack | 29/34 | 23:36:29 | CREATE_IN_PROGRESS   | Custom::CDKBucketDeployment                     | UiDeployment/CustomResource/Default (UiDeploymentCustomResource13C95213) Resource creation Initiated
+RiamLmsStack | 30/34 | 23:36:29 | CREATE_COMPLETE      | Custom::CDKBucketDeployment                     | UiDeployment/CustomResource/Default (UiDeploymentCustomResource13C95213) 
+30/34 Currently in progress: RiamLmsStack, RiamLmsServiceBDEB2ED9
