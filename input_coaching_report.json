@@ -1,0 +1,113 @@
+{
+  "audio_file": "input.mp3",
+  "features": {
+    "basic_info": {
+      "duration_seconds": 177.68489795918367,
+      "duration_formatted": "2:57",
+      "sample_rate": 44100,
+      "total_samples": 7835904
+    },
+    "tempo_rhythm": {
+      "tempo_bpm": 156.60511363636363,
+      "tempo_category": "Vivace (lively)",
+      "tempo_stability_score": 0.9615631892750609,
+      "tempo_variation_percent": 3.843681072493911,
+      "beat_count": 446,
+      "onset_count": 1003,
+      "rhythm_regularity_score": 0.44746399648789437,
+      "notes_per_second": 5.644824132608057
+    },
+    "pitch_intonation": {
+      "estimated_key": "A",
+      "key_confidence": 0.15080256760120392,
+      "pitch_stability_score": 0.5815708637237549,
+      "pitch_range_semitones": 47.68885803222656,
+      "average_pitch_hz": 635.8671875,
+      "harmonic_content_ratio": 0.8933231234550476,
+      "chroma_distribution": {
+        "C": 0.258505642414093,
+        "C#": 0.24150598049163818,
+        "D": 0.1672627031803131,
+        "D#": 0.17181524634361267,
+        "E": 0.29907792806625366,
+        "F": 0.17273905873298645,
+        "F#": 0.18637779355049133,
+        "G": 0.19205830991268158,
+        "G#": 0.3263953626155853,
+        "A": 0.45292380452156067,
+        "A#": 0.23857302963733673,
+        "B": 0.29618752002716064
+      }
+    },
+    "dynamics": {
+      "dynamic_range_db": 60.565185546875,
+      "dynamic_range_category": "Exceptional (ppp-fff range)",
+      "average_loudness_db": -30.49241065979004,
+      "loudness_variation": 8.705087661743164,
+      "dynamic_contrast_score": 0.1881355345249176,
+      "crescendo_presence": 0.2211186617877679,
+      "decrescendo_presence": 0.26986408782017773,
+      "dynamic_expressiveness": "Good expression"
+    },
+    "tone_quality": {
+      "brightness_score": 0.018933228349265183,
+      "brightness_hz": 834.9553702025946,
+      "brightness_consistency": 0.3820370200398068,
+      "tone_warmth": 0.9810667716507349,
+      "spectral_bandwidth_avg": 784.0218860479746,
+      "spectral_rolloff_avg": 1365.7453427444054,
+      "spectral_flatness_avg": 0.008050204254686832,
+      "tonal_vs_noisy": "tonal",
+      "zero_crossing_rate": 0.031003514476478276,
+      "mfcc_means": [
+        -411.0467834472656,
+        224.8195037841797,
+        23.99272346496582,
+        -21.957143783569336,
+        4.079295635223389,
+        -1.5785441398620605,
+        -11.174088478088379,
+        -6.113658905029297,
+        -2.0736496448516846,
+        -2.2781143188476562,
+        -1.6078017950057983,
+        -0.26845860481262207,
+        -2.955975294113159
+      ],
+      "timbre_consistency": 0.0
+    },
+    "articulation": {
+      "attack_clarity_score": 0.26693143844604494,
+      "note_separation_consistency": 0.44746399648789437,
+      "staccato_tendency": 0.27245508982035926,
+      "legato_tendency": 0.06686626746506986,
+      "articulation_variety": 0.2055888223552894,
+      "predominant_articulation": "staccato"
+    },
+    "musical_structure": {
+      "estimated_sections": 29,
+      "structural_repetition": 0.004917984918400283,
+      "musical_development_score": 0.9950820150815998,
+      "section_boundaries_seconds": [
+        1.3351473922902495,
+        13.618503401360543,
+        14.001632653061224,
+        16.683537414965986,
+        25.913469387755104,
+        26.296598639455784,
+        28.978503401360545,
+        29.361632653061225,
+        38.26648526077098,
+        38.48707482993197
+      ]
+    },
+    "advanced_metrics": {
+      "technical_proficiency_score": 0.5643823719831887,
+      "expressiveness_score": 0.6413136424115811,
+      "overall_performance_score": 0.602848007197385,
+      "difficulty_estimate": "Advanced (Grade 6-8)",
+      "performance_level": "Proficient"
+    }
+  },
+  "coaching_feedback": "# Comprehensive Performance Assessment & Feedback\n\n## 1. Overall Performance Assessment\nBased on the metrics, this is a dedicated student performing at a proficient level (Grade 6-8) with some notable strengths and areas for development. The exceptional tempo stability (0.96) shows strong fundamental rhythm, while the lower articulation scores and timbre consistency suggest areas needing focused attention.\n\nKey observations:\n- Strong tempo control and basic technical foundation\n- Excellent musical development awareness (1.00)\n- Needs work on articulation variety and tonal consistency\n- Good potential shown through dynamic range (60.6 dB)\n\n## 2. Technical Analysis & Feedback\n\n### Rhythm & Tempo\n\u2713 Strengths:\n- Outstanding tempo stability (0.96)\n- Appropriate tempo choice for skill level (156.6 BPM)\n\n\u26a0 Areas for Development:\n- Rhythm regularity (0.45) needs attention\n- Note density management (5.6 notes/second) may be affecting clarity\n\nSuggested Exercise:\nPractice with metronome at 75% speed, focusing on subdivisions. Gradually increase tempo while maintaining regularity.\n\n### Intonation & Pitch Control\nThe pitch stability score (0.58) indicates room for improvement, though the high harmonic content (89.3%) suggests good basic tone production.\n\nRecommendations:\n- Long-tone exercises with tuner\n- Slow scale practice with drone notes\n- Record and analyze pitch centers in problematic passages\n\n### Tone Quality\nThe extreme contrast between brightness (0.02) and warmth (0.98) scores suggests:\n- Strong fundamental tone production\n- Need for more tonal variety\n- Critical attention needed for timbre consistency (0.00)\n\n## 3. Musical Expression & Interpretation\nThe dynamic range is impressive (60.6 dB), but the low dynamic contrast score (0.19) suggests:\n- Good potential for expression\n- Need for more intentional dynamic shaping\n- Opportunity to develop more nuanced control\n\n## 4. Strengths to Build On\n1. Exceptional tempo stability (0.96)\n2. Strong musical development awareness (1.00)\n3. Impressive dynamic range capability (60.6 dB)\n4. Solid warm tone production (0.98)\n\n## 5. Priority Areas for Improvement\n1. Timbre consistency (0.00) - highest priority\n2. Dynamic contrast (0.19)\n3. Attack clarity (0.27)\n4. Articulation variety (staccato-heavy at 27.2%)\n\n## 6. Practice Plan\n\n### Weeks 1-2\nDaily 60-minute routine:\n- 15min: Long tones for timbre consistency\n- 15min: Articulation exercises\n- 20min: Repertoire work focusing on dynamics\n- 10min: Technical exercises\n\n### Weeks 3-4\nDaily 60-minute routine:\n- 10min: Tone production warmup\n- 20min: Dynamic contrast exercises\n- 20min: Repertoire integration\n- 10min: Articulation variety work\n\n## 7. Recommended Repertoire\n\nTechnical Studies:\n1. Moyse \"Tone Development Through Interpretation\" - for timbre consistency\n2. Taffanel & Gaubert Daily Exercises - for articulation development\n\nPerformance Pieces:\n1. Mozart Andante in C - excellent for developing dynamic contrast\n2. Bach Sonata in E minor - for articulation variety\n\n## 8. Technical Exercises\n\n1. Timbre Consistency Exercise:\n- Play long tones with tuner\n- Record 4-bar phrases\n- Analyze for consistent tone color\n\n2. Dynamic Contrast Study:\n- Practice messa di voce on single notes\n- Work through dynamic ranges: pp-mp-mf-f-ff\n- Use decibel meter for feedback\n\n3. Articulation Development:\n- Practice tonguing patterns: single, double, triple\n- Alternate between legato and staccato passages\n- Record and analyze clarity\n\n## 9. Encouragement & Next Steps\n\nYour strong tempo stability and musical development awareness show excellent potential. The impressive dynamic range indicates your capability for expressive playing. Focus on developing consistent timbre and varied articulation while maintaining your current strengths.\n\nNext Steps:\n1. Begin with the tone consistency exercises\n2. Record weekly progress\n3. Schedule a follow-up lesson in 2 weeks\n4. Prepare one new \u00e9tude focusing on articulation\n\nRemember: Your foundation is solid - now we're refining for artistic excellence. Keep up the dedicated work!"
+}

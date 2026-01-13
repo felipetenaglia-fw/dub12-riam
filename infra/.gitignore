@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.swp
+.Python
+*.egg-info/
+.cdk.staging/
+cdk.out/
+.env
+.venv

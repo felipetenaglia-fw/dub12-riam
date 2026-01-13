@@ -1,0 +1,638 @@
+{
+	"info": {
+		"_postman_id": "riam-lms-api-001",
+		"name": "RIAM LMS API",
+		"description": "Collection for testing the RIAM Learning Management System API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login as Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"access_token\", jsonData.access_token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Login as Teacher",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"access_token\", jsonData.access_token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"teacher\",\n    \"password\": \"teacher\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Login as Student",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"access_token\", jsonData.access_token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"student\",\n    \"password\": \"student\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/me",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "me"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "List All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": ["{{base_url}}"],
+							"path": ["users"]
+						}
+					}
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": ["{{base_url}}"],
+							"path": ["users", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"newstudent\",\n    \"password\": \"password123\",\n    \"name\": \"New Student\",\n    \"email\": \"newstudent@riam.ie\",\n    \"role\": \"student\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": ["{{base_url}}"],
+							"path": ["users"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Musical Pieces",
+			"item": [
+				{
+					"name": "List Musical Pieces",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/pieces",
+							"host": ["{{base_url}}"],
+							"path": ["pieces"]
+						}
+					}
+				},
+				{
+					"name": "Get Musical Piece by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/pieces/1",
+							"host": ["{{base_url}}"],
+							"path": ["pieces", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create Musical Piece",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Symphony No. 5\",\n    \"composer\": \"Ludwig van Beethoven\",\n    \"description\": \"One of the most famous symphonies in classical music\",\n    \"audio_url\": \"https://example.com/beethoven-5.mp3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/pieces",
+							"host": ["{{base_url}}"],
+							"path": ["pieces"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Classes",
+			"item": [
+				{
+					"name": "Create Class Session",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"student_id\": 4,\n    \"notes\": \"Great progress today. Emma demonstrated excellent technique.\",\n    \"improvement_points\": \"Work on maintaining steady tempo in difficult passages.\",\n    \"actions\": \"Practice scales daily. Record practice sessions.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/classes",
+							"host": ["{{base_url}}"],
+							"path": ["classes"]
+						}
+					}
+				},
+				{
+					"name": "List Class Sessions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/classes",
+							"host": ["{{base_url}}"],
+							"path": ["classes"]
+						}
+					}
+				},
+				{
+					"name": "Get Class Session by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/classes/1",
+							"host": ["{{base_url}}"],
+							"path": ["classes", "1"]
+						}
+					}
+				},
+				{
+					"name": "Get Student Class History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/classes/students/4/history",
+							"host": ["{{base_url}}"],
+							"path": ["classes", "students", "4", "history"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "Create Practice Task",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"student_id\": 4,\n    \"type\": \"practice\",\n    \"title\": \"Practice Scales and Arpeggios\",\n    \"description\": \"Focus on C major and A minor scales. Both hands together.\",\n    \"due_date\": \"2026-01-20T12:00:00Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/tasks",
+							"host": ["{{base_url}}"],
+							"path": ["tasks"]
+						}
+					}
+				},
+				{
+					"name": "Create Listening Task",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"student_id\": 4,\n    \"type\": \"listening\",\n    \"title\": \"Listen and Analyze Mozart K.545\",\n    \"description\": \"Listen to the piece and identify the sonata form structure.\",\n    \"musical_piece_id\": 1,\n    \"due_date\": \"2026-01-25T12:00:00Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/tasks",
+							"host": ["{{base_url}}"],
+							"path": ["tasks"]
+						}
+					}
+				},
+				{
+					"name": "List Tasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/tasks",
+							"host": ["{{base_url}}"],
+							"path": ["tasks"]
+						}
+					}
+				},
+				{
+					"name": "Get Task by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/tasks/1",
+							"host": ["{{base_url}}"],
+							"path": ["tasks", "1"]
+						}
+					}
+				},
+				{
+					"name": "Update Task Status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"completed\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/tasks/1/status",
+							"host": ["{{base_url}}"],
+							"path": ["tasks", "1", "status"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Feedback",
+			"item": [
+				{
+					"name": "Submit Feedback",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"I practiced for 45 minutes today. The scales are getting easier.\",\n    \"feeling\": \"Confident and motivated. I can see improvement.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/tasks/1/feedback",
+							"host": ["{{base_url}}"],
+							"path": ["tasks", "1", "feedback"]
+						}
+					}
+				},
+				{
+					"name": "Get Task Feedback",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/tasks/1/feedback",
+							"host": ["{{base_url}}"],
+							"path": ["tasks", "1", "feedback"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Recordings",
+			"item": [
+				{
+					"name": "Create Recording Entry",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "filename",
+									"value": "practice-recording-2026-01-13.mp3",
+									"type": "text"
+								},
+								{
+									"key": "file_size",
+									"value": "2048000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/recordings/tasks/1/recordings",
+							"host": ["{{base_url}}"],
+							"path": ["recordings", "tasks", "1", "recordings"]
+						}
+					}
+				},
+				{
+					"name": "List Task Recordings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/recordings/tasks/1/recordings",
+							"host": ["{{base_url}}"],
+							"path": ["recordings", "tasks", "1", "recordings"]
+						}
+					}
+				},
+				{
+					"name": "Get Recording Download URL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/recordings/1/url",
+							"host": ["{{base_url}}"],
+							"path": ["recordings", "1", "url"]
+						}
+					}
+				},
+				{
+					"name": "Get Recording Upload URL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/recordings/1/upload-url",
+							"host": ["{{base_url}}"],
+							"path": ["recordings", "1", "upload-url"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Quizzes",
+			"item": [
+				{
+					"name": "Create Quiz",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"task_id\": 2,\n    \"musical_piece_id\": 1,\n    \"questions\": [\n        {\n            \"question\": \"Describe the harmonic progression in the first 8 measures.\",\n            \"topic\": \"harmony\"\n        },\n        {\n            \"question\": \"How would you characterize the performer's interpretation of tempo?\",\n            \"topic\": \"performance\"\n        },\n        {\n            \"question\": \"Identify the key centers and any modulations in the piece.\",\n            \"topic\": \"composition\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/quizzes",
+							"host": ["{{base_url}}"],
+							"path": ["quizzes"]
+						}
+					}
+				},
+				{
+					"name": "Get Quiz",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/quizzes/1",
+							"host": ["{{base_url}}"],
+							"path": ["quizzes", "1"]
+						}
+					}
+				},
+				{
+					"name": "Submit Quiz Response",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"answers\": [\n        {\n            \"question_index\": 0,\n            \"answer\": \"The piece begins in C major with a I-V-I progression. The harmony is relatively simple and diatonic, typical of the Classical period.\"\n        },\n        {\n            \"question_index\": 1,\n            \"answer\": \"The performer maintains a moderate tempo (Allegro) throughout, with subtle rubato in the lyrical sections. The interpretation is classical and restrained.\"\n        },\n        {\n            \"question_index\": 2,\n            \"answer\": \"The piece is primarily in C major (tonic) with a brief modulation to G major (dominant) in the development section before returning to C major.\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/quizzes/1/responses",
+							"host": ["{{base_url}}"],
+							"path": ["quizzes", "1", "responses"]
+						}
+					}
+				},
+				{
+					"name": "Get Quiz Responses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/quizzes/1/responses",
+							"host": ["{{base_url}}"],
+							"path": ["quizzes", "1", "responses"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Performance",
+			"item": [
+				{
+					"name": "Get Student Performance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/performance/students/4",
+							"host": ["{{base_url}}"],
+							"path": ["performance", "students", "4"]
+						}
+					}
+				},
+				{
+					"name": "Get Teacher Performance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/performance/teachers/2",
+							"host": ["{{base_url}}"],
+							"path": ["performance", "teachers", "2"]
+						}
+					}
+				},
+				{
+					"name": "Get Overall Performance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/performance/overview",
+							"host": ["{{base_url}}"],
+							"path": ["performance", "overview"]
+						}
+					}
+				}
+			]
+		}
+	]
+}

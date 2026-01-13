@@ -1,0 +1,39 @@
+ * Serving Flask app 'app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5001
+Press CTRL+C to quit
+ * Restarting with watchdog (fsevents)
+ * Debugger is active!
+ * Debugger PIN: 182-344-746
+127.0.0.1 - - [13/Jan/2026 23:25:22] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:22] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [13/Jan/2026 23:25:23] "GET /api/pieces HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:23] "GET /api/classes HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:23] "GET /api/tasks HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:23] "GET /api/pieces HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:23] "GET /api/tasks HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:23] "GET /api/classes HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:36] "GET / HTTP/1.1" 302 -
+127.0.0.1 - - [13/Jan/2026 23:25:36] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:36] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [13/Jan/2026 23:25:36] "GET /api/pieces HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:36] "GET /api/classes HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:36] "GET /api/tasks HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:36] "GET /api/tasks HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:36] "GET /api/classes HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:36] "GET /api/pieces HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:39] "GET /logout HTTP/1.1" 302 -
+127.0.0.1 - - [13/Jan/2026 23:25:40] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:40] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [13/Jan/2026 23:25:46] "POST /login HTTP/1.1" 302 -
+127.0.0.1 - - [13/Jan/2026 23:25:46] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:46] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [13/Jan/2026 23:25:46] "GET /api/classes HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:46] "GET /api/tasks HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:46] "GET /api/pieces HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:46] "GET /api/tasks HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:46] "GET /api/classes HTTP/1.1" 200 -
+127.0.0.1 - - [13/Jan/2026 23:25:46] "GET /api/pieces HTTP/1.1" 200 -
+/Users/felipetenaglia/.pyenv/versions/3.12.2/lib/python3.12/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

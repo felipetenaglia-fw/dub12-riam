@@ -1,0 +1,741 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - RIAM LMS{% endblock %}
+
+{% block content %}
+<div x-data="dashboard()" x-init="init()">
+    <!-- Welcome Section -->
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-900">
+            Welcome, {{ user.name }}! 👋
+        </h2>
+        <p class="mt-2 text-gray-600">
+            {% if role == 'admin' %}
+            Manage the entire academy from this dashboard.
+            {% elif role == 'teacher' %}
+            View your students' progress and manage classes.
+            {% else %}
+            Track your learning journey and complete your tasks.
+            {% endif %}
+        </p>
+    </div>
+
+    <!-- Role-Based Content -->
+    {% if role == 'admin' %}
+    <!-- ADMIN DASHBOARD -->
+    <div class="space-y-6">
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </div>
+                    <div class="ml-5">
+                        <p class="text-sm font-medium text-gray-500">Students</p>
+                        <p class="text-2xl font-semibold text-gray-900" x-text="stats.total_students || 0"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div class="ml-5">
+                        <p class="text-sm font-medium text-gray-500">Teachers</p>
+                        <p class="text-2xl font-semibold text-gray-900" x-text="stats.total_teachers || 0"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <div class="ml-5">
+                        <p class="text-sm font-medium text-gray-500">Classes</p>
+                        <p class="text-2xl font-semibold text-gray-900" x-text="stats.total_classes || 0"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                    </div>
+                    <div class="ml-5">
+                        <p class="text-sm font-medium text-gray-500">Tasks</p>
+                        <p class="text-2xl font-semibold text-gray-900" x-text="stats.total_tasks || 0"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Users List -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">All Users</h3>
+            </div>
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <template x-for="user in users" :key="user.id">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" x-text="user.name"></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" x-text="user.email"></td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                                              :class="{
+                                                  'bg-purple-100 text-purple-800': user.role === 'admin',
+                                                  'bg-green-100 text-green-800': user.role === 'teacher',
+                                                  'bg-blue-100 text-blue-800': user.role === 'student'
+                                              }"
+                                              x-text="user.role"></span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" x-text="user.username"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% elif role == 'teacher' %}
+    <!-- TEACHER DASHBOARD -->
+    <div class="space-y-6">
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <button @click="showModal = 'class'" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-left">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Add Class Notes</p>
+                        <p class="text-xs text-gray-400 mt-1">Record session</p>
+                    </div>
+                </div>
+            </button>
+            
+            <button @click="showModal = 'task'" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-left">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Assign Task</p>
+                        <p class="text-xs text-gray-400 mt-1">Practice or listening</p>
+                    </div>
+                </div>
+            </button>
+            
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">My Students</p>
+                        <p class="text-2xl font-semibold text-gray-900" x-text="classes.length"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Classes -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Recent Classes</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <template x-for="cls in classes.slice(0, 5)" :key="cls.id">
+                        <div class="border-l-4 border-indigo-500 bg-gray-50 p-4 rounded-r-lg">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="font-medium text-gray-900">Student ID: <span x-text="cls.student_id"></span></p>
+                                    <p class="text-sm text-gray-500 mt-1" x-text="new Date(cls.date).toLocaleDateString()"></p>
+                                </div>
+                            </div>
+                            <div class="mt-3 space-y-2">
+                                <p class="text-sm text-gray-700"><strong>Notes:</strong> <span x-text="cls.notes || 'No notes'"></span></p>
+                                <p class="text-sm text-gray-700"><strong>Improvements:</strong> <span x-text="cls.improvement_points || 'None'"></span></p>
+                                <p class="text-sm text-gray-700"><strong>Actions:</strong> <span x-text="cls.actions || 'None'"></span></p>
+                            </div>
+                        </div>
+                    </template>
+                    <template x-if="classes.length === 0">
+                        <p class="text-gray-500 text-center py-8">No classes yet. Start by adding class notes!</p>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tasks Overview -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Assigned Tasks</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-3">
+                    <template x-for="task in tasks.slice(0, 5)" :key="task.id">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-900" x-text="task.title"></p>
+                                <p class="text-sm text-gray-500">Student ID: <span x-text="task.student_id"></span> • Type: <span x-text="task.type"></span></p>
+                            </div>
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full"
+                                  :class="{
+                                      'bg-green-100 text-green-800': task.status === 'completed',
+                                      'bg-yellow-100 text-yellow-800': task.status === 'in_progress',
+                                      'bg-gray-100 text-gray-800': task.status === 'assigned'
+                                  }"
+                                  x-text="task.status"></span>
+                        </div>
+                    </template>
+                    <template x-if="tasks.length === 0">
+                        <p class="text-gray-500 text-center py-8">No tasks assigned yet.</p>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <!-- STUDENT DASHBOARD -->
+    <div class="space-y-6">
+        <!-- Progress Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                    </div>
+                    <div class="ml-5">
+                        <p class="text-sm font-medium text-gray-500">My Tasks</p>
+                        <p class="text-2xl font-semibold text-gray-900" x-text="tasks.length"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="ml-5">
+                        <p class="text-sm font-medium text-gray-500">Completed</p>
+                        <p class="text-2xl font-semibold text-gray-900" x-text="tasks.filter(t => t.status === 'completed').length"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <div class="ml-5">
+                        <p class="text-sm font-medium text-gray-500">Classes</p>
+                        <p class="text-2xl font-semibold text-gray-900" x-text="classes.length"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Tasks -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">My Tasks</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <template x-for="task in tasks" :key="task.id">
+                        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-3">
+                                        <h4 class="text-lg font-medium text-gray-900" x-text="task.title"></h4>
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full"
+                                              :class="{
+                                                  'bg-green-100 text-green-800': task.status === 'completed',
+                                                  'bg-yellow-100 text-yellow-800': task.status === 'in_progress',
+                                                  'bg-gray-100 text-gray-800': task.status === 'assigned'
+                                              }"
+                                              x-text="task.status"></span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-2" x-text="task.description"></p>
+                                    <div class="mt-3 flex items-center space-x-4 text-sm text-gray-500">
+                                        <span class="flex items-center">
+                                            <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                            </svg>
+                                            <span x-text="task.type"></span>
+                                        </span>
+                                        <span x-show="task.due_date" class="flex items-center">
+                                            <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
+                                            Due: <span x-text="task.due_date ? new Date(task.due_date).toLocaleDateString() : 'No deadline'"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <template x-if="tasks.length === 0">
+                        <div class="text-center py-12">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            <p class="mt-2 text-gray-500">No tasks assigned yet.</p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Classes -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900">Recent Classes & Feedback</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <template x-for="cls in classes.slice(0, 3)" :key="cls.id">
+                        <div class="border-l-4 border-blue-500 bg-blue-50 p-4 rounded-r-lg">
+                            <p class="text-sm text-gray-500 mb-2" x-text="new Date(cls.date).toLocaleDateString()"></p>
+                            <div class="space-y-2">
+                                <p class="text-sm"><strong class="text-gray-700">Notes:</strong> <span class="text-gray-600" x-text="cls.notes || 'No notes'"></span></p>
+                                <p class="text-sm"><strong class="text-gray-700">Improvements:</strong> <span class="text-gray-600" x-text="cls.improvement_points || 'None'"></span></p>
+                                <p class="text-sm"><strong class="text-gray-700">Practice Actions:</strong> <span class="text-gray-600" x-text="cls.actions || 'None'"></span></p>
+                            </div>
+                        </div>
+                    </template>
+                    <template x-if="classes.length === 0">
+                        <p class="text-gray-500 text-center py-8">No class sessions recorded yet.</p>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Music Coach -->
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg shadow-lg text-white p-6">
+            <div class="flex items-center mb-4">
+                <div class="flex-shrink-0 bg-white/20 rounded-lg p-3">
+                    <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                </div>
+            <div class="ml-4">
+                <h3 class="text-2xl font-bold">AI Music Coach</h3>
+                <p class="text-indigo-100 text-sm">Upload your performance - AI will listen and provide expert feedback</p>
+            </div>
+        </div>
+        
+        <form @submit.prevent="submitAICoach" class="bg-white/10 backdrop-blur rounded-lg p-6 space-y-4">
+            <div>
+                <label class="block text-sm font-medium mb-2">Upload Your Performance Recording</label>
+                <input 
+                    type="file" 
+                    accept="audio/mp3,audio/wav,audio/m4a,audio/ogg,.mp3,.wav,.m4a,.ogg"
+                    @change="audioFile = $event.target.files[0]"
+                    class="block w-full text-sm text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white file:text-indigo-700 hover:file:bg-indigo-50 file:cursor-pointer"
+                    required
+                />
+                <p class="text-xs text-indigo-100 mt-1">📁 Supported: MP3, WAV, M4A, OGG (max 10MB) • 🎵 AI will identify the piece from your recording</p>
+            </div>
+            
+            <div class="bg-white/5 rounded-lg p-4 border border-white/20">
+                <p class="text-sm text-indigo-100 mb-3">💡 <strong>Optional:</strong> Help the AI by providing context (or let it figure it out!)</p>
+                
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-medium mb-1 text-indigo-200">Piece Name</label>
+                        <input 
+                            type="text" 
+                            x-model="aiCoachForm.piece_name"
+                            placeholder="e.g., Moonlight Sonata - leave blank for AI to identify"
+                            class="w-full px-3 py-2 text-sm rounded-lg bg-white/20 border border-white/30 text-white placeholder-indigo-200 focus:outline-none focus:ring-2 focus:ring-white/50"
+                        />
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-medium mb-1 text-indigo-200">Composer</label>
+                        <input 
+                            type="text" 
+                            x-model="aiCoachForm.composer"
+                            placeholder="e.g., Beethoven - leave blank for AI to identify"
+                            class="w-full px-3 py-2 text-sm rounded-lg bg-white/20 border border-white/30 text-white placeholder-indigo-200 focus:outline-none focus:ring-2 focus:ring-white/50"
+                        />
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-medium mb-1 text-indigo-200">Your Questions or Focus Areas</label>
+                        <textarea 
+                            x-model="aiCoachForm.student_notes"
+                            rows="2"
+                            placeholder="e.g., 'I'm struggling with the tempo in measures 12-16' or 'How's my phrasing?'"
+                            class="w-full px-3 py-2 text-sm rounded-lg bg-white/20 border border-white/30 text-white placeholder-indigo-200 focus:outline-none focus:ring-2 focus:ring-white/50"
+                        ></textarea>
+                    </div>
+                </div>
+            </div>
+                
+                <button 
+                    type="submit"
+                    :disabled="aiCoachLoading || !audioFile"
+                    class="w-full bg-white text-indigo-600 font-semibold py-3 px-6 rounded-lg hover:bg-indigo-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                >
+                    <svg x-show="aiCoachLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span x-text="aiCoachLoading ? 'Analyzing...' : 'Get AI Feedback'"></span>
+                </button>
+            </form>
+            
+            <!-- AI Feedback Display -->
+            <div x-show="aiFeedback" class="mt-6 space-y-4">
+                <!-- Audio Analysis Metrics -->
+                <div x-show="audioAnalysis" class="bg-white rounded-lg p-6 text-gray-900">
+                    <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                        <svg class="h-6 w-6 text-indigo-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        Performance Metrics
+                    </h4>
+                    
+                    <!-- Overall Scores -->
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div class="text-center p-4 bg-indigo-50 rounded-lg">
+                            <div class="text-3xl font-bold text-indigo-600" x-text="getScore(audioAnalysis, 'performance_scores', 'overall_score')"></div>
+                            <div class="text-sm text-gray-600">Overall Score</div>
+                        </div>
+                        <div class="text-center p-4 bg-green-50 rounded-lg">
+                            <div class="text-3xl font-bold text-green-600" x-text="getScore(audioAnalysis, 'performance_scores', 'technical_proficiency')"></div>
+                            <div class="text-sm text-gray-600">Technical</div>
+                        </div>
+                        <div class="text-center p-4 bg-purple-50 rounded-lg">
+                            <div class="text-3xl font-bold text-purple-600" x-text="getScore(audioAnalysis, 'performance_scores', 'expressiveness')"></div>
+                            <div class="text-sm text-gray-600">Expression</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Detailed Metrics Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                        <!-- Tempo -->
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="text-gray-500 text-xs">Tempo</div>
+                            <div class="font-semibold" x-text="getValue(audioAnalysis, 'tempo_rhythm', 'tempo_bpm') !== 'N/A' ? Math.round(getValue(audioAnalysis, 'tempo_rhythm', 'tempo_bpm')) + ' BPM' : 'N/A'"></div>
+                            <div class="text-xs text-gray-400" x-text="getValue(audioAnalysis, 'tempo_rhythm', 'tempo_category')"></div>
+                        </div>
+                        <!-- Tempo Stability -->
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="text-gray-500 text-xs">Tempo Stability</div>
+                            <div class="font-semibold" x-text="getScore(audioAnalysis, 'tempo_rhythm', 'tempo_stability_score')"></div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                <div class="bg-indigo-600 h-1.5 rounded-full" :style="`width: ${getNumericScore(audioAnalysis, 'tempo_rhythm', 'tempo_stability_score') * 100}%`"></div>
+                            </div>
+                        </div>
+                        <!-- Key -->
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="text-gray-500 text-xs">Key</div>
+                            <div class="font-semibold" x-text="getValue(audioAnalysis, 'pitch_intonation', 'estimated_key')"></div>
+                        </div>
+                        <!-- Pitch Stability -->
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="text-gray-500 text-xs">Pitch Stability</div>
+                            <div class="font-semibold" x-text="getScore(audioAnalysis, 'pitch_intonation', 'pitch_stability_score')"></div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                <div class="bg-green-600 h-1.5 rounded-full" :style="`width: ${getNumericScore(audioAnalysis, 'pitch_intonation', 'pitch_stability_score') * 100}%`"></div>
+                            </div>
+                        </div>
+                        <!-- Dynamic Range -->
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="text-gray-500 text-xs">Dynamic Range</div>
+                            <div class="font-semibold" x-text="getValue(audioAnalysis, 'dynamics', 'dynamic_range_db') !== 'N/A' ? parseFloat(getValue(audioAnalysis, 'dynamics', 'dynamic_range_db')).toFixed(1) + ' dB' : 'N/A'"></div>
+                            <div class="text-xs text-gray-400" x-text="getValue(audioAnalysis, 'dynamics', 'dynamic_range_category')"></div>
+                        </div>
+                        <!-- Dynamic Contrast -->
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="text-gray-500 text-xs">Dynamic Contrast</div>
+                            <div class="font-semibold" x-text="getScore(audioAnalysis, 'dynamics', 'dynamic_contrast_score')"></div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                <div class="bg-purple-600 h-1.5 rounded-full" :style="`width: ${getNumericScore(audioAnalysis, 'dynamics', 'dynamic_contrast_score') * 100}%`"></div>
+                            </div>
+                        </div>
+                        <!-- Articulation -->
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="text-gray-500 text-xs">Articulation</div>
+                            <div class="font-semibold capitalize" x-text="getValue(audioAnalysis, 'articulation', 'predominant_articulation')"></div>
+                        </div>
+                        <!-- Attack Clarity -->
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="text-gray-500 text-xs">Attack Clarity</div>
+                            <div class="font-semibold" x-text="getScore(audioAnalysis, 'articulation', 'attack_clarity_score')"></div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                <div class="bg-orange-600 h-1.5 rounded-full" :style="`width: ${getNumericScore(audioAnalysis, 'articulation', 'attack_clarity_score') * 100}%`"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Performance Level Badge -->
+                    <div class="mt-4 flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-500">Performance Level:</span>
+                            <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium" x-text="getValue(audioAnalysis, 'performance_scores', 'performance_level')"></span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-500">Difficulty:</span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium" x-text="getValue(audioAnalysis, 'performance_scores', 'difficulty_estimate')"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feedback Text -->
+                <div class="bg-white rounded-lg p-6 text-gray-900">
+                    <div class="flex items-start mb-4">
+                        <svg class="h-6 w-6 text-green-500 mr-2 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div class="flex-1">
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">AI Coach Feedback</h4>
+                            <div class="prose prose-sm max-w-none" style="white-space: pre-wrap;" x-html="formatFeedback(aiFeedback)"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div x-show="aiCoachError" class="mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
+                <p class="font-bold">Error</p>
+                <p class="text-sm" x-text="aiCoachError"></p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Musical Pieces Library (All Roles) -->
+    <div class="bg-white rounded-lg shadow mt-6">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">🎼 Musical Pieces Library</h3>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <template x-for="piece in pieces" :key="piece.id">
+                    <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <h4 class="font-medium text-gray-900" x-text="piece.title"></h4>
+                        <p class="text-sm text-gray-600 mt-1" x-text="piece.composer"></p>
+                        <p class="text-xs text-gray-500 mt-2" x-text="piece.description"></p>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function dashboard() {
+    return {
+        classes: [],
+        tasks: [],
+        pieces: [],
+        users: [],
+        stats: {},
+        showModal: null,
+        audioFile: null,
+        aiCoachForm: {
+            piece_name: '',
+            composer: '',
+            student_notes: ''
+        },
+        aiCoachLoading: false,
+        aiFeedback: null,
+        audioAnalysis: null,
+        aiCoachError: null,
+        
+        async init() {
+            await Promise.all([
+                this.loadClasses(),
+                this.loadTasks(),
+                this.loadPieces(),
+                {% if role == 'admin' %}
+                this.loadUsers(),
+                this.loadStats(),
+                {% endif %}
+            ]);
+        },
+        
+        async loadClasses() {
+            try {
+                const response = await fetch('/api/classes');
+                if (response.ok) {
+                    this.classes = await response.json();
+                }
+            } catch (error) {
+                console.error('Error loading classes:', error);
+            }
+        },
+        
+        async loadTasks() {
+            try {
+                const response = await fetch('/api/tasks');
+                if (response.ok) {
+                    this.tasks = await response.json();
+                }
+            } catch (error) {
+                console.error('Error loading tasks:', error);
+            }
+        },
+        
+        async loadPieces() {
+            try {
+                const response = await fetch('/api/pieces');
+                if (response.ok) {
+                    this.pieces = await response.json();
+                }
+            } catch (error) {
+                console.error('Error loading pieces:', error);
+            }
+        },
+        
+        {% if role == 'admin' %}
+        async loadUsers() {
+            try {
+                const response = await fetch('/api/users');
+                if (response.ok) {
+                    this.users = await response.json();
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        },
+        
+        async loadStats() {
+            try {
+                const response = await fetch('/api/performance/overview');
+                if (response.ok) {
+                    this.stats = await response.json();
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        },
+        {% endif %}
+        
+        async submitAICoach() {
+            this.aiCoachLoading = true;
+            this.aiCoachError = null;
+            this.aiFeedback = null;
+            this.audioAnalysis = null;
+            
+            try {
+                const formData = new FormData();
+                formData.append('audio_file', this.audioFile);
+                
+                if (this.aiCoachForm.piece_name) {
+                    formData.append('piece_name', this.aiCoachForm.piece_name);
+                }
+                if (this.aiCoachForm.composer) {
+                    formData.append('composer', this.aiCoachForm.composer);
+                }
+                if (this.aiCoachForm.student_notes) {
+                    formData.append('student_notes', this.aiCoachForm.student_notes);
+                }
+                
+                const response = await fetch('/api/ai-coach', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    this.aiFeedback = data.feedback;
+                    this.audioAnalysis = data.audio_analysis;
+                    // Reset form
+                    this.aiCoachForm = {
+                        piece_name: '',
+                        composer: '',
+                        student_notes: ''
+                    };
+                    this.audioFile = null;
+                    // Reset file input
+                    document.querySelector('input[type="file"]').value = '';
+                } else {
+                    this.aiCoachError = data.error || 'Failed to analyze performance. Please try again.';
+                }
+            } catch (error) {
+                console.error('Error submitting to AI coach:', error);
+                this.aiCoachError = 'Network error. Please check your connection and try again.';
+            } finally {
+                this.aiCoachLoading = false;
+            }
+        },
+        
+        formatFeedback(feedback) {
+            if (!feedback) return '';
+            // Convert markdown-style formatting to HTML
+            return feedback
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+        },
+        
+        getScore(data, category, field) {
+            if (!data || !data[category] || data[category][field] === undefined) return 'N/A';
+            const value = data[category][field];
+            if (typeof value === 'number' && value <= 1) {
+                return Math.round(value * 100) + '%';
+            }
+            return value;
+        },
+        
+        getNumericScore(data, category, field) {
+            if (!data || !data[category] || data[category][field] === undefined) return 0;
+            const value = data[category][field];
+            return typeof value === 'number' ? value : 0;
+        },
+        
+        getValue(data, category, field) {
+            if (!data || !data[category] || data[category][field] === undefined) return 'N/A';
+            return data[category][field];
+        }
+    }
+}
+</script>
+{% endblock %}

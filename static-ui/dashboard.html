@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - RIAM LMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-indigo-600 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold">RIAM LMS</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="userNameDisplay"></span>
+                    <button onclick="logout()" class="bg-indigo-700 hover:bg-indigo-800 px-4 py-2 rounded-md text-sm font-medium">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div x-data="dashboard()" x-init="init()">
+            <!-- Welcome Section -->
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-900">
+                    Welcome, <span x-text="user.name">User</span>!
+                </h2>
+                <p class="mt-2 text-gray-600">Track your learning journey and get AI-powered coaching.</p>
+            </div>
+
+            <!-- AI Music Coach Section -->
+            <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg shadow-lg text-white p-6 mb-6">
+                <div class="flex items-center mb-4">
+                    <div class="flex-shrink-0 bg-white/20 rounded-lg p-3">
+                        <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-2xl font-bold">AI Music Coach</h3>
+                        <p class="text-indigo-100 text-sm">Upload your performance - AI will analyze and provide expert feedback</p>
+                    </div>
+                </div>
+                
+                <form @submit.prevent="submitAICoach" class="bg-white/10 backdrop-blur rounded-lg p-6 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Upload Your Performance Recording</label>
+                        <input 
+                            type="file" 
+                            accept="audio/mp3,audio/wav,audio/m4a,audio/ogg,.mp3,.wav,.m4a,.ogg"
+                            @change="audioFile = $event.target.files[0]"
+                            class="block w-full text-sm text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white file:text-indigo-700 hover:file:bg-indigo-50 file:cursor-pointer"
+                            required
+                        />
+                        <p class="text-xs text-indigo-100 mt-1">Supported: MP3, WAV, M4A, OGG (max 10MB)</p>
+                    </div>
+                    
+                    <div class="bg-white/5 rounded-lg p-4 border border-white/20">
+                        <p class="text-sm text-indigo-100 mb-3">Optional: Help the AI by providing context</p>
+                        
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-medium mb-1 text-indigo-200">Piece Name</label>
+                                <input 
+                                    type="text" 
+                                    x-model="aiCoachForm.piece_name"
+                                    placeholder="e.g., Moonlight Sonata"
+                                    class="w-full px-3 py-2 text-sm rounded-lg bg-white/20 border border-white/30 text-white placeholder-indigo-200 focus:outline-none focus:ring-2 focus:ring-white/50"
+                                />
+                            </div>
+                            
+                            <div>
+                                <label class="block text-xs font-medium mb-1 text-indigo-200">Composer</label>
+                                <input 
+                                    type="text" 
+                                    x-model="aiCoachForm.composer"
+                                    placeholder="e.g., Beethoven"
+                                    class="w-full px-3 py-2 text-sm rounded-lg bg-white/20 border border-white/30 text-white placeholder-indigo-200 focus:outline-none focus:ring-2 focus:ring-white/50"
+                                />
+                            </div>
+                            
+                            <div>
+                                <label class="block text-xs font-medium mb-1 text-indigo-200">Your Questions or Focus Areas</label>
+                                <textarea 
+                                    x-model="aiCoachForm.student_notes"
+                                    rows="2"
+                                    placeholder="e.g., 'How's my tempo control?'"
+                                    class="w-full px-3 py-2 text-sm rounded-lg bg-white/20 border border-white/30 text-white placeholder-indigo-200 focus:outline-none focus:ring-2 focus:ring-white/50"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <button 
+                        type="submit"
+                        :disabled="aiCoachLoading || !audioFile"
+                        class="w-full bg-white text-indigo-600 font-semibold py-3 px-6 rounded-lg hover:bg-indigo-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    >
+                        <svg x-show="aiCoachLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span x-text="aiCoachLoading ? 'Analyzing...' : 'Get AI Feedback'"></span>
+                    </button>
+                </form>
+                
+                <!-- AI Feedback Display -->
+                <div x-show="aiFeedback" class="mt-6 space-y-4">
+                    <!-- Audio Analysis Metrics -->
+                    <div x-show="audioAnalysis" class="bg-white rounded-lg p-6 text-gray-900">
+                        <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                            <svg class="h-6 w-6 text-indigo-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            Performance Metrics
+                        </h4>
+                        
+                        <!-- Overall Scores -->
+                        <div class="grid grid-cols-3 gap-4 mb-6">
+                            <div class="text-center p-4 bg-indigo-50 rounded-lg">
+                                <div class="text-3xl font-bold text-indigo-600" x-text="getScore(audioAnalysis, 'performance_scores', 'overall_score')"></div>
+                                <div class="text-sm text-gray-600">Overall Score</div>
+                            </div>
+                            <div class="text-center p-4 bg-green-50 rounded-lg">
+                                <div class="text-3xl font-bold text-green-600" x-text="getScore(audioAnalysis, 'performance_scores', 'technical_proficiency')"></div>
+                                <div class="text-sm text-gray-600">Technical</div>
+                            </div>
+                            <div class="text-center p-4 bg-purple-50 rounded-lg">
+                                <div class="text-3xl font-bold text-purple-600" x-text="getScore(audioAnalysis, 'performance_scores', 'expressiveness')"></div>
+                                <div class="text-sm text-gray-600">Expression</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Detailed Metrics Grid -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                            <div class="p-3 bg-gray-50 rounded-lg">
+                                <div class="text-gray-500 text-xs">Tempo</div>
+                                <div class="font-semibold" x-text="getValue(audioAnalysis, 'tempo_rhythm', 'tempo_bpm') !== 'N/A' ? Math.round(getValue(audioAnalysis, 'tempo_rhythm', 'tempo_bpm')) + ' BPM' : 'N/A'"></div>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded-lg">
+                                <div class="text-gray-500 text-xs">Tempo Stability</div>
+                                <div class="font-semibold" x-text="getScore(audioAnalysis, 'tempo_rhythm', 'tempo_stability_score')"></div>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                    <div class="bg-indigo-600 h-1.5 rounded-full" :style="`width: ${getNumericScore(audioAnalysis, 'tempo_rhythm', 'tempo_stability_score') * 100}%`"></div>
+                                </div>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded-lg">
+                                <div class="text-gray-500 text-xs">Key</div>
+                                <div class="font-semibold" x-text="getValue(audioAnalysis, 'pitch_intonation', 'estimated_key')"></div>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded-lg">
+                                <div class="text-gray-500 text-xs">Pitch Stability</div>
+                                <div class="font-semibold" x-text="getScore(audioAnalysis, 'pitch_intonation', 'pitch_stability_score')"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm text-gray-500">Performance Level:</span>
+                                <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium" x-text="getValue(audioAnalysis, 'performance_scores', 'performance_level')"></span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm text-gray-500">Difficulty:</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium" x-text="getValue(audioAnalysis, 'performance_scores', 'difficulty_estimate')"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Feedback Text -->
+                    <div class="bg-white rounded-lg p-6 text-gray-900">
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">AI Coach Feedback</h4>
+                        <div class="prose prose-sm max-w-none" style="white-space: pre-wrap;" x-html="formatFeedback(aiFeedback)"></div>
+                    </div>
+                </div>
+                
+                <div x-show="aiCoachError" class="mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
+                    <p class="font-bold">Error</p>
+                    <p class="text-sm" x-text="aiCoachError"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

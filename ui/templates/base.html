@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RIAM LMS{% endblock %}</title>
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    {% if session.get('user') %}
+    <!-- Navigation -->
+    <nav class="bg-indigo-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold">🎵 RIAM LMS</h1>
+                    <div class="ml-10 flex space-x-4">
+                        <a href="{{ url_for('dashboard') }}" class="px-3 py-2 rounded-md hover:bg-indigo-700">Dashboard</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm">
+                        👤 {{ session.get('user', {}).get('name', 'User') }}
+                        <span class="ml-2 px-2 py-1 bg-indigo-800 rounded text-xs">
+                            {{ session.get('user', {}).get('role', 'user').title() }}
+                        </span>
+                    </span>
+                    <a href="{{ url_for('logout') }}" class="px-4 py-2 bg-indigo-800 rounded-md hover:bg-indigo-900">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+    
+    <!-- Main Content -->
+    <main class="{% if session.get('user') %}max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8{% endif %}">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="text-center py-6 text-gray-500 text-sm">
+        <p>Royal Irish Academy of Music - Learning Management System</p>
+    </footer>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

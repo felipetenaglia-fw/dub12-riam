@@ -1,0 +1,270 @@
+INFO:     Started server process [18387]
+INFO:     Waiting for application startup.
+Initializing database...
+2026-01-13 23:25:18,072 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:18,072 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("users")
+2026-01-13 23:25:18,072 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("teacher_students")
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("class_sessions")
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("musical_pieces")
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("tasks")
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("student_feedback")
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("recordings")
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("quizzes")
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine PRAGMA main.table_info("quiz_responses")
+2026-01-13 23:25:18,073 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-13 23:25:18,074 INFO sqlalchemy.engine.Engine COMMIT
+Seeding database...
+2026-01-13 23:25:18,076 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:18,078 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1 
+FROM (SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users) AS anon_1
+2026-01-13 23:25:18,078 INFO sqlalchemy.engine.Engine [generated in 0.00007s] ()
+2026-01-13 23:25:18,079 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+Startup complete!
+2026-01-13 23:25:23,153 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:23,155 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:23,155 INFO sqlalchemy.engine.Engine [generated in 0.00020s] ('student', 1, 0)
+2026-01-13 23:25:23,158 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:23,158 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:23,158 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:23,158 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:23,158 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:23,158 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:23,158 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:23,159 INFO sqlalchemy.engine.Engine [cached since 0.003742s ago] ('student', 1, 0)
+2026-01-13 23:25:23,159 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:23,159 INFO sqlalchemy.engine.Engine [cached since 0.003886s ago] ('student', 1, 0)
+2026-01-13 23:25:23,165 INFO sqlalchemy.engine.Engine SELECT tasks.id AS tasks_id, tasks.student_id AS tasks_student_id, tasks.teacher_id AS tasks_teacher_id, tasks.type AS tasks_type, tasks.title AS tasks_title, tasks.description AS tasks_description, tasks.musical_piece_id AS tasks_musical_piece_id, tasks.status AS tasks_status, tasks.due_date AS tasks_due_date, tasks.created_at AS tasks_created_at 
+FROM tasks 
+WHERE tasks.student_id = ? ORDER BY tasks.created_at DESC
+2026-01-13 23:25:23,165 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:23,165 INFO sqlalchemy.engine.Engine [cached since 0.009944s ago] ('student', 1, 0)
+2026-01-13 23:25:23,165 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:23,165 INFO sqlalchemy.engine.Engine [generated in 0.00080s] (4,)
+2026-01-13 23:25:23,166 INFO sqlalchemy.engine.Engine [cached since 0.01065s ago] ('student', 1, 0)
+2026-01-13 23:25:23,166 INFO sqlalchemy.engine.Engine [cached since 0.011s ago] ('student', 1, 0)
+2026-01-13 23:25:23,167 INFO sqlalchemy.engine.Engine SELECT musical_pieces.id AS musical_pieces_id, musical_pieces.title AS musical_pieces_title, musical_pieces.composer AS musical_pieces_composer, musical_pieces.description AS musical_pieces_description, musical_pieces.audio_url AS musical_pieces_audio_url, musical_pieces.created_at AS musical_pieces_created_at 
+FROM musical_pieces
+2026-01-13 23:25:23,168 INFO sqlalchemy.engine.Engine SELECT class_sessions.id AS class_sessions_id, class_sessions.teacher_id AS class_sessions_teacher_id, class_sessions.student_id AS class_sessions_student_id, class_sessions.date AS class_sessions_date, class_sessions.notes AS class_sessions_notes, class_sessions.improvement_points AS class_sessions_improvement_points, class_sessions.actions AS class_sessions_actions, class_sessions.created_at AS class_sessions_created_at 
+FROM class_sessions 
+WHERE class_sessions.student_id = ? ORDER BY class_sessions.date DESC
+2026-01-13 23:25:23,168 INFO sqlalchemy.engine.Engine [generated in 0.00113s] ()
+2026-01-13 23:25:23,168 INFO sqlalchemy.engine.Engine SELECT musical_pieces.id AS musical_pieces_id, musical_pieces.title AS musical_pieces_title, musical_pieces.composer AS musical_pieces_composer, musical_pieces.description AS musical_pieces_description, musical_pieces.audio_url AS musical_pieces_audio_url, musical_pieces.created_at AS musical_pieces_created_at 
+FROM musical_pieces
+2026-01-13 23:25:23,168 INFO sqlalchemy.engine.Engine [generated in 0.00054s] (4,)
+2026-01-13 23:25:23,168 INFO sqlalchemy.engine.Engine [cached since 0.00158s ago] ()
+2026-01-13 23:25:23,169 INFO sqlalchemy.engine.Engine SELECT tasks.id AS tasks_id, tasks.student_id AS tasks_student_id, tasks.teacher_id AS tasks_teacher_id, tasks.type AS tasks_type, tasks.title AS tasks_title, tasks.description AS tasks_description, tasks.musical_piece_id AS tasks_musical_piece_id, tasks.status AS tasks_status, tasks.due_date AS tasks_due_date, tasks.created_at AS tasks_created_at 
+FROM tasks 
+WHERE tasks.student_id = ? ORDER BY tasks.created_at DESC
+2026-01-13 23:25:23,170 INFO sqlalchemy.engine.Engine [cached since 0.005073s ago] (4,)
+2026-01-13 23:25:23,170 INFO sqlalchemy.engine.Engine SELECT class_sessions.id AS class_sessions_id, class_sessions.teacher_id AS class_sessions_teacher_id, class_sessions.student_id AS class_sessions_student_id, class_sessions.date AS class_sessions_date, class_sessions.notes AS class_sessions_notes, class_sessions.improvement_points AS class_sessions_improvement_points, class_sessions.actions AS class_sessions_actions, class_sessions.created_at AS class_sessions_created_at 
+FROM class_sessions 
+WHERE class_sessions.student_id = ? ORDER BY class_sessions.date DESC
+2026-01-13 23:25:23,171 INFO sqlalchemy.engine.Engine [cached since 0.003729s ago] (4,)
+2026-01-13 23:25:23,172 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60647 - "GET /pieces HTTP/1.1" 200 OK
+2026-01-13 23:25:23,173 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-13 23:25:23,173 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60648 - "GET /classes HTTP/1.1" 200 OK
+2026-01-13 23:25:23,174 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-13 23:25:23,174 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60645 - "GET /tasks HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60651 - "GET /pieces HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60652 - "GET /tasks HTTP/1.1" 200 OK
+2026-01-13 23:25:23,175 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60653 - "GET /classes HTTP/1.1" 200 OK
+2026-01-13 23:25:36,299 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:36,299 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:36,300 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:36,300 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:36,300 INFO sqlalchemy.engine.Engine [cached since 13.15s ago] ('student', 1, 0)
+2026-01-13 23:25:36,301 INFO sqlalchemy.engine.Engine [cached since 13.15s ago] ('student', 1, 0)
+2026-01-13 23:25:36,301 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:36,302 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:36,302 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:36,302 INFO sqlalchemy.engine.Engine [cached since 13.15s ago] ('student', 1, 0)
+2026-01-13 23:25:36,302 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:36,303 INFO sqlalchemy.engine.Engine [cached since 13.15s ago] ('student', 1, 0)
+2026-01-13 23:25:36,303 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:36,303 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:36,304 INFO sqlalchemy.engine.Engine [cached since 13.15s ago] ('student', 1, 0)
+2026-01-13 23:25:36,304 INFO sqlalchemy.engine.Engine SELECT class_sessions.id AS class_sessions_id, class_sessions.teacher_id AS class_sessions_teacher_id, class_sessions.student_id AS class_sessions_student_id, class_sessions.date AS class_sessions_date, class_sessions.notes AS class_sessions_notes, class_sessions.improvement_points AS class_sessions_improvement_points, class_sessions.actions AS class_sessions_actions, class_sessions.created_at AS class_sessions_created_at 
+FROM class_sessions 
+WHERE class_sessions.student_id = ? ORDER BY class_sessions.date DESC
+2026-01-13 23:25:36,304 INFO sqlalchemy.engine.Engine [cached since 13.14s ago] (4,)
+2026-01-13 23:25:36,305 INFO sqlalchemy.engine.Engine SELECT tasks.id AS tasks_id, tasks.student_id AS tasks_student_id, tasks.teacher_id AS tasks_teacher_id, tasks.type AS tasks_type, tasks.title AS tasks_title, tasks.description AS tasks_description, tasks.musical_piece_id AS tasks_musical_piece_id, tasks.status AS tasks_status, tasks.due_date AS tasks_due_date, tasks.created_at AS tasks_created_at 
+FROM tasks 
+WHERE tasks.student_id = ? ORDER BY tasks.created_at DESC
+2026-01-13 23:25:36,305 INFO sqlalchemy.engine.Engine SELECT musical_pieces.id AS musical_pieces_id, musical_pieces.title AS musical_pieces_title, musical_pieces.composer AS musical_pieces_composer, musical_pieces.description AS musical_pieces_description, musical_pieces.audio_url AS musical_pieces_audio_url, musical_pieces.created_at AS musical_pieces_created_at 
+FROM musical_pieces
+2026-01-13 23:25:36,305 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:36,305 INFO sqlalchemy.engine.Engine SELECT class_sessions.id AS class_sessions_id, class_sessions.teacher_id AS class_sessions_teacher_id, class_sessions.student_id AS class_sessions_student_id, class_sessions.date AS class_sessions_date, class_sessions.notes AS class_sessions_notes, class_sessions.improvement_points AS class_sessions_improvement_points, class_sessions.actions AS class_sessions_actions, class_sessions.created_at AS class_sessions_created_at 
+FROM class_sessions 
+WHERE class_sessions.student_id = ? ORDER BY class_sessions.date DESC
+2026-01-13 23:25:36,305 INFO sqlalchemy.engine.Engine [cached since 13.14s ago] (4,)
+2026-01-13 23:25:36,305 INFO sqlalchemy.engine.Engine SELECT tasks.id AS tasks_id, tasks.student_id AS tasks_student_id, tasks.teacher_id AS tasks_teacher_id, tasks.type AS tasks_type, tasks.title AS tasks_title, tasks.description AS tasks_description, tasks.musical_piece_id AS tasks_musical_piece_id, tasks.status AS tasks_status, tasks.due_date AS tasks_due_date, tasks.created_at AS tasks_created_at 
+FROM tasks 
+WHERE tasks.student_id = ? ORDER BY tasks.created_at DESC
+2026-01-13 23:25:36,306 INFO sqlalchemy.engine.Engine [cached since 13.14s ago] ()
+2026-01-13 23:25:36,306 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:36,306 INFO sqlalchemy.engine.Engine [cached since 13.14s ago] (4,)
+2026-01-13 23:25:36,306 INFO sqlalchemy.engine.Engine [cached since 13.14s ago] (4,)
+2026-01-13 23:25:36,306 INFO sqlalchemy.engine.Engine [cached since 13.15s ago] ('student', 1, 0)
+2026-01-13 23:25:36,307 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60692 - "GET /pieces HTTP/1.1" 200 OK
+2026-01-13 23:25:36,308 INFO sqlalchemy.engine.Engine SELECT musical_pieces.id AS musical_pieces_id, musical_pieces.title AS musical_pieces_title, musical_pieces.composer AS musical_pieces_composer, musical_pieces.description AS musical_pieces_description, musical_pieces.audio_url AS musical_pieces_audio_url, musical_pieces.created_at AS musical_pieces_created_at 
+FROM musical_pieces
+2026-01-13 23:25:36,309 INFO sqlalchemy.engine.Engine [cached since 13.14s ago] ()
+2026-01-13 23:25:36,309 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60688 - "GET /classes HTTP/1.1" 200 OK
+2026-01-13 23:25:36,309 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-13 23:25:36,309 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-13 23:25:36,309 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60695 - "GET /tasks HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60687 - "GET /tasks HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60691 - "GET /classes HTTP/1.1" 200 OK
+2026-01-13 23:25:36,310 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60696 - "GET /pieces HTTP/1.1" 200 OK
+2026-01-13 23:25:46,424 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:46,425 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:46,425 INFO sqlalchemy.engine.Engine [cached since 23.27s ago] ('student', 1, 0)
+(trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "/Users/felipetenaglia/.local/lib/python3.12/site-packages/passlib/handlers/bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+2026-01-13 23:25:46,693 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60704 - "POST /auth/login HTTP/1.1" 200 OK
+2026-01-13 23:25:46,699 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:46,699 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:46,699 INFO sqlalchemy.engine.Engine [cached since 23.54s ago] ('student', 1, 0)
+2026-01-13 23:25:46,706 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60706 - "GET /auth/me HTTP/1.1" 200 OK
+2026-01-13 23:25:46,976 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:46,976 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:46,977 INFO sqlalchemy.engine.Engine [cached since 23.82s ago] ('student', 1, 0)
+2026-01-13 23:25:46,977 INFO sqlalchemy.engine.Engine SELECT class_sessions.id AS class_sessions_id, class_sessions.teacher_id AS class_sessions_teacher_id, class_sessions.student_id AS class_sessions_student_id, class_sessions.date AS class_sessions_date, class_sessions.notes AS class_sessions_notes, class_sessions.improvement_points AS class_sessions_improvement_points, class_sessions.actions AS class_sessions_actions, class_sessions.created_at AS class_sessions_created_at 
+FROM class_sessions 
+WHERE class_sessions.student_id = ? ORDER BY class_sessions.date DESC
+2026-01-13 23:25:46,977 INFO sqlalchemy.engine.Engine [cached since 23.81s ago] (4,)
+2026-01-13 23:25:46,983 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:46,984 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:46,984 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:46,985 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-13 23:25:46,985 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:46,985 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:     127.0.0.1:60716 - "GET /classes HTTP/1.1" 200 OK
+2026-01-13 23:25:46,985 INFO sqlalchemy.engine.Engine [cached since 23.83s ago] ('student', 1, 0)
+2026-01-13 23:25:46,986 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:46,986 INFO sqlalchemy.engine.Engine [cached since 23.83s ago] ('student', 1, 0)
+2026-01-13 23:25:46,987 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:46,988 INFO sqlalchemy.engine.Engine [cached since 23.83s ago] ('student', 1, 0)
+2026-01-13 23:25:46,987 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:46,988 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-13 23:25:46,988 INFO sqlalchemy.engine.Engine [cached since 23.83s ago] ('student', 1, 0)
+2026-01-13 23:25:46,988 INFO sqlalchemy.engine.Engine SELECT users.id AS users_id, users.username AS users_username, users.password_hash AS users_password_hash, users.role AS users_role, users.name AS users_name, users.email AS users_email, users.created_at AS users_created_at 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?
+2026-01-13 23:25:46,989 INFO sqlalchemy.engine.Engine [cached since 23.83s ago] ('student', 1, 0)
+2026-01-13 23:25:46,989 INFO sqlalchemy.engine.Engine SELECT tasks.id AS tasks_id, tasks.student_id AS tasks_student_id, tasks.teacher_id AS tasks_teacher_id, tasks.type AS tasks_type, tasks.title AS tasks_title, tasks.description AS tasks_description, tasks.musical_piece_id AS tasks_musical_piece_id, tasks.status AS tasks_status, tasks.due_date AS tasks_due_date, tasks.created_at AS tasks_created_at 
+FROM tasks 
+WHERE tasks.student_id = ? ORDER BY tasks.created_at DESC
+2026-01-13 23:25:46,990 INFO sqlalchemy.engine.Engine SELECT musical_pieces.id AS musical_pieces_id, musical_pieces.title AS musical_pieces_title, musical_pieces.composer AS musical_pieces_composer, musical_pieces.description AS musical_pieces_description, musical_pieces.audio_url AS musical_pieces_audio_url, musical_pieces.created_at AS musical_pieces_created_at 
+FROM musical_pieces
+2026-01-13 23:25:46,990 INFO sqlalchemy.engine.Engine [cached since 23.83s ago] (4,)
+2026-01-13 23:25:46,990 INFO sqlalchemy.engine.Engine SELECT tasks.id AS tasks_id, tasks.student_id AS tasks_student_id, tasks.teacher_id AS tasks_teacher_id, tasks.type AS tasks_type, tasks.title AS tasks_title, tasks.description AS tasks_description, tasks.musical_piece_id AS tasks_musical_piece_id, tasks.status AS tasks_status, tasks.due_date AS tasks_due_date, tasks.created_at AS tasks_created_at 
+FROM tasks 
+WHERE tasks.student_id = ? ORDER BY tasks.created_at DESC
+2026-01-13 23:25:46,990 INFO sqlalchemy.engine.Engine [cached since 23.82s ago] ()
+2026-01-13 23:25:46,991 INFO sqlalchemy.engine.Engine SELECT class_sessions.id AS class_sessions_id, class_sessions.teacher_id AS class_sessions_teacher_id, class_sessions.student_id AS class_sessions_student_id, class_sessions.date AS class_sessions_date, class_sessions.notes AS class_sessions_notes, class_sessions.improvement_points AS class_sessions_improvement_points, class_sessions.actions AS class_sessions_actions, class_sessions.created_at AS class_sessions_created_at 
+FROM class_sessions 
+WHERE class_sessions.student_id = ? ORDER BY class_sessions.date DESC
+2026-01-13 23:25:46,991 INFO sqlalchemy.engine.Engine [cached since 23.83s ago] (4,)
+2026-01-13 23:25:46,991 INFO sqlalchemy.engine.Engine SELECT musical_pieces.id AS musical_pieces_id, musical_pieces.title AS musical_pieces_title, musical_pieces.composer AS musical_pieces_composer, musical_pieces.description AS musical_pieces_description, musical_pieces.audio_url AS musical_pieces_audio_url, musical_pieces.created_at AS musical_pieces_created_at 
+FROM musical_pieces
+2026-01-13 23:25:46,991 INFO sqlalchemy.engine.Engine [cached since 23.82s ago] (4,)
+2026-01-13 23:25:46,992 INFO sqlalchemy.engine.Engine [cached since 23.83s ago] ()
+2026-01-13 23:25:46,993 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-13 23:25:46,993 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60725 - "GET /tasks HTTP/1.1" 200 OK
+2026-01-13 23:25:46,993 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60719 - "GET /pieces HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60720 - "GET /tasks HTTP/1.1" 200 OK
+2026-01-13 23:25:46,994 INFO sqlalchemy.engine.Engine ROLLBACK
+2026-01-13 23:25:46,994 INFO sqlalchemy.engine.Engine ROLLBACK
+INFO:     127.0.0.1:60724 - "GET /classes HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60726 - "GET /pieces HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [18387]
+Shutting down...
