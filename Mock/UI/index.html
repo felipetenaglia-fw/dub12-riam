@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIAM - Accordo AI Digital Passport</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <i class="fas fa-music"></i>
+                <h1>RIAM Accordo AI</h1>
+                <p>Digital Learning Passport</p>
+            </div>
+            
+            <div class="role-selection">
+                <h2>Select Your Role</h2>
+                <div class="role-buttons">
+                    <button class="role-btn student" onclick="loginAs('student')">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Student</span>
+                        <small>Access your digital passport</small>
+                    </button>
+                    
+                    <button class="role-btn teacher" onclick="loginAs('teacher')">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>Teacher</span>
+                        <small>Manage students & modules</small>
+                    </button>
+                    
+                    <button class="role-btn admin" onclick="loginAs('admin')">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Super Admin</span>
+                        <small>System overview & analytics</small>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loginAs(role) {
+            localStorage.setItem('userRole', role);
+            window.location.href = `${role}.html`;
+        }
+    </script>
+</body>
+</html>

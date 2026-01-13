@@ -1,0 +1,319 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "name": "Emma Johnson",
+      "instrument": "Piano",
+      "grade": "Grade 6",
+      "startDate": "2023-09-01",
+      "teacherId": 1,
+      "overallScore": 78,
+      "dimensions": {
+        "technicalSkills": {
+          "score": 82,
+          "feedback": "Excellent finger technique and hand position. Minor issues with pedaling coordination.",
+          "lastUpdated": "2024-01-15"
+        },
+        "musicianship": {
+          "score": 75,
+          "feedback": "Good understanding of harmony and form. Needs improvement in sight-reading speed.",
+          "lastUpdated": "2024-01-14"
+        },
+        "repertoire": {
+          "score": 70,
+          "feedback": "Strong in classical repertoire. Should explore more contemporary and jazz pieces.",
+          "lastUpdated": "2024-01-13"
+        },
+        "artistry": {
+          "score": 85,
+          "feedback": "Exceptional musical expression and stage presence. Natural performer.",
+          "lastUpdated": "2024-01-15"
+        }
+      },
+      "assignments": [
+        {
+          "id": 1,
+          "title": "Practice C Major Scale - 2 octaves",
+          "description": "Focus on evenness and proper fingering",
+          "category": "technicalSkills",
+          "status": "pending",
+          "dueDate": "2024-01-20",
+          "assignedDate": "2024-01-15"
+        },
+        {
+          "id": 2,
+          "title": "Record Chopin Waltz Op. 64 No. 1",
+          "description": "Focus on rubato and dynamic expression",
+          "category": "artistry",
+          "status": "completed",
+          "dueDate": "2024-01-18",
+          "assignedDate": "2024-01-10",
+          "completedDate": "2024-01-17"
+        }
+      ],
+      "practiceLog": [
+        {
+          "date": "2024-01-15",
+          "duration": 45,
+          "pieces": ["Bach Invention No. 1", "Chopin Waltz"],
+          "notes": "Worked on left hand independence"
+        },
+        {
+          "date": "2024-01-14",
+          "duration": 60,
+          "pieces": ["Scales", "Hanon exercises"],
+          "notes": "Technical work session"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "James Wilson",
+      "instrument": "Violin",
+      "grade": "Grade 4",
+      "startDate": "2024-01-01",
+      "teacherId": 2,
+      "overallScore": 65,
+      "dimensions": {
+        "technicalSkills": {
+          "score": 60,
+          "feedback": "Bow technique needs work. Intonation improving but requires daily practice.",
+          "lastUpdated": "2024-01-15"
+        },
+        "musicianship": {
+          "score": 68,
+          "feedback": "Good rhythmic sense. Music theory knowledge is developing well.",
+          "lastUpdated": "2024-01-14"
+        },
+        "repertoire": {
+          "score": 62,
+          "feedback": "Limited exposure to different styles. Focus on baroque and romantic periods.",
+          "lastUpdated": "2024-01-13"
+        },
+        "artistry": {
+          "score": 70,
+          "feedback": "Shows natural musicality. Needs confidence building for performances.",
+          "lastUpdated": "2024-01-15"
+        }
+      },
+      "assignments": [
+        {
+          "id": 3,
+          "title": "Bow technique exercises",
+          "description": "Practice long bows and string crossings",
+          "category": "technicalSkills",
+          "status": "pending",
+          "dueDate": "2024-01-22",
+          "assignedDate": "2024-01-15"
+        },
+        {
+          "id": 4,
+          "title": "Learn Mozart Sonata K.301 - 1st movement",
+          "description": "Focus on classical style and phrasing",
+          "category": "repertoire",
+          "status": "in_progress",
+          "dueDate": "2024-02-01",
+          "assignedDate": "2024-01-10"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Sarah Chen",
+      "instrument": "Flute",
+      "grade": "Grade 8",
+      "startDate": "2022-09-01",
+      "teacherId": 1,
+      "overallScore": 88,
+      "dimensions": {
+        "technicalSkills": {
+          "score": 90,
+          "feedback": "Excellent breath control and finger technique. Ready for advanced repertoire.",
+          "lastUpdated": "2024-01-15"
+        },
+        "musicianship": {
+          "score": 85,
+          "feedback": "Strong theoretical knowledge and analytical skills. Great sight-reading ability.",
+          "lastUpdated": "2024-01-14"
+        },
+        "repertoire": {
+          "score": 88,
+          "feedback": "Well-rounded repertoire knowledge across all periods. Excellent preparation.",
+          "lastUpdated": "2024-01-13"
+        },
+        "artistry": {
+          "score": 90,
+          "feedback": "Outstanding musical interpretation and performance presence. Natural artist.",
+          "lastUpdated": "2024-01-15"
+        }
+      }
+    }
+  ],
+  "teachers": [
+    {
+      "id": 1,
+      "name": "Ms. Anderson",
+      "instrument": "Piano/Flute",
+      "experience": 15,
+      "students": [1, 3],
+      "performance": {
+        "averageStudentImprovement": 12.5,
+        "studentSatisfaction": 4.8,
+        "responseTime": "2.3 hours"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Mr. Thompson",
+      "instrument": "Violin/Viola",
+      "experience": 8,
+      "students": [2],
+      "performance": {
+        "averageStudentImprovement": 8.2,
+        "studentSatisfaction": 4.2,
+        "responseTime": "4.1 hours"
+      }
+    }
+  ],
+  "teacherComments": [
+    {
+      "studentId": 1,
+      "teacherId": 1,
+      "date": "2024-01-15",
+      "category": "technicalSkills",
+      "comment": "Emma's finger technique has improved significantly. Her scales are much more even now, but she still needs to work on pedaling coordination in her pieces.",
+      "aiAnalysis": {
+        "sentiment": "positive",
+        "keyPoints": ["finger technique improvement", "scale evenness", "pedaling coordination needs work"],
+        "suggestedScore": 82
+      }
+    },
+    {
+      "studentId": 1,
+      "teacherId": 1,
+      "date": "2024-01-14",
+      "category": "artistry",
+      "comment": "Exceptional performance of the Chopin waltz today. Emma really understands the style and her rubato is becoming very natural. She has great stage presence.",
+      "aiAnalysis": {
+        "sentiment": "very_positive",
+        "keyPoints": ["exceptional performance", "style understanding", "natural rubato", "stage presence"],
+        "suggestedScore": 85
+      }
+    },
+    {
+      "studentId": 2,
+      "teacherId": 2,
+      "date": "2024-01-15",
+      "category": "technicalSkills",
+      "comment": "James is struggling with bow technique. His sound is scratchy and he's not maintaining consistent contact with the string. We need to focus on basic bow exercises.",
+      "aiAnalysis": {
+        "sentiment": "concerned",
+        "keyPoints": ["bow technique struggles", "scratchy sound", "inconsistent contact", "needs basic exercises"],
+        "suggestedScore": 60
+      }
+    },
+    {
+      "studentId": 2,
+      "teacherId": 2,
+      "date": "2024-01-13",
+      "category": "musicianship",
+      "comment": "Good progress in music theory. James can now identify key signatures quickly and his rhythm reading has improved. He's starting to understand chord progressions.",
+      "aiAnalysis": {
+        "sentiment": "positive",
+        "keyPoints": ["theory progress", "key signature identification", "rhythm reading improvement", "chord progression understanding"],
+        "suggestedScore": 68
+      }
+    }
+  ],
+  "aiFeedbackExamples": [
+    {
+      "studentId": 1,
+      "analysisDate": "2024-01-15",
+      "recordingType": "performance",
+      "piece": "Bach Invention No. 1 in C Major",
+      "overallScore": 78,
+      "categories": {
+        "technicalSkills": {
+          "score": 82,
+          "feedback": "Excellent finger independence and clarity in both hands. Minor timing inconsistencies detected in measures 12-16. Left hand articulation could be more precise.",
+          "recommendations": [
+            "Practice measures 12-16 with metronome at 60 BPM",
+            "Focus on left hand staccato articulation",
+            "Work on maintaining steady tempo throughout"
+          ]
+        },
+        "musicianship": {
+          "score": 75,
+          "feedback": "Good understanding of baroque style and phrasing. Dynamic contrasts are present but could be more pronounced. Voice leading is clear.",
+          "recommendations": [
+            "Increase dynamic range between forte and piano sections",
+            "Practice each voice separately to enhance independence",
+            "Study other Bach inventions for style comparison"
+          ]
+        },
+        "artistry": {
+          "score": 80,
+          "feedback": "Musical expression is developing well. Good sense of phrase structure and natural flow. Performance confidence is evident.",
+          "recommendations": [
+            "Experiment with different tempos for expressive effect",
+            "Work on seamless transitions between sections",
+            "Record multiple takes to compare interpretations"
+          ]
+        }
+      },
+      "nextSteps": [
+        "Schedule follow-up recording in one week",
+        "Focus practice on identified technical areas",
+        "Prepare for performance in next recital"
+      ]
+    }
+  ],
+  "aiAlerts": [
+    {
+      "type": "student_struggling",
+      "studentId": 2,
+      "category": "technicalSkills",
+      "message": "James Wilson showing consistent difficulties with bow technique. Recommend additional technical exercises and possible extra lesson.",
+      "severity": "medium",
+      "date": "2024-01-15"
+    },
+    {
+      "type": "teacher_performance",
+      "teacherId": 2,
+      "message": "Mr. Thompson's students showing slower than average progress in technical skills. Consider professional development in teaching techniques.",
+      "severity": "low",
+      "date": "2024-01-14"
+    },
+    {
+      "type": "student_excellence",
+      "studentId": 3,
+      "message": "Sarah Chen consistently exceeding expectations. Consider advanced repertoire and competition opportunities.",
+      "severity": "info",
+      "date": "2024-01-13"
+    }
+  ],
+  "practiceMetrics": {
+    "weeklyAverages": {
+      "totalHours": 24.5,
+      "sessionsPerWeek": 5.2,
+      "averageSessionLength": 47
+    },
+    "monthlyTrends": {
+      "practiceConsistency": 85,
+      "assignmentCompletion": 78,
+      "overallImprovement": 12
+    }
+  },
+  "systemSettings": {
+    "aiAssessmentThresholds": {
+      "struggling": 60,
+      "satisfactory": 75,
+      "excellent": 85
+    },
+    "alertSettings": {
+      "teacherResponseTime": 24,
+      "studentProgressCheck": 7,
+      "performanceReview": 30
+    }
+  }
+}

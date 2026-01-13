@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - RIAM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-music"></i>
+                <span>RIAM Student Portal</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#dashboard" class="nav-link active" data-page="dashboard">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="#passport" class="nav-link" data-page="passport">
+                    <i class="fas fa-id-card"></i> Digital Passport
+                </a>
+                <a href="#modules" class="nav-link" data-page="modules">
+                    <i class="fas fa-book"></i> My Modules
+                </a>
+                <a href="#assignments" class="nav-link" data-page="assignments">
+                    <i class="fas fa-tasks"></i> Assignments
+                </a>
+                <a href="#submissions" class="nav-link" data-page="submissions">
+                    <i class="fas fa-upload"></i> Submissions
+                </a>
+                <a href="#ai-coach" class="nav-link" data-page="ai-coach">
+                    <i class="fas fa-robot"></i> AI Coach
+                </a>
+            </div>
+            <div class="user-profile">
+                <div class="profile-info">
+                    <img src="https://via.placeholder.com/40" alt="Student">
+                    <span>Emma Johnson</span>
+                </div>
+                <button onclick="logout()" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <!-- Dashboard -->
+            <div id="dashboard" class="page active">
+                <div class="page-header">
+                    <h1>Welcome Back, Emma!</h1>
+                    <p>Your musical journey continues</p>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="card progress-card">
+                        <h3>Overall Progress</h3>
+                        <div class="progress-circle">
+                            <canvas id="progressChart" width="120" height="120"></canvas>
+                            <div class="progress-text">78%</div>
+                        </div>
+                    </div>
+
+                    <div class="card stats-card">
+                        <h3>This Week</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <i class="fas fa-clock"></i>
+                                <span class="stat-value">12.5h</span>
+                                <span class="stat-label">Practice Time</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-tasks"></i>
+                                <span class="stat-value">3/5</span>
+                                <span class="stat-label">Assignments</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card recent-activity">
+                        <h3>Recent Activity</h3>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <i class="fas fa-upload"></i>
+                                <div>
+                                    <span>Submitted Bach Invention recording</span>
+                                    <small>2 hours ago</small>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <i class="fas fa-comment"></i>
+                                <div>
+                                    <span>Received feedback from Ms. Anderson</span>
+                                    <small>1 day ago</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card ai-insights">
+                        <h3>AI Insights</h3>
+                        <div class="insight-item">
+                            <i class="fas fa-lightbulb"></i>
+                            <p>Your rhythm accuracy improved 15% this week!</p>
+                        </div>
+                        <div class="insight-item">
+                            <i class="fas fa-target"></i>
+                            <p>Focus on dynamics in your next practice session</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Digital Passport -->
+            <div id="passport" class="page">
+                <div class="page-header">
+                    <h1>Digital Passport</h1>
+                    <p>Track your musical development across core dimensions</p>
+                </div>
+
+                <div class="passport-container">
+                    <div class="student-profile-card">
+                        <div class="profile-header">
+                            <img src="https://via.placeholder.com/100" alt="Emma Johnson">
+                            <div class="profile-details">
+                                <h2>Emma Johnson</h2>
+                                <p>Grade 6 Piano | Module: Advanced Performance</p>
+                                <p>Teacher: Ms. Anderson | Started: Sept 2023</p>
+                                <div class="overall-score">Overall Score: 78%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dimensions-container">
+                        <div class="dimension-card">
+                            <h3>Technical Skills & Competence</h3>
+                            <div class="score-display">
+                                <div class="score-bar">
+                                    <div class="score-fill" style="width: 82%"></div>
+                                </div>
+                                <span class="score-value">82%</span>
+                            </div>
+                            <p class="feedback">Excellent finger technique, work on pedaling coordination</p>
+                            <div class="progress-trend">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+5% this month</span>
+                            </div>
+                        </div>
+
+                        <div class="dimension-card">
+                            <h3>Compositional & Musicianship</h3>
+                            <div class="score-display">
+                                <div class="score-bar">
+                                    <div class="score-fill" style="width: 75%"></div>
+                                </div>
+                                <span class="score-value">75%</span>
+                            </div>
+                            <p class="feedback">Good harmony understanding, improve sight-reading speed</p>
+                            <div class="progress-trend">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+3% this month</span>
+                            </div>
+                        </div>
+
+                        <div class="dimension-card">
+                            <h3>Repertoire & Cultural Knowledge</h3>
+                            <div class="score-display">
+                                <div class="score-bar">
+                                    <div class="score-fill" style="width: 70%"></div>
+                                </div>
+                                <span class="score-value">70%</span>
+                            </div>
+                            <p class="feedback">Strong classical knowledge, explore contemporary pieces</p>
+                            <div class="progress-trend">
+                                <i class="fas fa-minus"></i>
+                                <span>No change</span>
+                            </div>
+                        </div>
+
+                        <div class="dimension-card">
+                            <h3>Performing Artistry</h3>
+                            <div class="score-display">
+                                <div class="score-bar">
+                                    <div class="score-fill" style="width: 85%"></div>
+                                </div>
+                                <span class="score-value">85%</span>
+                            </div>
+                            <p class="feedback">Exceptional expression and stage presence</p>
+                            <div class="progress-trend">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+7% this month</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="progress-chart-container">
+                        <h3>Progress Over Time</h3>
+                        <canvas id="progressTimeChart" width="800" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modules -->
+            <div id="modules" class="page">
+                <div class="page-header">
+                    <h1>My Modules</h1>
+                    <p>Enrolled courses and learning paths</p>
+                </div>
+
+                <div class="modules-container">
+                    <div class="module-card active">
+                        <div class="module-header">
+                            <h3>Advanced Piano Performance</h3>
+                            <span class="module-status">Active</span>
+                        </div>
+                        <div class="module-info">
+                            <p><strong>Teacher:</strong> Ms. Anderson</p>
+                            <p><strong>Duration:</strong> Sept 2023 - June 2024</p>
+                            <p><strong>Progress:</strong> 65% Complete</p>
+                        </div>
+                        <div class="module-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        <div class="module-stats">
+                            <div class="stat">
+                                <span class="stat-number">12</span>
+                                <span class="stat-label">Assignments</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">8</span>
+                                <span class="stat-label">Completed</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">4.2</span>
+                                <span class="stat-label">Avg Score</span>
+                            </div>
+                        </div>
+                        <button class="btn-primary" onclick="viewModule(1)">View Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assignments -->
+            <div id="assignments" class="page">
+                <div class="page-header">
+                    <h1>Assignments</h1>
+                    <p>Current and upcoming tasks</p>
+                </div>
+
+                <div class="assignments-container">
+                    <div class="assignments-filter">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="pending">Pending</button>
+                        <button class="filter-btn" data-filter="submitted">Submitted</button>
+                        <button class="filter-btn" data-filter="graded">Graded</button>
+                    </div>
+
+                    <div class="assignments-grid">
+                        <div class="assignment-card pending">
+                            <div class="assignment-header">
+                                <h3>Scale Practice - C Major</h3>
+                                <span class="assignment-type">Technical</span>
+                            </div>
+                            <div class="assignment-details">
+                                <p><strong>Due:</strong> Jan 25, 2024</p>
+                                <p><strong>Points:</strong> 20</p>
+                                <p>Practice C major scale, 2 octaves, hands together. Focus on evenness and proper fingering.</p>
+                            </div>
+                            <div class="assignment-actions">
+                                <button class="btn-primary" onclick="startAssignment(1)">Start Assignment</button>
+                            </div>
+                            <div class="assignment-status pending">Pending</div>
+                        </div>
+
+                        <div class="assignment-card submitted">
+                            <div class="assignment-header">
+                                <h3>Bach Invention No. 1 Performance</h3>
+                                <span class="assignment-type">Performance</span>
+                            </div>
+                            <div class="assignment-details">
+                                <p><strong>Submitted:</strong> Jan 20, 2024</p>
+                                <p><strong>Points:</strong> 50</p>
+                                <p>Record a complete performance of Bach Invention No. 1 in C Major.</p>
+                            </div>
+                            <div class="assignment-feedback">
+                                <p><strong>Teacher Feedback:</strong> Excellent technical execution. Work on phrasing in measures 8-12.</p>
+                                <div class="ai-feedback">
+                                    <i class="fas fa-robot"></i>
+                                    <span>AI detected 92% rhythm accuracy</span>
+                                </div>
+                            </div>
+                            <div class="assignment-status submitted">Awaiting Grade</div>
+                        </div>
+
+                        <div class="assignment-card ai-generated">
+                            <div class="assignment-header">
+                                <h3>Dynamics Exercise</h3>
+                                <span class="assignment-type ai">AI Generated</span>
+                            </div>
+                            <div class="assignment-details">
+                                <p><strong>Generated:</strong> Based on recent feedback</p>
+                                <p><strong>Focus:</strong> Dynamic Control</p>
+                                <p>Practice crescendo and diminuendo exercises to improve dynamic range.</p>
+                            </div>
+                            <div class="ai-reasoning">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Generated because teacher noted need for better dynamic contrast</span>
+                            </div>
+                            <div class="assignment-actions">
+                                <button class="btn-secondary" onclick="acceptAIAssignment(1)">Accept</button>
+                                <button class="btn-outline" onclick="declineAIAssignment(1)">Decline</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submissions -->
+            <div id="submissions" class="page">
+                <div class="page-header">
+                    <h1>Submissions</h1>
+                    <p>Upload your practice recordings and assignments</p>
+                </div>
+
+                <div class="submissions-container">
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-content">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Upload Assignment</h3>
+                            <p>Drag and drop files here or click to browse</p>
+                            <input type="file" id="fileInput" multiple accept="audio/*,video/*">
+                            <button class="btn-primary" onclick="document.getElementById('fileInput').click()">
+                                Choose Files
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="submission-form" id="submissionForm" style="display: none;">
+                        <h3>Submission Details</h3>
+                        <form>
+                            <div class="form-group">
+                                <label>Assignment</label>
+                                <select id="assignmentSelect">
+                                    <option>Bach Invention No. 1 Performance</option>
+                                    <option>Scale Practice - C Major</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Notes (Optional)</label>
+                                <textarea placeholder="Add any notes about your submission..."></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn-primary" onclick="submitAssignment()">Submit</button>
+                                <button type="button" class="btn-outline" onclick="cancelSubmission()">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="submissions-history">
+                        <h3>Recent Submissions</h3>
+                        <div class="submission-item">
+                            <div class="submission-info">
+                                <i class="fas fa-video"></i>
+                                <div>
+                                    <h4>Bach Invention Performance</h4>
+                                    <p>Submitted: Jan 20, 2024 • Grade: Pending</p>
+                                </div>
+                            </div>
+                            <div class="submission-actions">
+                                <button class="btn-outline">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Coach -->
+            <div id="ai-coach" class="page">
+                <div class="page-header">
+                    <h1>AI Coach</h1>
+                    <p>Your personal practice assistant</p>
+                </div>
+
+                <div class="ai-coach-container">
+                    <div class="chat-section">
+                        <div class="chat-messages" id="aiChatMessages">
+                            <div class="ai-message">
+                                <div class="message-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="message-content">
+                                    <p>Hello Emma! I've analyzed your recent practice sessions. Your technical skills are improving nicely! Would you like specific feedback on any area?</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="aiChatInput" placeholder="Ask me about your practice, technique, or assignments...">
+                            <button onclick="sendAIMessage()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="ai-insights-panel">
+                        <h3>Practice Insights</h3>
+                        <div class="insight-card">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <h4>Rhythm Accuracy</h4>
+                                <p>Improved 15% this week</p>
+                                <div class="insight-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 88%"></div>
+                                    </div>
+                                    <span>88%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="insight-card">
+                            <i class="fas fa-volume-up"></i>
+                            <div>
+                                <h4>Dynamic Range</h4>
+                                <p>Needs improvement</p>
+                                <div class="insight-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 65%"></div>
+                                    </div>
+                                    <span>65%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ai-recommendations">
+                            <h4>Recommendations</h4>
+                            <ul>
+                                <li>Practice with metronome for 10 minutes daily</li>
+                                <li>Focus on crescendo exercises</li>
+                                <li>Record yourself playing scales</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="student.js"></script>
+</body>
+</html>

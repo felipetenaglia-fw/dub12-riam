@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin Dashboard - RIAM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-user-shield"></i>
+                <span>RIAM Admin Portal</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#dashboard" class="nav-link active" data-page="dashboard">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="#system-overview" class="nav-link" data-page="system-overview">
+                    <i class="fas fa-chart-pie"></i> System Overview
+                </a>
+                <a href="#teachers" class="nav-link" data-page="teachers">
+                    <i class="fas fa-chalkboard-teacher"></i> Teachers
+                </a>
+                <a href="#students" class="nav-link" data-page="students">
+                    <i class="fas fa-user-graduate"></i> Students
+                </a>
+                <a href="#modules" class="nav-link" data-page="modules">
+                    <i class="fas fa-book"></i> Modules
+                </a>
+                <a href="#ai-insights" class="nav-link" data-page="ai-insights">
+                    <i class="fas fa-brain"></i> AI Insights
+                </a>
+                <a href="#reports" class="nav-link" data-page="reports">
+                    <i class="fas fa-file-alt"></i> Reports
+                </a>
+            </div>
+            <div class="user-profile">
+                <div class="profile-info">
+                    <img src="https://via.placeholder.com/40" alt="Admin">
+                    <span>Dr. Murphy</span>
+                </div>
+                <button onclick="logout()" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <!-- Dashboard -->
+            <div id="dashboard" class="page active">
+                <div class="page-header">
+                    <h1>System Dashboard</h1>
+                    <p>Real-time overview of RIAM platform performance</p>
+                </div>
+                
+                <div class="admin-dashboard-grid">
+                    <div class="card system-stats">
+                        <h3>System Statistics</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <i class="fas fa-users"></i>
+                                <span class="stat-value">1,247</span>
+                                <span class="stat-label">Total Students</span>
+                                <span class="stat-change positive">+12 this week</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <span class="stat-value">89</span>
+                                <span class="stat-label">Active Teachers</span>
+                                <span class="stat-change positive">+2 this month</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-book"></i>
+                                <span class="stat-value">156</span>
+                                <span class="stat-label">Active Modules</span>
+                                <span class="stat-change neutral">No change</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-robot"></i>
+                                <span class="stat-value">15,432</span>
+                                <span class="stat-label">AI Assessments</span>
+                                <span class="stat-change positive">+234 today</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card platform-health">
+                        <h3>Platform Health</h3>
+                        <div class="health-metrics">
+                            <div class="health-item">
+                                <span class="health-label">System Uptime</span>
+                                <div class="health-bar">
+                                    <div class="health-fill excellent" style="width: 99.8%"></div>
+                                </div>
+                                <span class="health-value">99.8%</span>
+                            </div>
+                            <div class="health-item">
+                                <span class="health-label">AI Response Time</span>
+                                <div class="health-bar">
+                                    <div class="health-fill good" style="width: 85%"></div>
+                                </div>
+                                <span class="health-value">1.2s avg</span>
+                            </div>
+                            <div class="health-item">
+                                <span class="health-label">User Satisfaction</span>
+                                <div class="health-bar">
+                                    <div class="health-fill excellent" style="width: 92%"></div>
+                                </div>
+                                <span class="health-value">4.6/5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card critical-alerts">
+                        <h3>Critical Alerts</h3>
+                        <div class="alert-list">
+                            <div class="alert-item high">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <div>
+                                    <span>5 teachers with low student performance rates</span>
+                                    <small>Requires intervention</small>
+                                </div>
+                                <button class="btn-small">Review</button>
+                            </div>
+                            <div class="alert-item medium">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <span>AI processing queue at 78% capacity</span>
+                                    <small>Monitor closely</small>
+                                </div>
+                                <button class="btn-small">Monitor</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card recent-activity">
+                        <h3>Recent System Activity</h3>
+                        <div class="activity-timeline">
+                            <div class="activity-item">
+                                <i class="fas fa-user-plus"></i>
+                                <div>
+                                    <span>New teacher registration: Ms. Thompson</span>
+                                    <small>15 minutes ago</small>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <div>
+                                    <span>AI flagged 3 students needing attention</span>
+                                    <small>1 hour ago</small>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <i class="fas fa-chart-line"></i>
+                                <div>
+                                    <span>Weekly performance report generated</span>
+                                    <small>2 hours ago</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Overview -->
+            <div id="system-overview" class="page">
+                <div class="page-header">
+                    <h1>System Overview</h1>
+                    <p>Comprehensive platform analytics and performance metrics</p>
+                </div>
+
+                <div class="overview-container">
+                    <div class="metrics-overview">
+                        <div class="metric-card">
+                            <h3>Student Engagement</h3>
+                            <div class="metric-value">87%</div>
+                            <div class="metric-change positive">+5% vs last month</div>
+                            <canvas id="engagementChart" width="200" height="100"></canvas>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Average Progress Rate</h3>
+                            <div class="metric-value">+14.2%</div>
+                            <div class="metric-change positive">+2.1% vs last month</div>
+                            <canvas id="progressRateChart" width="200" height="100"></canvas>
+                        </div>
+                        <div class="metric-card">
+                            <h3>AI Accuracy</h3>
+                            <div class="metric-value">94.3%</div>
+                            <div class="metric-change positive">+1.2% vs last month</div>
+                            <canvas id="aiAccuracyChart" width="200" height="100"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="charts-section">
+                        <div class="chart-container large">
+                            <h3>Platform Usage Trends</h3>
+                            <canvas id="usageTrendsChart" width="800" height="400"></canvas>
+                        </div>
+                        
+                        <div class="chart-row">
+                            <div class="chart-container">
+                                <h3>Student Performance Distribution</h3>
+                                <canvas id="performanceDistChart" width="400" height="300"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h3>Module Popularity</h3>
+                                <canvas id="modulePopularityChart" width="400" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Teachers -->
+            <div id="teachers" class="page">
+                <div class="page-header">
+                    <h1>Teacher Management</h1>
+                    <p>Monitor and support teaching staff performance</p>
+                    <button class="btn-primary" onclick="addTeacher()">
+                        <i class="fas fa-plus"></i> Add Teacher
+                    </button>
+                </div>
+
+                <div class="teachers-container">
+                    <div class="teachers-filter">
+                        <input type="text" placeholder="Search teachers..." class="search-input">
+                        <select class="filter-select">
+                            <option>All Departments</option>
+                            <option>Piano</option>
+                            <option>Strings</option>
+                            <option>Woodwinds</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>All Performance Levels</option>
+                            <option>Excellent (4.5+)</option>
+                            <option>Good (4.0-4.4)</option>
+                            <option>Needs Support (<4.0)</option>
+                        </select>
+                    </div>
+
+                    <div class="teachers-grid">
+                        <div class="teacher-card excellent">
+                            <div class="teacher-header">
+                                <img src="https://via.placeholder.com/60" alt="Ms. Anderson">
+                                <div class="teacher-info">
+                                    <h3>Ms. Anderson</h3>
+                                    <p>Piano Department • 15 years experience</p>
+                                    <div class="performance-rating">
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span>4.8/5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="teacher-metrics">
+                                <div class="metric-row">
+                                    <span class="metric-label">Students</span>
+                                    <span class="metric-value">15</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Avg Student Progress</span>
+                                    <span class="metric-value positive">+12.5%</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Response Time</span>
+                                    <span class="metric-value">2.3h</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Assignment Completion</span>
+                                    <span class="metric-value">87%</span>
+                                </div>
+                            </div>
+                            <div class="teacher-actions">
+                                <button class="btn-primary" onclick="viewTeacher(1)">View Details</button>
+                                <button class="btn-outline" onclick="messageTeacher(1)">Message</button>
+                            </div>
+                        </div>
+
+                        <div class="teacher-card needs-support">
+                            <div class="teacher-header">
+                                <img src="https://via.placeholder.com/60" alt="Mr. Thompson">
+                                <div class="teacher-info">
+                                    <h3>Mr. Thompson</h3>
+                                    <p>Violin Department • 8 years experience</p>
+                                    <div class="performance-rating">
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <span>3.8/5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="teacher-metrics">
+                                <div class="metric-row">
+                                    <span class="metric-label">Students</span>
+                                    <span class="metric-value">12</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Avg Student Progress</span>
+                                    <span class="metric-value negative">+6.2%</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Response Time</span>
+                                    <span class="metric-value">5.1h</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Assignment Completion</span>
+                                    <span class="metric-value">72%</span>
+                                </div>
+                            </div>
+                            <div class="teacher-alerts">
+                                <div class="alert-badge">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span>Needs Support</span>
+                                </div>
+                            </div>
+                            <div class="teacher-actions">
+                                <button class="btn-primary" onclick="viewTeacher(2)">View Details</button>
+                                <button class="btn-outline" onclick="supportTeacher(2)">Provide Support</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Students -->
+            <div id="students" class="page">
+                <div class="page-header">
+                    <h1>Student Analytics</h1>
+                    <p>System-wide student performance and engagement metrics</p>
+                </div>
+
+                <div class="students-analytics-container">
+                    <div class="analytics-overview">
+                        <div class="metric-card">
+                            <h3>Total Active Students</h3>
+                            <div class="metric-value">1,247</div>
+                            <div class="metric-breakdown">
+                                <span>Piano: 456 • Violin: 321 • Other: 470</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Average Performance</h3>
+                            <div class="metric-value">76.3%</div>
+                            <div class="metric-change positive">+2.1% vs last semester</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>At-Risk Students</h3>
+                            <div class="metric-value">89</div>
+                            <div class="metric-change negative">+12 vs last month</div>
+                        </div>
+                    </div>
+
+                    <div class="performance-charts">
+                        <div class="chart-container">
+                            <h3>Performance Distribution by Grade</h3>
+                            <canvas id="gradePerformanceChart" width="600" height="400"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Improvement Trends</h3>
+                            <canvas id="improvementTrendsChart" width="600" height="400"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="at-risk-students">
+                        <h3>Students Requiring Attention</h3>
+                        <div class="at-risk-list">
+                            <div class="at-risk-item">
+                                <div class="student-info">
+                                    <img src="https://via.placeholder.com/40" alt="Student">
+                                    <div>
+                                        <h4>James Wilson</h4>
+                                        <p>Grade 4 Violin • Teacher: Mr. Thompson</p>
+                                    </div>
+                                </div>
+                                <div class="risk-metrics">
+                                    <span class="risk-score high">High Risk</span>
+                                    <span class="performance-score">52%</span>
+                                </div>
+                                <div class="risk-reasons">
+                                    <span class="risk-tag">Low Engagement</span>
+                                    <span class="risk-tag">Technical Struggles</span>
+                                </div>
+                                <button class="btn-outline">Review Case</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modules -->
+            <div id="modules" class="page">
+                <div class="page-header">
+                    <h1>Module Management</h1>
+                    <p>Oversee all educational modules and their performance</p>
+                    <button class="btn-primary" onclick="createModule()">
+                        <i class="fas fa-plus"></i> Create Module
+                    </button>
+                </div>
+
+                <div class="modules-analytics-container">
+                    <div class="modules-overview">
+                        <div class="metric-card">
+                            <h3>Active Modules</h3>
+                            <div class="metric-value">156</div>
+                            <div class="metric-breakdown">
+                                <span>Piano: 45 • Strings: 38 • Other: 73</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Average Completion Rate</h3>
+                            <div class="metric-value">78%</div>
+                            <div class="metric-change positive">+3% vs last semester</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Student Satisfaction</h3>
+                            <div class="metric-value">4.2/5</div>
+                            <div class="metric-change positive">+0.2 vs last semester</div>
+                        </div>
+                    </div>
+
+                    <div class="modules-performance">
+                        <h3>Top Performing Modules</h3>
+                        <div class="modules-list">
+                            <div class="module-performance-item">
+                                <div class="module-info">
+                                    <h4>Advanced Piano Performance</h4>
+                                    <p>Ms. Anderson • 45 students</p>
+                                </div>
+                                <div class="performance-metrics">
+                                    <div class="metric">
+                                        <span class="metric-label">Completion</span>
+                                        <span class="metric-value">92%</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-label">Satisfaction</span>
+                                        <span class="metric-value">4.8/5</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-label">Progress</span>
+                                        <span class="metric-value">+15%</span>
+                                    </div>
+                                </div>
+                                <div class="performance-badge excellent">Excellent</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="module-charts">
+                        <div class="chart-container">
+                            <h3>Module Enrollment Trends</h3>
+                            <canvas id="enrollmentTrendsChart" width="800" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Insights -->
+            <div id="ai-insights" class="page">
+                <div class="page-header">
+                    <h1>AI System Insights</h1>
+                    <p>Advanced analytics and AI-driven recommendations</p>
+                </div>
+
+                <div class="ai-insights-container">
+                    <div class="ai-performance-metrics">
+                        <div class="metric-card">
+                            <h3>AI Assessment Accuracy</h3>
+                            <div class="metric-value">94.3%</div>
+                            <div class="metric-change positive">+1.2% vs last month</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Predictions Made</h3>
+                            <div class="metric-value">15,432</div>
+                            <div class="metric-change positive">+234 today</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Intervention Success Rate</h3>
+                            <div class="metric-value">87%</div>
+                            <div class="metric-change positive">+5% vs last month</div>
+                        </div>
+                    </div>
+
+                    <div class="ai-recommendations-section">
+                        <h3>System-Wide AI Recommendations</h3>
+                        <div class="recommendations-grid">
+                            <div class="recommendation-card high-priority">
+                                <div class="recommendation-header">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <span class="priority-badge high">High Priority</span>
+                                </div>
+                                <h4>Teacher Training Needed</h4>
+                                <p>5 teachers showing consistent low student progress rates. Recommend professional development in modern teaching techniques.</p>
+                                <div class="recommendation-actions">
+                                    <button class="btn-primary">Schedule Training</button>
+                                    <button class="btn-outline">View Details</button>
+                                </div>
+                            </div>
+
+                            <div class="recommendation-card medium-priority">
+                                <div class="recommendation-header">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <span class="priority-badge medium">Medium Priority</span>
+                                </div>
+                                <h4>Curriculum Enhancement</h4>
+                                <p>Students in Grade 4-6 showing gaps in music theory. Consider adding supplementary theory modules.</p>
+                                <div class="recommendation-actions">
+                                    <button class="btn-primary">Review Curriculum</button>
+                                    <button class="btn-outline">View Analysis</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ai-analytics-charts">
+                        <div class="chart-container">
+                            <h3>AI Prediction Accuracy Over Time</h3>
+                            <canvas id="aiAccuracyTrendChart" width="800" height="300"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Intervention Outcomes</h3>
+                            <canvas id="interventionOutcomesChart" width="400" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports -->
+            <div id="reports" class="page">
+                <div class="page-header">
+                    <h1>System Reports</h1>
+                    <p>Generate and download comprehensive system reports</p>
+                    <button class="btn-primary" onclick="generateReport()">
+                        <i class="fas fa-file-download"></i> Generate Report
+                    </button>
+                </div>
+
+                <div class="reports-container">
+                    <div class="report-templates">
+                        <h3>Available Reports</h3>
+                        <div class="templates-grid">
+                            <div class="template-card">
+                                <i class="fas fa-chart-line"></i>
+                                <h4>Performance Analytics</h4>
+                                <p>Comprehensive student and teacher performance metrics</p>
+                                <button class="btn-outline">Generate</button>
+                            </div>
+                            <div class="template-card">
+                                <i class="fas fa-users"></i>
+                                <h4>Enrollment Report</h4>
+                                <p>Student enrollment trends and demographics</p>
+                                <button class="btn-outline">Generate</button>
+                            </div>
+                            <div class="template-card">
+                                <i class="fas fa-robot"></i>
+                                <h4>AI System Report</h4>
+                                <p>AI performance metrics and recommendations</p>
+                                <button class="btn-outline">Generate</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recent-reports">
+                        <h3>Recent Reports</h3>
+                        <div class="reports-list">
+                            <div class="report-item">
+                                <div class="report-info">
+                                    <i class="fas fa-file-pdf"></i>
+                                    <div>
+                                        <h4>Monthly Performance Report - January 2024</h4>
+                                        <p>Generated on Jan 31, 2024 • 45 pages</p>
+                                    </div>
+                                </div>
+                                <div class="report-actions">
+                                    <button class="btn-outline">Download</button>
+                                    <button class="btn-outline">Share</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

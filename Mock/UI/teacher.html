@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - RIAM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>RIAM Teacher Portal</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#dashboard" class="nav-link active" data-page="dashboard">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="#students" class="nav-link" data-page="students">
+                    <i class="fas fa-users"></i> My Students
+                </a>
+                <a href="#modules" class="nav-link" data-page="modules">
+                    <i class="fas fa-book"></i> Modules
+                </a>
+                <a href="#assignments" class="nav-link" data-page="assignments">
+                    <i class="fas fa-tasks"></i> Assignments
+                </a>
+                <a href="#submissions" class="nav-link" data-page="submissions">
+                    <i class="fas fa-inbox"></i> Submissions
+                </a>
+                <a href="#analytics" class="nav-link" data-page="analytics">
+                    <i class="fas fa-chart-bar"></i> Analytics
+                </a>
+                <a href="#ai-assistant" class="nav-link" data-page="ai-assistant">
+                    <i class="fas fa-robot"></i> AI Assistant
+                </a>
+            </div>
+            <div class="user-profile">
+                <div class="profile-info">
+                    <img src="https://via.placeholder.com/40" alt="Teacher">
+                    <span>Ms. Anderson</span>
+                </div>
+                <button onclick="logout()" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <!-- Dashboard -->
+            <div id="dashboard" class="page active">
+                <div class="page-header">
+                    <h1>Welcome Back, Ms. Anderson</h1>
+                    <p>Manage your students and track their progress</p>
+                </div>
+                
+                <div class="teacher-dashboard-grid">
+                    <div class="card overview-card">
+                        <h3>Class Overview</h3>
+                        <div class="overview-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-users"></i>
+                                <span class="stat-value">15</span>
+                                <span class="stat-label">Total Students</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-tasks"></i>
+                                <span class="stat-value">23</span>
+                                <span class="stat-label">Pending Reviews</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span class="stat-value">3</span>
+                                <span class="stat-label">Need Attention</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card performance-chart">
+                        <h3>Class Performance Trends</h3>
+                        <canvas id="classPerformanceChart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div class="card recent-submissions">
+                        <h3>Recent Submissions</h3>
+                        <div class="submission-list">
+                            <div class="submission-item">
+                                <img src="https://via.placeholder.com/30" alt="Emma">
+                                <div class="submission-info">
+                                    <span class="student-name">Emma Johnson</span>
+                                    <span class="submission-title">Bach Invention Performance</span>
+                                    <small>2 hours ago</small>
+                                </div>
+                                <button class="btn-small">Review</button>
+                            </div>
+                            <div class="submission-item">
+                                <img src="https://via.placeholder.com/30" alt="James">
+                                <div class="submission-info">
+                                    <span class="student-name">James Wilson</span>
+                                    <span class="submission-title">Scale Practice</span>
+                                    <small>5 hours ago</small>
+                                </div>
+                                <button class="btn-small">Review</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card ai-alerts">
+                        <h3>AI Alerts</h3>
+                        <div class="alert-list">
+                            <div class="alert-item warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <div>
+                                    <span>James Wilson struggling with bow technique</span>
+                                    <small>Recommend additional exercises</small>
+                                </div>
+                            </div>
+                            <div class="alert-item info">
+                                <i class="fas fa-lightbulb"></i>
+                                <div>
+                                    <span>Emma Johnson ready for advanced repertoire</span>
+                                    <small>Consider Grade 7 pieces</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Students -->
+            <div id="students" class="page">
+                <div class="page-header">
+                    <h1>My Students</h1>
+                    <p>Manage and track individual student progress</p>
+                </div>
+
+                <div class="students-container">
+                    <div class="students-filter">
+                        <input type="text" placeholder="Search students..." class="search-input">
+                        <select class="filter-select">
+                            <option>All Modules</option>
+                            <option>Advanced Piano</option>
+                            <option>Beginner Violin</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>All Performance Levels</option>
+                            <option>Excellent (80%+)</option>
+                            <option>Good (70-79%)</option>
+                            <option>Needs Attention (<70%)</option>
+                        </select>
+                    </div>
+
+                    <div class="students-grid">
+                        <div class="student-card">
+                            <div class="student-header">
+                                <img src="https://via.placeholder.com/60" alt="Emma Johnson">
+                                <div class="student-info">
+                                    <h3>Emma Johnson</h3>
+                                    <p>Advanced Piano Performance</p>
+                                    <span class="performance-badge excellent">78% Overall</span>
+                                </div>
+                            </div>
+                            <div class="student-metrics">
+                                <div class="metric">
+                                    <span class="metric-label">Technical</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-fill" style="width: 82%"></div>
+                                    </div>
+                                    <span class="metric-value">82%</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Artistry</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-fill" style="width: 85%"></div>
+                                    </div>
+                                    <span class="metric-value">85%</span>
+                                </div>
+                            </div>
+                            <div class="student-actions">
+                                <button class="btn-primary" onclick="viewStudent(1)">View Details</button>
+                                <button class="btn-outline" onclick="messageStudent(1)">Message</button>
+                            </div>
+                            <div class="student-status">
+                                <i class="fas fa-circle active"></i>
+                                <span>Active - Last seen 2h ago</span>
+                            </div>
+                        </div>
+
+                        <div class="student-card">
+                            <div class="student-header">
+                                <img src="https://via.placeholder.com/60" alt="James Wilson">
+                                <div class="student-info">
+                                    <h3>James Wilson</h3>
+                                    <p>Intermediate Violin</p>
+                                    <span class="performance-badge needs-attention">65% Overall</span>
+                                </div>
+                            </div>
+                            <div class="student-metrics">
+                                <div class="metric">
+                                    <span class="metric-label">Technical</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-fill" style="width: 60%"></div>
+                                    </div>
+                                    <span class="metric-value">60%</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Artistry</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-fill" style="width: 70%"></div>
+                                    </div>
+                                    <span class="metric-value">70%</span>
+                                </div>
+                            </div>
+                            <div class="student-actions">
+                                <button class="btn-primary" onclick="viewStudent(2)">View Details</button>
+                                <button class="btn-outline" onclick="messageStudent(2)">Message</button>
+                            </div>
+                            <div class="student-status">
+                                <i class="fas fa-exclamation-triangle warning"></i>
+                                <span>Needs attention - Struggling with technique</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modules -->
+            <div id="modules" class="page">
+                <div class="page-header">
+                    <h1>My Modules</h1>
+                    <p>Manage course content and student enrollment</p>
+                </div>
+
+                <div class="modules-container">
+                    <div class="module-card">
+                        <div class="module-header">
+                            <h3>Advanced Piano Performance</h3>
+                            <span class="module-status active">Active</span>
+                        </div>
+                        <div class="module-stats">
+                            <div class="stat">
+                                <span class="stat-number">8</span>
+                                <span class="stat-label">Students</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">15</span>
+                                <span class="stat-label">Assignments</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">76%</span>
+                                <span class="stat-label">Avg Score</span>
+                            </div>
+                        </div>
+                        <div class="module-progress">
+                            <h4>Student Progress Distribution</h4>
+                            <canvas id="moduleProgressChart" width="300" height="150"></canvas>
+                        </div>
+                        <div class="module-actions">
+                            <button class="btn-primary">Manage Module</button>
+                            <button class="btn-outline">View Students</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assignments -->
+            <div id="assignments" class="page">
+                <div class="page-header">
+                    <h1>Assignments</h1>
+                    <p>Create and manage student assignments</p>
+                    <button class="btn-primary" onclick="createAssignment()">
+                        <i class="fas fa-plus"></i> Create Assignment
+                    </button>
+                </div>
+
+                <div class="assignments-container">
+                    <div class="assignments-tabs">
+                        <button class="tab-btn active" data-tab="active">Active (12)</button>
+                        <button class="tab-btn" data-tab="draft">Drafts (3)</button>
+                        <button class="tab-btn" data-tab="completed">Completed (45)</button>
+                    </div>
+
+                    <div class="assignments-list">
+                        <div class="assignment-item">
+                            <div class="assignment-info">
+                                <h3>Bach Invention No. 1 Performance</h3>
+                                <p>Record complete performance with focus on phrasing and dynamics</p>
+                                <div class="assignment-meta">
+                                    <span><i class="fas fa-users"></i> 8 students</span>
+                                    <span><i class="fas fa-calendar"></i> Due: Jan 25, 2024</span>
+                                    <span><i class="fas fa-star"></i> 50 points</span>
+                                </div>
+                            </div>
+                            <div class="assignment-progress">
+                                <div class="progress-stats">
+                                    <span>5/8 submitted</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 62.5%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="assignment-actions">
+                                <button class="btn-outline">View Submissions</button>
+                                <button class="btn-outline">Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="assignment-item">
+                            <div class="assignment-info">
+                                <h3>Scale Practice - Major Scales</h3>
+                                <p>Practice all major scales, 2 octaves, hands together</p>
+                                <div class="assignment-meta">
+                                    <span><i class="fas fa-users"></i> 15 students</span>
+                                    <span><i class="fas fa-calendar"></i> Due: Jan 30, 2024</span>
+                                    <span><i class="fas fa-star"></i> 20 points</span>
+                                </div>
+                            </div>
+                            <div class="assignment-progress">
+                                <div class="progress-stats">
+                                    <span>2/15 submitted</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 13%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="assignment-actions">
+                                <button class="btn-outline">View Submissions</button>
+                                <button class="btn-outline">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submissions -->
+            <div id="submissions" class="page">
+                <div class="page-header">
+                    <h1>Student Submissions</h1>
+                    <p>Review and grade student work</p>
+                </div>
+
+                <div class="submissions-container">
+                    <div class="submissions-filter">
+                        <select class="filter-select">
+                            <option>All Assignments</option>
+                            <option>Bach Invention Performance</option>
+                            <option>Scale Practice</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>All Students</option>
+                            <option>Emma Johnson</option>
+                            <option>James Wilson</option>
+                        </select>
+                        <select class="filter-select">
+                            <option>All Status</option>
+                            <option>Pending Review</option>
+                            <option>Graded</option>
+                        </select>
+                    </div>
+
+                    <div class="submissions-list">
+                        <div class="submission-card pending">
+                            <div class="submission-header">
+                                <div class="student-info">
+                                    <img src="https://via.placeholder.com/40" alt="Emma">
+                                    <div>
+                                        <h3>Emma Johnson</h3>
+                                        <p>Bach Invention No. 1 Performance</p>
+                                    </div>
+                                </div>
+                                <span class="submission-status pending">Pending Review</span>
+                            </div>
+                            <div class="submission-content">
+                                <div class="media-preview">
+                                    <i class="fas fa-video"></i>
+                                    <span>Performance_Bach_Invention.mp4 (3:45)</span>
+                                </div>
+                                <p class="student-notes">"Focused on bringing out the left hand melody in the development section as discussed."</p>
+                            </div>
+                            <div class="ai-analysis">
+                                <h4>AI Analysis</h4>
+                                <div class="ai-metrics">
+                                    <div class="ai-metric">
+                                        <span>Rhythm Accuracy</span>
+                                        <span class="metric-value good">92%</span>
+                                    </div>
+                                    <div class="ai-metric">
+                                        <span>Tempo Consistency</span>
+                                        <span class="metric-value excellent">88%</span>
+                                    </div>
+                                    <div class="ai-metric">
+                                        <span>Dynamic Range</span>
+                                        <span class="metric-value needs-work">65%</span>
+                                    </div>
+                                </div>
+                                <p class="ai-suggestion">AI suggests focusing on dynamic contrasts in measures 8-12.</p>
+                            </div>
+                            <div class="grading-section">
+                                <div class="grade-input">
+                                    <label>Grade (0-100)</label>
+                                    <input type="number" min="0" max="100" placeholder="85">
+                                </div>
+                                <div class="feedback-input">
+                                    <label>Feedback</label>
+                                    <textarea placeholder="Excellent technical execution. Work on phrasing in measures 8-12..."></textarea>
+                                </div>
+                                <div class="grading-actions">
+                                    <button class="btn-primary">Submit Grade</button>
+                                    <button class="btn-outline">Save Draft</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics -->
+            <div id="analytics" class="page">
+                <div class="page-header">
+                    <h1>Teaching Analytics</h1>
+                    <p>Insights into student progress and teaching effectiveness</p>
+                </div>
+
+                <div class="analytics-container">
+                    <div class="analytics-overview">
+                        <div class="metric-card">
+                            <h3>Average Student Improvement</h3>
+                            <div class="metric-value">+12.5%</div>
+                            <div class="metric-change positive">+2.3% vs last month</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Assignment Completion Rate</h3>
+                            <div class="metric-value">87%</div>
+                            <div class="metric-change positive">+5% vs last month</div>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Student Satisfaction</h3>
+                            <div class="metric-value">4.8/5</div>
+                            <div class="metric-change neutral">No change</div>
+                        </div>
+                    </div>
+
+                    <div class="charts-grid">
+                        <div class="chart-container">
+                            <h3>Student Progress Distribution</h3>
+                            <canvas id="progressDistributionChart" width="400" height="300"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Assignment Performance Trends</h3>
+                            <canvas id="assignmentTrendsChart" width="400" height="300"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="performance-insights">
+                        <h3>Teaching Insights</h3>
+                        <div class="insight-grid">
+                            <div class="insight-card">
+                                <i class="fas fa-trophy"></i>
+                                <div>
+                                    <h4>Top Performing Area</h4>
+                                    <p>Students excel in Performance Artistry (avg 82%)</p>
+                                </div>
+                            </div>
+                            <div class="insight-card">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <div>
+                                    <h4>Area for Focus</h4>
+                                    <p>Technical Skills need attention (avg 68%)</p>
+                                </div>
+                            </div>
+                            <div class="insight-card">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <h4>Response Time</h4>
+                                    <p>Average feedback time: 2.3 hours</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Assistant -->
+            <div id="ai-assistant" class="page">
+                <div class="page-header">
+                    <h1>AI Teaching Assistant</h1>
+                    <p>Get insights and recommendations for your teaching</p>
+                </div>
+
+                <div class="ai-assistant-container">
+                    <div class="ai-chat-section">
+                        <div class="chat-messages" id="teacherAIChat">
+                            <div class="ai-message">
+                                <div class="message-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="message-content">
+                                    <p>Hello Ms. Anderson! I've analyzed your recent teaching data. James Wilson might benefit from additional technical exercises. Would you like me to suggest some specific assignments?</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="teacherAIInput" placeholder="Ask about student progress, teaching strategies, or assignment ideas...">
+                            <button onclick="sendTeacherAIMessage()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="ai-recommendations">
+                        <h3>AI Recommendations</h3>
+                        <div class="recommendation-card">
+                            <div class="recommendation-header">
+                                <i class="fas fa-lightbulb"></i>
+                                <h4>Assignment Suggestion</h4>
+                            </div>
+                            <p>Based on recent submissions, consider creating a dynamics-focused exercise for the class. 60% of students need improvement in this area.</p>
+                            <button class="btn-primary">Create Assignment</button>
+                        </div>
+
+                        <div class="recommendation-card">
+                            <div class="recommendation-header">
+                                <i class="fas fa-user-clock"></i>
+                                <h4>Student Check-in</h4>
+                            </div>
+                            <p>James Wilson hasn't submitted an assignment in 5 days. Consider reaching out to check on his progress.</p>
+                            <button class="btn-outline">Send Message</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Assignment Creation Modal -->
+    <div id="assignmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Assignment</h3>
+                <span class="close" onclick="closeAssignmentModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="assignmentForm">
+                    <div class="form-group">
+                        <label>Assignment Title</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Due Date</label>
+                            <input type="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Points</label>
+                            <input type="number" min="1" max="100" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Assign to</label>
+                        <select multiple>
+                            <option>Emma Johnson</option>
+                            <option>James Wilson</option>
+                            <option>Sarah Chen</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Create Assignment</button>
+                        <button type="button" class="btn-outline" onclick="closeAssignmentModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="teacher.js"></script>
+</body>
+</html>
