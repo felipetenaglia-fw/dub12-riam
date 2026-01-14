@@ -8,6 +8,7 @@ from aws_cdk import (
     aws_cloudfront as cloudfront,
     aws_cloudfront_origins as origins,
     aws_iam as iam,
+    aws_ecr_assets as ecr_assets,
     CfnOutput,
     RemovalPolicy,
     Duration,
@@ -65,8 +66,12 @@ class RiamLmsStack(Stack):
             cpu=512,
             memory_limit_mib=1024,
             desired_count=1,
+            assign_public_ip=True,  # Required for tasks in public subnets
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
-                image=ecs.ContainerImage.from_asset("../api"),
+                image=ecs.ContainerImage.from_asset(
+                    "../api",
+                    platform=ecr_assets.Platform.LINUX_AMD64  # Force AMD64 architecture for Fargate
+                ),
                 container_port=8000,
                 environment={
                     "AWS_REGION": self.region,
