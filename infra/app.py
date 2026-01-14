@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
+import os
 import aws_cdk as cdk
 from stacks.ecs_stack import RiamLmsStack
 
 
 app = cdk.App()
 
-# Get account from environment or use default
-account = app.node.try_get_context("account") or "682190641149"
-region = app.node.try_get_context("region") or "us-west-2"
+# Get account and region from context or environment
+account = app.node.try_get_context("account") or os.environ.get("CDK_DEFAULT_ACCOUNT")
+region = app.node.try_get_context("region") or os.environ.get("CDK_DEFAULT_REGION") or "us-west-2"
 
 RiamLmsStack(
     app,

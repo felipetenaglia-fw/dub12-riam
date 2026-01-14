@@ -26,7 +26,7 @@ async def analyze_performance(
     Upload an audio file and receive detailed feedback from an AI music coach
     based on the RIAM framework for developing great musicians.
     
-    - **audio_file**: Audio recording of the performance (max 10MB)
+    - **audio_file**: Audio recording of the performance (max 15MB)
     - **piece_name**: Optional name of the piece being performed
     - **composer**: Optional composer name
     - **student_notes**: Optional context or questions from the student
@@ -41,14 +41,14 @@ async def analyze_performance(
             detail=f"Invalid file type. Allowed types: {', '.join(allowed_extensions)}"
         )
     
-    # Check file size (max 10MB)
-    max_size = 10 * 1024 * 1024  # 10MB in bytes
+    # Check file size (max 15MB)
+    max_size = 15 * 1024 * 1024  # 15MB in bytes
     audio_data = await audio_file.read()
     
     if len(audio_data) > max_size:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="File size exceeds 10MB limit"
+            detail="File size exceeds 15MB limit"
         )
     
     if len(audio_data) == 0:
