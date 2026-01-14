@@ -1,8 +1,9 @@
 // API Configuration
 const API_CONFIG = {
-    baseURL: 'http://localhost:8000',
+    baseURL: window.RIAM_CONFIG?.apiBaseUrl || 'http://localhost:8000',
     endpoints: {
-        aiCoach: '/ai-coach/analyze',  // Using authenticated endpoint
+        aiCoach: '/ai-coach/analyze',  // Analysis endpoint
+        aiCoachChat: '/ai-coach/chat', // Chat endpoint
         login: '/auth/login',
         me: '/auth/me'
     }
@@ -706,6 +707,7 @@ async function analyzeAudioWithAI(audioFile, options = {}) {
 
 // Store AI analysis results globally
 let currentAIAnalysis = null;
+let conversationHistory = [];  // Track chat history
 
 function displayAICoachResults(analysisResult) {
     currentAIAnalysis = analysisResult;
@@ -804,10 +806,23 @@ function closeAnalysisResults() {
 // AI Chat Functions
 function openAIChat() {
     document.getElementById('aiChatOverlay').style.display = 'flex';
+    
+    // Initialize chat if there's analysis context
+    if (currentAIAnalysis && conversationHistory.length === 0) {
+        const messagesContainer = document.getElementById('chatMessages');
+        // Clear any existing messages except the welcome message
+        const welcomeMsg = messagesContainer.querySelector('.ai-message:first-child');
+        messagesContainer.innerHTML = '';
+        if (welcomeMsg) {
+            messagesContainer.appendChild(welcomeMsg);
+        }
+    }
 }
 
 function closeAIChat() {
     document.getElementById('aiChatOverlay').style.display = 'none';
+    // Reset conversation when closing (optional - remove if you want to keep history)
+    // conversationHistory = [];
 }
 
 function handleChatKeyPress(event) {
@@ -816,14 +831,20 @@ function handleChatKeyPress(event) {
     }
 }
 
-function sendMessage() {
+async function sendMessage() {
     const input = document.getElementById('chatInput');
     const messagesContainer = document.getElementById('chatMessages');
     const message = input.value.trim();
     
     if (!message) return;
     
-    // Add user message
+    // Add user message to conversation history
+    conversationHistory.push({
+        role: 'user',
+        content: message
+    });
+    
+    // Add user message to UI
     const userMessage = document.createElement('div');
     userMessage.className = 'message user-message';
     userMessage.innerHTML = `
@@ -831,7 +852,7 @@ function sendMessage() {
             <i class="fas fa-user"></i>
         </div>
         <div class="message-content">
-            <p>${message}</p>
+            <p>${escapeHtml(message)}</p>
         </div>
     `;
     messagesContainer.appendChild(userMessage);
@@ -839,105 +860,143 @@ function sendMessage() {
     // Clear input
     input.value = '';
     
-    // Simulate AI response
-    setTimeout(() => {
-        const aiResponse = getAIResponse(message);
-        const aiMessage = document.createElement('div');
-        aiMessage.className = 'message ai-message';
-        aiMessage.innerHTML = `
+    // Show typing indicator
+    const typingIndicator = document.createElement('div');
+    typingIndicator.className = 'message ai-message typing-indicator';
+    typingIndicator.id = 'typingIndicator';
+    typingIndicator.innerHTML = `
+        <div class="message-avatar">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="message-content">
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    `;
+    messagesContainer.appendChild(typingIndicator);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    
+    try {
+        // Prepare analysis context if available
+        const analysisContext = currentAIAnalysis ? {
+            feedback: currentAIAnalysis.feedback,
+            audio_analysis: currentAIAnalysis.audio_analysis
+        } : null;
+        
+        const requestBody = {
+            question: message,
+            analysis_context: analysisContext,
+            conversation_history: conversationHistory.slice(0, -1) // Exclude current message
+        };
+        
+        console.log('[Chat] Sending request:', {
+            url: `${API_CONFIG.baseURL}${API_CONFIG.endpoints.aiCoachChat}`,
+            hasAuth: !!authToken,
+            hasAnalysisContext: !!analysisContext,
+            historyLength: conversationHistory.length
+        });
+        
+        // Call the API
+        const response = await fetch(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.aiCoachChat}`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(requestBody)
+        });
+        
+        console.log('[Chat] Response status:', response.status);
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('[Chat] Error response:', errorText);
+            throw new Error(`API error: ${response.status} - ${errorText}`);
+        }
+        
+        const data = await response.json();
+        console.log('[Chat] Response data:', data);
+        
+        // Remove typing indicator
+        typingIndicator.remove();
+        
+        if (data.success && data.response) {
+            // Add assistant response to conversation history
+            conversationHistory.push({
+                role: 'assistant',
+                content: data.response
+            });
+            
+            // Add AI response to UI
+            const aiMessage = document.createElement('div');
+            aiMessage.className = 'message ai-message';
+            aiMessage.innerHTML = `
+                <div class="message-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="message-content">
+                    <p>${formatAIResponse(data.response)}</p>
+                </div>
+            `;
+            messagesContainer.appendChild(aiMessage);
+        } else {
+            throw new Error(data.error || 'Failed to get response');
+        }
+        
+    } catch (error) {
+        console.error('Chat error:', error);
+        console.error('Error details:', {
+            message: error.message,
+            stack: error.stack,
+            authToken: authToken ? 'present' : 'missing',
+            apiUrl: `${API_CONFIG.baseURL}${API_CONFIG.endpoints.aiCoachChat}`,
+            hasAnalysisContext: !!currentAIAnalysis
+        });
+        
+        // Remove typing indicator
+        const indicator = document.getElementById('typingIndicator');
+        if (indicator) indicator.remove();
+        
+        // Show error message with more details in console
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'message ai-message error-message';
+        errorMessage.innerHTML = `
             <div class="message-avatar">
-                <i class="fas fa-robot"></i>
+                <i class="fas fa-exclamation-circle"></i>
             </div>
             <div class="message-content">
-                <p>${aiResponse}</p>
+                <p>Sorry, I couldn't process your question. Please try again.</p>
+                <small style="color: #999; font-size: 0.8rem;">Check browser console for details (F12)</small>
             </div>
         `;
-        messagesContainer.appendChild(aiMessage);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }, 1000);
+        messagesContainer.appendChild(errorMessage);
+    }
     
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
-function getAIResponse(userMessage) {
-    const lowerMessage = userMessage.toLowerCase();
+// Helper function to escape HTML
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Helper function to format AI response (convert markdown-like formatting to HTML)
+function formatAIResponse(text) {
+    // Escape HTML first
+    text = escapeHtml(text);
     
-    // If we have real AI analysis feedback, use it intelligently
-    if (currentAIAnalysis && currentAIAnalysis.feedback) {
-        const feedback = currentAIAnalysis.feedback;
-        
-        // Check for specific keywords and extract relevant sections
-        if (lowerMessage.includes('why')) {
-            // Find and return priority improvements or overall assessment
-            const lines = feedback.split('\n');
-            for (let i = 0; i < lines.length; i++) {
-                if (lines[i].includes('Priority') || lines[i].includes('Improvement')) {
-                    // Return next 3-5 lines as context
-                    const context = lines.slice(i + 1, Math.min(i + 6, lines.length))
-                        .filter(l => l.trim().length > 0)
-                        .join(' ');
-                    if (context.length > 0) {
-                        return context.substring(0, 400) + (context.length > 400 ? '...' : '');
-                    }
-                }
-            }
-        }
-        
-        if (lowerMessage.includes('technical')) {
-            // Extract technical analysis section
-            const techMatch = feedback.match(/### ?Technical[\s\S]{0,500}?(?=###|$)/i);
-            if (techMatch) {
-                return techMatch[0].replace(/###/g, '').substring(0, 400);
-            }
-            return `Your technical proficiency is ${Math.round(currentAIAnalysis.audio_analysis.performance_scores.technical_proficiency * 100)}%. ` + 
-                   'Check the full feedback for specific exercises to improve.';
-        }
-        
-        if (lowerMessage.includes('practice') || lowerMessage.includes('how')) {
-            // Extract practice plan
-            const practiceMatch = feedback.match(/Practice Plan[\s\S]{0,600}?(?=##|$)/i);
-            if (practiceMatch) {
-                return practiceMatch[0].replace(/##/g, '').substring(0, 500);
-            }
-        }
-        
-        if (lowerMessage.includes('improve') || lowerMessage.includes('better')) {
-            // Extract priority improvements
-            const improveMatch = feedback.match(/Priority[\s\S]{0,500}?(?=##|$)/i);
-            if (improveMatch) {
-                return improveMatch[0].replace(/##/g, '').substring(0, 400);
-            }
-        }
-        
-        // Default: return first substantial paragraph
-        const paragraphs = feedback.split('\n\n').filter(p => p.trim().length > 50);
-        if (paragraphs.length > 1) {
-            return paragraphs[1].replace(/^#+\s*/gm, '').substring(0, 400);
-        }
-    }
+    // Convert **bold** to <strong>
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     
-    // Fallback responses
-    if (lowerMessage.includes('why')) {
-        return 'Alex, really good lesson today. You\'re already playing this at a level where the next gains are about refinement of artistry, not "fixing". This week keep your focus on two things - keep the core of the sound absolutely steady through long notes, especially when you change string, don\'t let the bow "reset" the line. And Second, in the chordal and broken chord moments, make the harmony speak clearly, think bass first, then let the upper voice answer, so we hear the architecture. Also, watch the ends of notes, the releases in Bach are the punctuation, the silences have to feel intentional, not accidental. Keep vibrato tasteful, more like warmth on arrivals, less like a constant layer.';
-    }
+    // Convert *italic* to <em>
+    text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
     
-    const responses = {
-        'technical': 'Your Technical Skills score shows strong finger positioning and scale execution. The areas for improvement include tempo consistency and articulation clarity.',
-        'compositional': 'Your Compositional & Musicianship score indicates good understanding of musical structure. Focus on dynamic contrasts and phrasing to improve this area.',
-        'repertoire': 'Great work on Repertoire & Cultural Knowledge! Your listening notes showed deep understanding of the musical period style.',
-        'performing': 'Your Performing Artistry score reflects good musical expression. Work on dynamic control and emotional connection to improve further.',
-        'improve': 'To improve your overall score, focus on: 1) Attack clarity and articulation, 2) Dynamic contrasts, 3) Tempo stability, and 4) Pitch intonation.',
-        'practice': 'I recommend practicing with a metronome, listening to more master recordings, and working on articulation exercises. Aim for 30 minutes daily on technical work.'
-    };
+    // Convert line breaks
+    text = text.replace(/\n/g, '<br>');
     
-    if (lowerMessage.includes('technical')) return responses.technical;
-    if (lowerMessage.includes('compositional') || lowerMessage.includes('musicianship')) return responses.compositional;
-    if (lowerMessage.includes('repertoire') || lowerMessage.includes('cultural')) return responses.repertoire;
-    if (lowerMessage.includes('performing') || lowerMessage.includes('artistry')) return responses.performing;
-    if (lowerMessage.includes('improve') || lowerMessage.includes('better')) return responses.improve;
-    if (lowerMessage.includes('practice') || lowerMessage.includes('how')) return responses.practice;
-    
-    return 'Great question! Your overall performance shows strong progress. Which specific area would you like to discuss - Technical Skills, Compositional & Musicianship, Repertoire & Cultural Knowledge, or Performing Artistry?';
+    return text;
 }
 
 // Class Report Functions

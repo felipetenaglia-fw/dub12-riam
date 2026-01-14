@@ -46,8 +46,20 @@ class RiamLmsStack(Stack):
             ],
         )
 
-        # Use default VPC
-        vpc = ec2.Vpc.from_lookup(self, "VPC", is_default=True)
+        # Create a new VPC with public subnets only for cost optimization
+        vpc = ec2.Vpc(
+            self,
+            "VPC",
+            max_azs=2,
+            nat_gateways=0,  # No NAT gateways to save costs
+            subnet_configuration=[
+                ec2.SubnetConfiguration(
+                    name="Public",
+                    subnet_type=ec2.SubnetType.PUBLIC,
+                    cidr_mask=24,
+                )
+            ],
+        )
 
         # Create ECS cluster
         cluster = ecs.Cluster(
@@ -79,7 +91,7 @@ class RiamLmsStack(Stack):
                 },
             ),
             public_load_balancer=True,
-            health_check_grace_period=Duration.seconds(60),
+            health_check_grace_period=Duration.seconds(300),  # Increased to 5 minutes,
         )
 
         # Configure health check
@@ -88,7 +100,7 @@ class RiamLmsStack(Stack):
             interval=Duration.seconds(60),
             timeout=Duration.seconds(30),
             healthy_threshold_count=2,
-            unhealthy_threshold_count=3,
+            unhealthy_threshold_count=5,  # Increased tolerance
         )
 
         # Grant S3 permissions to the task role
@@ -144,8 +156,8 @@ class RiamLmsStack(Stack):
             self,
             "UiBucket",
             bucket_name=f"riam-lms-ui-{self.account}",
-            website_index_document="index.html",
-            website_error_document="index.html",
+            website_index_document="login.html",  # Changed from index.html to login.html
+            website_error_document="login.html",
             public_read_access=False,  # CloudFront will access via OAI
             block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
             removal_policy=RemovalPolicy.DESTROY,
@@ -177,18 +189,18 @@ class RiamLmsStack(Stack):
                 viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
                 cache_policy=cloudfront.CachePolicy.CACHING_OPTIMIZED,
             ),
-            default_root_object="index.html",
+            default_root_object="login.html",
             error_responses=[
                 cloudfront.ErrorResponse(
                     http_status=404,
                     response_http_status=200,
-                    response_page_path="/index.html",
+                    response_page_path="/login.html",
                     ttl=Duration.seconds(0),
                 ),
                 cloudfront.ErrorResponse(
                     http_status=403,
                     response_http_status=200,
-                    response_page_path="/index.html",
+                    response_page_path="/login.html",
                     ttl=Duration.seconds(0),
                 ),
             ],
@@ -198,7 +210,7 @@ class RiamLmsStack(Stack):
         s3deploy.BucketDeployment(
             self,
             "UiDeployment",
-            sources=[s3deploy.Source.asset("../static-ui")],
+            sources=[s3deploy.Source.asset("../new_ui")],
             destination_bucket=ui_bucket,
             distribution=distribution,
             distribution_paths=["/*"],

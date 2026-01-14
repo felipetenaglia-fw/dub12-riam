@@ -59,9 +59,9 @@ echo "   - Docs: http://localhost:8000/docs"
 echo ""
 
 # Start UI in background
-echo "🌐 Starting Web UI on port 5001..."
-cd ui
-python3 app.py > ../ui.log 2>&1 &
+echo "🌐 Starting New Web UI on port 5001..."
+cd new_ui
+python3 -m http.server 5001 > ../ui.log 2>&1 &
 UI_PID=$!
 cd ..
 
@@ -77,13 +77,13 @@ if ! kill -0 $UI_PID 2>/dev/null; then
 fi
 
 echo "✅ UI started (PID: $UI_PID)"
-echo "   - Web: http://localhost:5001"
+echo "   - Web: http://localhost:5001/login.html"
 echo ""
 
 echo "=================================="
 echo "✨ All services are running!"
 echo ""
-echo "📱 Open http://localhost:5001 in your browser"
+echo "📱 Open http://localhost:5001/login.html in your browser"
 echo ""
 echo "🔑 Login credentials:"
 echo "   - Admin: admin / admin"

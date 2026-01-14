@@ -10,23 +10,47 @@ class S3Service:
     """Service for AWS S3 operations."""
     
     def __init__(self):
-        """Initialize S3 client."""
-        # Use profile for local development, credentials for production
-        if hasattr(settings, 'aws_profile') and settings.aws_profile:
-            # Use named profile
-            session = boto3.Session(profile_name=settings.aws_profile, region_name=settings.aws_region)
-            self.s3_client = session.client('s3')
-        elif settings.aws_access_key_id:
-            # Use explicit credentials
-            self.s3_client = boto3.client(
-                's3',
-                region_name=settings.aws_region,
-                aws_access_key_id=settings.aws_access_key_id,
-                aws_secret_access_key=settings.aws_secret_access_key
-            )
-        else:
-            # Use default credentials (IAM role, environment vars, etc.)
-            self.s3_client = boto3.client('s3', region_name=settings.aws_region)
+        """Initialize S3 client with proper credential handling."""
+        import os
+        
+        # Determine which credential method to use
+        # Priority: 1) IAM Role (ECS), 2) Profile (local), 3) Access Keys
+        
+        # Check if running in ECS/EC2 (has instance metadata)
+        is_aws_environment = os.environ.get('AWS_EXECUTION_ENV') or os.environ.get('ECS_CONTAINER_METADATA_URI')
+        
+        try:
+            if is_aws_environment:
+                # Running in ECS/Lambda - use IAM role automatically
+                print("[INFO] S3: Running in AWS environment - using IAM role credentials")
+                self.s3_client = boto3.client('s3', region_name=settings.aws_region)
+            elif settings.aws_profile:
+                # Local development with AWS profile
+                print(f"[INFO] S3: Using AWS profile: {settings.aws_profile}")
+                session = boto3.Session(
+                    profile_name=settings.aws_profile,
+                    region_name=settings.aws_region
+                )
+                self.s3_client = session.client('s3')
+            elif settings.aws_access_key_id and settings.aws_secret_access_key:
+                # Explicit credentials provided
+                print("[INFO] S3: Using explicit AWS credentials")
+                self.s3_client = boto3.client(
+                    's3',
+                    region_name=settings.aws_region,
+                    aws_access_key_id=settings.aws_access_key_id,
+                    aws_secret_access_key=settings.aws_secret_access_key
+                )
+            else:
+                # Fallback to default credential chain
+                print("[INFO] S3: Using default AWS credential chain")
+                self.s3_client = boto3.client('s3', region_name=settings.aws_region)
+            
+            print(f"[INFO] S3 client initialized successfully for region: {settings.aws_region}")
+            
+        except Exception as e:
+            print(f"[ERROR] Failed to initialize S3 client: {str(e)}")
+            raise
         
         self.bucket_name = settings.s3_bucket_name
     

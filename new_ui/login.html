@@ -207,6 +207,7 @@
             }
         }
     </style>
+    <script src="config.js"></script>
 </head>
 <body>
     <div class="login-container">
@@ -271,7 +272,7 @@
     </div>
 
     <script>
-        const API_BASE_URL = 'http://localhost:8000';
+        const API_BASE_URL = window.RIAM_CONFIG?.apiBaseUrl || 'http://localhost:8000';
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();

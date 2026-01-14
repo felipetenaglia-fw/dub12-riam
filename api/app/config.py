@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     
     # AWS Settings
     aws_region: str = "us-west-2"  # Bedrock region
-    aws_profile: str = "hackaton"  # AWS profile for local development
+    aws_profile: str = ""  # AWS profile for local development (empty = use IAM role)
     s3_bucket_name: str = "riam-lms-recordings"
     aws_access_key_id: str = ""
     aws_secret_access_key: str = ""

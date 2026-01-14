@@ -20,20 +20,53 @@ class BedrockService:
     """Service for AWS Bedrock operations with Claude."""
     
     def __init__(self):
-        """Initialize Bedrock client."""
-        # Use profile for local development, credentials for production
-        if hasattr(settings, 'aws_profile') and settings.aws_profile:
-            session = boto3.Session(profile_name=settings.aws_profile, region_name=settings.aws_region)
-            self.bedrock_runtime = session.client('bedrock-runtime')
-        elif settings.aws_access_key_id:
-            self.bedrock_runtime = boto3.client(
-                'bedrock-runtime',
-                region_name=settings.aws_region,
-                aws_access_key_id=settings.aws_access_key_id,
-                aws_secret_access_key=settings.aws_secret_access_key
-            )
-        else:
-            self.bedrock_runtime = boto3.client('bedrock-runtime', region_name=settings.aws_region)
+        """Initialize Bedrock client with proper credential handling."""
+        import os
+        
+        # Determine which credential method to use
+        # Priority: 1) IAM Role (ECS), 2) Profile (local), 3) Access Keys
+        
+        # Check if running in ECS/EC2 (has instance metadata)
+        is_aws_environment = os.environ.get('AWS_EXECUTION_ENV') or os.environ.get('ECS_CONTAINER_METADATA_URI')
+        
+        try:
+            if is_aws_environment:
+                # Running in ECS/Lambda - use IAM role automatically
+                print("[INFO] Running in AWS environment - using IAM role credentials")
+                self.bedrock_runtime = boto3.client(
+                    'bedrock-runtime',
+                    region_name=settings.aws_region
+                )
+            elif settings.aws_profile:
+                # Local development with AWS profile
+                print(f"[INFO] Using AWS profile: {settings.aws_profile}")
+                session = boto3.Session(
+                    profile_name=settings.aws_profile,
+                    region_name=settings.aws_region
+                )
+                self.bedrock_runtime = session.client('bedrock-runtime')
+            elif settings.aws_access_key_id and settings.aws_secret_access_key:
+                # Explicit credentials provided
+                print("[INFO] Using explicit AWS credentials")
+                self.bedrock_runtime = boto3.client(
+                    'bedrock-runtime',
+                    region_name=settings.aws_region,
+                    aws_access_key_id=settings.aws_access_key_id,
+                    aws_secret_access_key=settings.aws_secret_access_key
+                )
+            else:
+                # Fallback to default credential chain
+                print("[INFO] Using default AWS credential chain")
+                self.bedrock_runtime = boto3.client(
+                    'bedrock-runtime',
+                    region_name=settings.aws_region
+                )
+            
+            print(f"[INFO] Bedrock client initialized successfully for region: {settings.aws_region}")
+            
+        except Exception as e:
+            print(f"[ERROR] Failed to initialize Bedrock client: {str(e)}")
+            raise
         
         # Use Claude 3.5 Sonnet v2
         self.model_id = "us.anthropic.claude-3-5-sonnet-20241022-v2:0"
@@ -377,6 +410,189 @@ Be specific to the piece mentioned."""
             "model": self.model_id,
             "note": "Audio analysis unavailable - feedback based on piece information only"
         }
+    
+    def chat_about_performance(
+        self,
+        question: str,
+        analysis_context: Optional[dict] = None,
+        conversation_history: Optional[list] = None,
+        student_name: Optional[str] = None
+    ) -> dict:
+        """
+        Chat with the AI coach about a performance analysis.
+        
+        Allows students to ask follow-up questions about their feedback,
+        request clarification, or get additional practice recommendations.
+        
+        Args:
+            question: Student's question
+            analysis_context: Previous analysis results (feedback and audio_analysis)
+            conversation_history: Previous messages in the conversation
+            student_name: Student's name for personalization
+            
+        Returns:
+            dict with success, response, error, and model fields
+        """
+        try:
+            # Build the system context from the analysis
+            student_name = student_name or "there"
+            system_context = f"""You are a master musician and expert teacher at the Royal Irish Academy of Music (RIAM). 
+You are personally coaching {student_name}, having a one-on-one conversation about their recent performance.
+
+As a master musician, you:
+- Have decades of performance and teaching experience
+- Understand the subtle nuances of musical expression
+- Can hear both what's working well and areas for growth
+- Speak with authority but also warmth and encouragement
+- Share insights from your own performing experience
+- Make technical concepts accessible and relatable
+
+Your coaching style:
+- Call the student by name occasionally to make it personal
+- Answer questions directly and conversationally, as if speaking face-to-face
+- Explain technical concepts in simple, student-friendly language
+- Provide specific, actionable practice recommendations based on their actual performance data
+- Be encouraging and supportive - build confidence while being honest
+- Speak naturally, like a mentor having coffee with a student
+
+IMPORTANT Guidelines:
+- Answer the SPECIFIC question asked - don't give generic responses or unrelated information
+- Keep responses conversational and concise (2-3 short paragraphs max)
+- When asked about a specific metric (tempo, pitch, dynamics, etc.), focus on THAT metric with their actual numbers
+- Reference the real data from their performance (scores, BPM, key, etc.)
+- Suggest concrete exercises with specifics (BPM, duration, technique)
+- Always end with encouragement or a practical next step
+
+Example conversation:
+Student: "how is the pitch?"
+You: "{student_name}, your pitch accuracy is really solid! I measured 91% pitch stability, which means you're consistently hitting the right notes. Your intonation score of 87% shows good control, though I noticed a bit of drift on sustained notes.
+
+To tighten this up even more, try practicing with a tuner app - play each note and hold it for 4 counts, making sure it stays dead-center. Start with slow scales at 60 BPM, really listening to each pitch.
+
+You're definitely on the right track - just needs a little fine-tuning!"
+"""
+
+            # Add the analysis context to system prompt if available
+            if analysis_context:
+                feedback = analysis_context.get("feedback", "")
+                audio_metrics = analysis_context.get("audio_analysis", {})
+                
+                # Add a condensed version of feedback (not the whole thing)
+                if feedback:
+                    # Take first 500 chars of feedback as summary
+                    feedback_summary = feedback[:500].strip()
+                    if len(feedback) > 500:
+                        feedback_summary += "..."
+                    system_context += f"\n\n## Feedback Summary:\n{feedback_summary}"
+                    system_context += f"\n\n(Full feedback is available to reference if student asks for more detail)"
+                
+                # Add detailed metrics for easy reference
+                if audio_metrics:
+                    system_context += "\n\n## Detailed Performance Metrics:"
+                    
+                    # Overall
+                    if "overall_score" in audio_metrics:
+                        system_context += f"\n- Overall Score: {audio_metrics['overall_score']}/100"
+                    
+                    # Tempo
+                    if "tempo" in audio_metrics:
+                        system_context += f"\n- Tempo: {audio_metrics['tempo']} BPM"
+                    if "tempo_stability" in audio_metrics:
+                        tempo_scores = audio_metrics.get("tempo_stability", {})
+                        if isinstance(tempo_scores, dict):
+                            system_context += f"\n- Tempo Stability: {tempo_scores.get('tempo_consistency_score', 0)*100:.0f}%"
+                        else:
+                            system_context += f"\n- Tempo Stability: {tempo_scores*100:.0f}%"
+                    
+                    # Pitch/Intonation
+                    pitch_data = audio_metrics.get("pitch_intonation", {})
+                    if pitch_data:
+                        system_context += f"\n- Pitch Stability: {pitch_data.get('pitch_stability_score', 0)*100:.0f}%"
+                        system_context += f"\n- Intonation Quality: {pitch_data.get('intonation_score', 0)*100:.0f}%"
+                    
+                    # Key
+                    if "key" in audio_metrics:
+                        system_context += f"\n- Key: {audio_metrics['key']}"
+                    
+                    # Dynamics
+                    dynamics_data = audio_metrics.get("dynamics", {})
+                    if dynamics_data:
+                        system_context += f"\n- Dynamic Range: {dynamics_data.get('dynamic_range_db', 0):.1f} dB"
+                        system_context += f"\n- Dynamic Contrast: {dynamics_data.get('dynamic_contrast_score', 0)*100:.0f}%"
+                    
+                    # Articulation
+                    articulation_data = audio_metrics.get("articulation", {})
+                    if articulation_data:
+                        system_context += f"\n- Articulation Clarity: {articulation_data.get('clarity_score', 0)*100:.0f}%"
+                    
+                    # Tone Quality
+                    tone_data = audio_metrics.get("tone_quality", {})
+                    if tone_data:
+                        system_context += f"\n- Tone Warmth: {tone_data.get('warmth', 0)*100:.0f}%"
+                        system_context += f"\n- Tone Brightness: {tone_data.get('brightness', 0)*100:.0f}%"
+                    
+                    # Performance Scores
+                    perf_scores = audio_metrics.get("performance_scores", {})
+                    if perf_scores:
+                        system_context += f"\n- Technical Proficiency: {perf_scores.get('technical_proficiency', 0)*100:.0f}%"
+                        system_context += f"\n- Expressiveness: {perf_scores.get('expressiveness', 0)*100:.0f}%"
+                    
+                    # Difficulty
+                    if "difficulty" in audio_metrics:
+                        system_context += f"\n- Difficulty Level: {audio_metrics['difficulty']}"
+
+            
+            # Build conversation messages
+            messages = []
+            
+            # Add conversation history if provided
+            if conversation_history:
+                for msg in conversation_history[-10:]:  # Keep last 10 messages for context
+                    messages.append({
+                        "role": msg.get("role", "user"),
+                        "content": [{"text": msg.get("content", "")}]
+                    })
+            
+            # Add current question
+            messages.append({
+                "role": "user",
+                "content": [{"text": question}]
+            })
+            
+            # Call Claude API
+            response = self.bedrock_runtime.converse(
+                modelId=self.model_id,
+                messages=messages,
+                system=[{"text": system_context}],
+                inferenceConfig={
+                    "maxTokens": 2000,
+                    "temperature": 0.7,
+                    "topP": 0.9
+                }
+            )
+            
+            assistant_response = response['output']['message']['content'][0]['text']
+            
+            return {
+                "success": True,
+                "response": assistant_response,
+                "model": self.model_id
+            }
+            
+        except ClientError as e:
+            error_msg = f"Bedrock API error: {str(e)}"
+            print(f"[ERROR] {error_msg}")
+            return {
+                "success": False,
+                "error": error_msg
+            }
+        except Exception as e:
+            error_msg = f"Unexpected error in chat: {str(e)}"
+            print(f"[ERROR] {error_msg}")
+            return {
+                "success": False,
+                "error": error_msg
+            }
 
 
 # Singleton instance
