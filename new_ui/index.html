@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accordo - Music School Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo" onclick="goToHome()">
+                <img src="RIAM_Logo_Blk.png" alt="RIAM Logo" class="logo-img">
+            </div>
+            <div class="header-actions">
+                <button id="personaBtn" class="persona-btn">
+                    <i class="fas fa-user-graduate"></i>
+                    <span id="personaText">Student</span>
+                </button>
+                <button onclick="performLogout()" class="logout-btn" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Student Dashboard -->
+    <main id="studentDashboard" class="dashboard active">
+        <div class="dashboard-header">
+            <h1>Welcome back, Alex!</h1>
+            <p>Continue your musical journey</p>
+        </div>
+        
+        <div class="dashboard-grid">
+            <div class="card student-passport-card">
+                <div class="passport-header">
+                    <div class="passport-title">
+                        <i class="fas fa-id-card"></i>
+                        <h3>Overview</h3>
+                    </div>
+                    <button class="history-icon-btn" onclick="openProgressHistory()" title="View Progress History">
+                        <i class="fas fa-history"></i>
+                    </button>
+                </div>
+                <div class="passport-info">
+                    <h2>Alex Johnson</h2>
+                    <p class="passport-detail"><i class="fas fa-music"></i> Piano • Intermediate</p>
+                    <p class="passport-detail"><i class="fas fa-calendar"></i> Student since 2023</p>
+                </div>
+                <div class="passport-chart">
+                    <svg viewBox="0 0 200 200" class="pie-chart">
+                        <!-- Technical Skills: 82/324 = 25.3% = 91.8 degrees -->
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#667eea" stroke-width="40" 
+                                stroke-dasharray="143 503" stroke-dashoffset="0" transform="rotate(-90 100 100)"/>
+                        <!-- Compositional: 75/324 = 23.1% = 83.3 degrees -->
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#764ba2" stroke-width="40" 
+                                stroke-dasharray="131 503" stroke-dashoffset="-143" transform="rotate(-90 100 100)"/>
+                        <!-- Repertoire: 88/324 = 27.2% = 97.8 degrees -->
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#48dbfb" stroke-width="40" 
+                                stroke-dasharray="154 503" stroke-dashoffset="-274" transform="rotate(-90 100 100)"/>
+                        <!-- Performing: 79/324 = 24.4% = 87.8 degrees -->
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#1dd1a1" stroke-width="40" 
+                                stroke-dasharray="138 503" stroke-dashoffset="-428" transform="rotate(-90 100 100)"/>
+                        <text x="100" y="95" text-anchor="middle" class="chart-score">81</text>
+                        <text x="100" y="115" text-anchor="middle" class="chart-label">Overall</text>
+                    </svg>
+                </div>
+                <div class="passport-legend">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #667eea;"></span>
+                        <span class="legend-text">Technical Skills: 82</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #764ba2;"></span>
+                        <span class="legend-text">Compositional: 75</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #48dbfb;"></span>
+                        <span class="legend-text">Repertoire: 88</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #1dd1a1;"></span>
+                        <span class="legend-text">Performing: 79</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card lessons-card">
+                <div class="card-header">
+                    <h3>Upcoming Lessons</h3>
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="lesson-item">
+                    <div class="lesson-info">
+                        <h4>Piano Fundamentals</h4>
+                        <p>Today, 3:00 PM</p>
+                    </div>
+                    <div class="lesson-status">
+                        <span class="status-badge upcoming">Upcoming</span>
+                    </div>
+                </div>
+                <div class="lesson-item">
+                    <div class="lesson-info">
+                        <h4>Music Theory</h4>
+                        <p>Tomorrow, 10:00 AM</p>
+                    </div>
+                    <div class="lesson-status">
+                        <span class="status-badge scheduled">Scheduled</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card progress-card">
+                <div class="card-header">
+                    <h3>Practice Progress</h3>
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="progress-item">
+                    <span>This Week</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                    <span>12/16 hours</span>
+                </div>
+                <div class="progress-item">
+                    <span>Monthly Goal</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%"></div>
+                    </div>
+                    <span>48/80 hours</span>
+                </div>
+            </div>
+
+            <div class="card assignments-card">
+                <div class="card-header">
+                    <h3>Assignments</h3>
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="assignment-item clickable" onclick="openAssignmentDetails()">
+                    <div class="assignment-info">
+                        <h4>Scales Practice</h4>
+                        <p>Due: March 15</p>
+                    </div>
+                    <span class="status-badge pending">Pending</span>
+                </div>
+                <div class="assignment-item">
+                    <div class="assignment-info">
+                        <h4>Composition Analysis</h4>
+                        <p>Due: March 20</p>
+                    </div>
+                    <span class="status-badge completed">Completed</span>
+                </div>
+            </div>
+
+            <div class="card quick-actions">
+                <div class="card-header">
+                    <h3>Quick Actions</h3>
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn">
+                        <i class="fas fa-play"></i>
+                        Start Practice
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-book"></i>
+                        View Materials
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-message"></i>
+                        Message Teacher
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Teacher Dashboard -->
+    <main id="teacherDashboard" class="dashboard">
+        <div class="dashboard-header">
+            <h1>Good morning, Professor Smith!</h1>
+            <p>Manage your classes and students</p>
+        </div>
+        
+        <div class="dashboard-grid">
+            <div class="card students-card">
+                <div class="card-header">
+                    <h3>My Students</h3>
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="student-item">
+                    <div class="student-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="student-info">
+                        <h4>Alex Johnson</h4>
+                        <p>Piano • Intermediate</p>
+                    </div>
+                    <div class="student-status">
+                        <span class="status-badge active">Active</span>
+                    </div>
+                </div>
+                <div class="student-item">
+                    <div class="student-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="student-info">
+                        <h4>Emma Davis</h4>
+                        <p>Violin • Beginner</p>
+                    </div>
+                    <div class="student-status">
+                        <span class="status-badge active">Active</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card schedule-card">
+                <div class="card-header">
+                    <h3>Today's Schedule</h3>
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="schedule-item clickable" onclick="openSessionDetails()">
+                    <div class="time-slot">
+                        <span class="time">9:00 AM</span>
+                    </div>
+                    <div class="lesson-details">
+                        <h4>Piano Lesson - Alex Johnson</h4>
+                        <p>Room 101</p>
+                    </div>
+                </div>
+                <div class="schedule-item">
+                    <div class="time-slot">
+                        <span class="time">11:00 AM</span>
+                    </div>
+                    <div class="lesson-details">
+                        <h4>Violin Lesson - Emma Davis</h4>
+                        <p>Room 203</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card performance-card">
+                <div class="card-header">
+                    <h3>Four Pillars - Collective Score (0-100)</h3>
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <p class="collective-description">Average scores across all 24 students</p>
+                <div class="performance-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" style="color: yellow;">80</span>
+                        <span class="stat-label">Technical Skills & Competence</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">78</span>
+                        <span class="stat-label">Compositional & Musicianship</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">92</span>
+                        <span class="stat-label">Repertoire & Cultural Knowledge</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">88</span>
+                        <span class="stat-label">Performing Artistry</span>
+                    </div>
+                </div>
+                <button class="know-more-btn" onclick="openClassReport()">
+                    <i class="fas fa-info-circle"></i>
+                    Know More
+                </button>
+            </div>
+
+            <div class="card teacher-actions">
+                <div class="card-header">
+                    <h3>Quick Actions</h3>
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn">
+                        <i class="fas fa-plus"></i>
+                        Add Assignment
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-calendar-plus"></i>
+                        Schedule Lesson
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-chart-line"></i>
+                        View Reports
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Session Details Page -->
+    <main id="sessionDetails" class="dashboard session-page">
+        <div class="session-header">
+            <button class="back-btn" onclick="closeSessionDetails()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </button>
+            <h1>Session Details</h1>
+        </div>
+        
+        <div class="session-content">
+            <div class="card session-info-card">
+                <div class="card-header">
+                    <h3>Lesson Information</h3>
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="session-info">
+                    <div class="info-item">
+                        <span class="label">Student:</span>
+                        <span class="value">Alex Johnson</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Date:</span>
+                        <span class="value">March 14, 2024</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Time:</span>
+                        <span class="value">9:00 AM - 10:00 AM</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Room:</span>
+                        <span class="value">Room 101</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Instrument:</span>
+                        <span class="value">Piano</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card notes-card">
+                <div class="card-header">
+                    <h3>Lesson Notes</h3>
+                    <i class="fas fa-sticky-note"></i>
+                </div>
+                <div class="notes-content">
+                    <p><strong>Context:</strong> Piano lesson one-to-one, Professor Terese Fahey with student Rachael O'Hara, Olivier Messiaen, Le baiser de l'Enfant-Jésus.</p>
+                    <br>
+                    <p><strong>Professor:</strong> This piece is about the infant Jesus, and later the idea of love surrounding us, especially in the F sharp major section, Messiaen's "key of ecstasy".</p>
+                    <br>
+                    <p><strong>Professor:</strong> Be careful with the accents, sometimes the accents are underneath, in the inner voices, not in the melodic line.</p>
+                    <br>
+                    <p><strong>Professor:</strong> Let's go from the beginning. Instead of starting too directly, can you fade into the sound?</p>
+                    <br>
+                    <p>[Student plays]</p>
+                    <br>
+                    <p><strong>Professor:</strong> I hear the baby breathing, the intake of breath, then the exhalation. Connect it so it becomes one long phrase, not two separate phrases. Make every note speak.</p>
+                    <br>
+                    <p><strong>Professor:</strong> When you see diminuendo, it does not mean "suddenly soft". Keep the underlying dynamic, do not come down too soon.</p>
+                    <br>
+                    <p><strong>Professor:</strong> Messiaen's sound world is far removed from Debussy. You need a slightly pinging, metallic clarity, like a triangle in an orchestra. Your fifth finger needs to curve more, like a pizzicato on a violin.</p>
+                    <br>
+                    <p><strong>Professor:</strong> Going into the big crescendo, hold back. Promise the dynamic, but do not give it yet, that creates tension, then we erupt.</p>
+                    <br>
+                    <p><strong>Professor:</strong> Then we arrive at the moment of ecstasy, F sharp major, it says avec amour, "with love". Do not sanitise what comes before, I want more drive into it.</p>
+                    <br>
+                    <p>[Student plays]</p>
+                    <br>
+                    <p><strong>Professor:</strong> Much better. Those arpeggios should be like little pinpricks of light, like fireworks. There has to be life in each note.</p>
+                </div>
+                <button id="processNotesBtn" class="process-btn" onclick="processNotes()">
+                    <i class="fas fa-cogs"></i>
+                    Process Notes and Create Assessment
+                </button>
+            </div>
+
+            <div id="processingAnimation" class="processing-animation" style="display: none;">
+                <div class="spinner"></div>
+                <p>Processing notes and generating tasks...</p>
+            </div>
+
+            <div id="tasksCard" class="card tasks-card" style="display: none;">
+                <div class="card-header">
+                    <h3>Generated Tasks</h3>
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="tasks-list">
+                    <div class="task-item">
+                        <span class="task-number">1.</span>
+                        <span class="task-text">Compare two recordings of Messiaen's and Debussy.</span>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-number">2.</span>
+                        <span class="task-text">Fix the fingertip control (Upload the video).</span>
+                    </div>
+                </div>
+                <div class="task-actions">
+                    <button class="task-btn edit-btn">
+                        <i class="fas fa-edit"></i>
+                        Edit
+                    </button>
+                    <button class="task-btn approve-btn" onclick="approveAndAssign()">
+                        <i class="fas fa-check"></i>
+                        Approve & Assign
+                    </button>
+                </div>
+            </div>
+
+            <div id="successMessage" class="success-message" style="display: none;">
+                <div class="success-content">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Tasks Successfully Assigned!</h3>
+                    <p>The assignments have been sent to Alex Johnson and will appear in their dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+
+    <!-- Assignment Details Page -->
+    <main id="assignmentDetails" class="dashboard session-page">
+        <div class="session-header">
+            <button class="back-btn" onclick="closeAssignmentDetails()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </button>
+            <h1>Assignment: Scales Practice</h1>
+        </div>
+        
+        <div class="session-content">
+            <div class="card assignment-tasks-card">
+                <div class="card-header">
+                    <h3>Assignment Tasks</h3>
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="tasks-list">
+                    <div class="task-item">
+                        <span class="task-number">1.</span>
+                        <span class="task-text">Listen to Chopin Master Vol 1. Upload a PDF document with your listening notes and analysis</span>
+                        <div class="task-upload-section">
+                            <input type="file" id="pdfUpload" accept=".pdf" style="display: none;" onchange="handleFileUpload('pdf')">
+                            <button class="upload-btn compact" onclick="document.getElementById('pdfUpload').click()">
+                                <i class="fas fa-upload"></i>
+                                <span>Upload PDF</span>
+                            </button>
+                            <div id="pdfStatus" class="upload-status"></div>
+                        </div>
+                    </div>
+                    <div class="task-item">
+                        <span class="task-number">2.</span>
+                        <span class="task-text">Practice scales for 2 hours. Upload a recording of your scale practice session</span>
+                        <div class="task-upload-section">
+                            <input type="file" id="audioUpload" accept=".mp3,.wav,.m4a,.ogg,.flac" style="display: none;" onchange="handleFileUpload('audio')">
+                            <button class="upload-btn compact" onclick="document.getElementById('audioUpload').click()">
+                                <i class="fas fa-upload"></i>
+                                <span>Upload Audio</span>
+                            </button>
+                            <div id="audioStatus" class="upload-status"></div>
+                        </div>
+                    </div>
+                </div>
+                <button id="submitAssignment" class="submit-btn" style="display: none;" onclick="submitAssignment()">
+                    <i class="fas fa-paper-plane"></i>
+                    Submit Assignment
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- AI Analysis Page -->
+    <main id="aiAnalysis" class="dashboard session-page">
+        <div id="analysisAnimation" class="analysis-animation">
+            <div class="ai-brain">
+                <div class="brain-wave"></div>
+                <div class="brain-wave"></div>
+                <div class="brain-wave"></div>
+            </div>
+            <h2>AI Analyzing Your Submission...</h2>
+            <p>Processing audio and document files</p>
+            <div class="analysis-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill analysis-progress-fill"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="analysisResults" class="session-content" style="display: none;">
+            <div class="session-header">
+                <button class="back-btn" onclick="closeAnalysisResults()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
+                <h1>Assignment Results</h1>
+            </div>
+            
+            <div class="card results-card">
+                <div class="card-header">
+                    <h3>Four Pillars Assessment (0-100)</h3>
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="results-stats">
+                    <div class="result-item">
+                        <span class="result-number">82</span>
+                        <span class="result-label">Technical Skills & Competence</span>
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 82%"></div>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-number">75</span>
+                        <span class="result-label">Compositional & Musicianship</span>
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-number">88</span>
+                        <span class="result-label">Repertoire & Cultural Knowledge</span>
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 88%"></div>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-number">79</span>
+                        <span class="result-label">Performing Artistry</span>
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 79%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="overall-score">
+                    <h3>Overall Score: 81/100</h3>
+                    <p>Excellent work! Your scale practice shows strong technical foundation.</p>
+                    <button class="chat-btn" onclick="openAIChat()">
+                        <i class="fas fa-comments"></i>
+                        Help me understand my score
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- AI Chat Interface -->
+    <div id="aiChatOverlay" class="chat-overlay" style="display: none;">
+        <div class="chat-container">
+            <div class="chat-header">
+                <h3>AI Assessment Assistant</h3>
+                <button class="close-chat" onclick="closeAIChat()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai-message">
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <p>Hi! I've analyzed your performance and I'm here to help you understand your scores. What would you like to know?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chatInput" placeholder="Ask me about your scores..." onkeypress="handleChatKeyPress(event)">
+                <button class="send-btn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Coach Analysis Page -->
+    <main id="aiCoachPage" class="dashboard session-page">
+        <div class="session-header">
+            <button class="back-btn" onclick="closeAICoach()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Assignment
+            </button>
+            <h1>AI Music Coach</h1>
+        </div>
+        
+        <div class="session-content">
+            <!-- Upload and Context Form -->
+            <div id="aiCoachForm" class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-music"></i> Performance Analysis</h3>
+                </div>
+                
+                <div style="padding: 1rem;">
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #333;">
+                            <i class="fas fa-file-audio"></i> Audio Recording
+                        </label>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <input type="file" id="aiCoachAudioInput" accept=".mp3,.wav,.m4a,.ogg" style="display: none;" onchange="handleAICoachAudioSelect()">
+                            <button class="upload-btn" onclick="document.getElementById('aiCoachAudioInput').click()">
+                                <i class="fas fa-upload"></i>
+                                Select Audio File
+                            </button>
+                            <span id="aiCoachAudioName" style="color: #666; font-size: 0.9rem;"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label for="aiCoachPieceName" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #333;">
+                            <i class="fas fa-sheet-music"></i> Piece Name (Optional)
+                        </label>
+                        <input 
+                            type="text" 
+                            id="aiCoachPieceName" 
+                            class="form-input"
+                            placeholder="e.g., Prelude in C Major"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;"
+                        >
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label for="aiCoachComposer" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #333;">
+                            <i class="fas fa-user"></i> Composer (Optional)
+                        </label>
+                        <input 
+                            type="text" 
+                            id="aiCoachComposer" 
+                            class="form-input"
+                            placeholder="e.g., J.S. Bach"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;"
+                        >
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label for="aiCoachNotes" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #333;">
+                            <i class="fas fa-comment"></i> Your Notes/Questions (Optional)
+                        </label>
+                        <textarea 
+                            id="aiCoachNotes" 
+                            class="form-input"
+                            placeholder="Any specific areas you'd like feedback on?"
+                            rows="3"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; resize: vertical; font-family: 'Inter', sans-serif;"
+                        ></textarea>
+                    </div>
+
+                    <button id="aiCoachAnalyzeBtn" class="submit-btn" onclick="startAICoachAnalysis()" style="margin: 0; width: 100%;">
+                        <i class="fas fa-brain"></i>
+                        Analyze My Performance
+                    </button>
+                </div>
+            </div>
+
+            <!-- Analysis Loading -->
+            <div id="aiCoachLoading" class="card" style="display: none;">
+                <div class="analysis-animation" style="padding: 3rem;">
+                    <div class="ai-brain">
+                        <div class="brain-wave"></div>
+                        <div class="brain-wave"></div>
+                        <div class="brain-wave"></div>
+                    </div>
+                    <h2>AI Analyzing Your Performance...</h2>
+                    <p>Extracting musical features and generating personalized feedback</p>
+                    <div class="analysis-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill analysis-progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Display -->
+            <div id="aiCoachResults" style="display: none;">
+                <!-- Scores Card -->
+                <div class="card results-card">
+                    <div class="card-header">
+                        <h3>Performance Scores</h3>
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="results-stats" id="aiCoachScores">
+                        <!-- Scores will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Feedback Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-comment-dots"></i> AI Coach Feedback</h3>
+                        <button class="chat-btn" onclick="openAIChat()" style="margin: 0;">
+                            <i class="fas fa-comments"></i>
+                            Ask Questions
+                        </button>
+                    </div>
+                    <div id="aiCoachFeedbackContent" style="padding: 1.5rem; line-height: 1.8; white-space: pre-wrap; font-size: 0.95rem;">
+                        <!-- Feedback will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Class Report Page -->
+    <main id="classReport" class="dashboard session-page">
+        <div class="session-header">
+            <button class="back-btn" onclick="closeClassReport()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </button>
+            <h1>Class Performance Report</h1>
+        </div>
+        
+        <div class="session-content">
+            <div class="card report-summary-card">
+                <div class="card-header">
+                    <h3>Class Overview</h3>
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="report-stats">
+                    <div class="report-stat">
+                        <span class="stat-value">24</span>
+                        <span class="stat-desc">Total Students</span>
+                    </div>
+                    <div class="report-stat">
+                        <span class="stat-value">81.25</span>
+                        <span class="stat-desc">Overall Average</span>
+                    </div>
+                    <div class="report-stat">
+                        <span class="stat-value">89%</span>
+                        <span class="stat-desc">Above 70 Score</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card detailed-breakdown-card">
+                <div class="card-header">
+                    <h3>Detailed Four Pillars Breakdown</h3>
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="breakdown-item">
+                    <div class="breakdown-header">
+                        <h4>Technical Skills & Competence</h4>
+                        <span class="breakdown-score">85/100</span>
+                    </div>
+                    <div class="breakdown-details">
+                        <p><strong>Highest:</strong> 96 (Emma Davis) | <strong>Lowest:</strong> 72 (Michael Chen)</p>
+                        <p><strong>Trend:</strong> +3.2 points from last month</p>
+                    </div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="breakdown-header">
+                        <h4>Compositional & Musicianship</h4>
+                        <span class="breakdown-score">78/100</span>
+                    </div>
+                    <div class="breakdown-details">
+                        <p><strong>Highest:</strong> 91 (Sarah Wilson) | <strong>Lowest:</strong> 65 (Tom Rodriguez)</p>
+                        <p><strong>Trend:</strong> -1.8 points from last month</p>
+                    </div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="breakdown-header">
+                        <h4>Repertoire & Cultural Knowledge</h4>
+                        <span class="breakdown-score">92/100</span>
+                    </div>
+                    <div class="breakdown-details">
+                        <p><strong>Highest:</strong> 98 (Alex Johnson) | <strong>Lowest:</strong> 84 (Lisa Park)</p>
+                        <p><strong>Trend:</strong> +5.1 points from last month</p>
+                    </div>
+                </div>
+                <div class="breakdown-item">
+                    <div class="breakdown-header">
+                        <h4>Performing Artistry</h4>
+                        <span class="breakdown-score">88/100</span>
+                    </div>
+                    <div class="breakdown-details">
+                        <p><strong>Highest:</strong> 95 (Maria Garcia) | <strong>Lowest:</strong> 79 (David Kim)</p>
+                        <p><strong>Trend:</strong> +2.7 points from last month</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Progress History Page -->
+    <main id="progressHistory" class="dashboard session-page">
+        <div class="session-header">
+            <button class="back-btn" onclick="closeProgressHistory()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </button>
+            <h1>Progress History</h1>
+        </div>
+        
+        <div class="session-content">
+            <div class="card history-chart-card">
+                <div class="card-header">
+                    <h3>Four Pillars Progress - Last 10 Assessments</h3>
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="chart-container">
+                    <svg id="progressChart" viewBox="0 0 800 400" class="progress-chart">
+                        <!-- Grid lines -->
+                        <line x1="60" y1="50" x2="60" y2="350" stroke="#ddd" stroke-width="2"/>
+                        <line x1="60" y1="350" x2="760" y2="350" stroke="#ddd" stroke-width="2"/>
+                        
+                        <!-- Y-axis labels -->
+                        <text x="40" y="55" text-anchor="end" class="axis-label">100</text>
+                        <text x="40" y="125" text-anchor="end" class="axis-label">80</text>
+                        <text x="40" y="200" text-anchor="end" class="axis-label">60</text>
+                        <text x="40" y="275" text-anchor="end" class="axis-label">40</text>
+                        <text x="40" y="350" text-anchor="end" class="axis-label">20</text>
+                        
+                        <!-- Horizontal grid lines -->
+                        <line x1="60" y1="50" x2="760" y2="50" stroke="#f0f0f0" stroke-width="1"/>
+                        <line x1="60" y1="125" x2="760" y2="125" stroke="#f0f0f0" stroke-width="1"/>
+                        <line x1="60" y1="200" x2="760" y2="200" stroke="#f0f0f0" stroke-width="1"/>
+                        <line x1="60" y1="275" x2="760" y2="275" stroke="#f0f0f0" stroke-width="1"/>
+                        
+                        <!-- Technical Skills Line -->
+                        <polyline points="130,230 200,220 270,225 340,210 410,205 480,195 550,185 620,190 690,175 760,165" 
+                                  fill="none" stroke="#667eea" stroke-width="3" class="chart-line" data-pillar="technical"/>
+                        
+                        <!-- Compositional Line -->
+                        <polyline points="130,260 200,255 270,245 340,250 410,235 480,230 550,220 620,225 690,210 760,200" 
+                                  fill="none" stroke="#764ba2" stroke-width="3" class="chart-line" data-pillar="compositional"/>
+                        
+                        <!-- Repertoire Line -->
+                        <polyline points="130,200 200,190 270,195 340,180 410,175 480,170 550,160 620,165 690,150 760,140" 
+                                  fill="none" stroke="#48dbfb" stroke-width="3" class="chart-line" data-pillar="repertoire"/>
+                        
+                        <!-- Performing Line -->
+                        <polyline points="130,245 200,240 270,235 340,230 410,220 480,225 550,210 620,205 690,195 760,185" 
+                                  fill="none" stroke="#1dd1a1" stroke-width="3" class="chart-line" data-pillar="performing"/>
+                        
+                        <!-- Data points -->
+                        <circle cx="130" cy="230" r="5" fill="#667eea" class="data-point" data-value="62" data-date="Jan 15"/>
+                        <circle cx="200" cy="220" r="5" fill="#667eea" class="data-point" data-value="65" data-date="Jan 29"/>
+                        <circle cx="270" cy="225" r="5" fill="#667eea" class="data-point" data-value="64" data-date="Feb 12"/>
+                        <circle cx="340" cy="210" r="5" fill="#667eea" class="data-point" data-value="69" data-date="Feb 26"/>
+                        <circle cx="410" cy="205" r="5" fill="#667eea" class="data-point" data-value="71" data-date="Mar 11"/>
+                        <circle cx="480" cy="195" r="5" fill="#667eea" class="data-point" data-value="74" data-date="Mar 25"/>
+                        <circle cx="550" cy="185" r="5" fill="#667eea" class="data-point" data-value="77" data-date="Apr 8"/>
+                        <circle cx="620" cy="190" r="5" fill="#667eea" class="data-point" data-value="76" data-date="Apr 22"/>
+                        <circle cx="690" cy="175" r="5" fill="#667eea" class="data-point" data-value="81" data-date="May 6"/>
+                        <circle cx="760" cy="165" r="5" fill="#667eea" class="data-point" data-value="84" data-date="May 20"/>
+                        
+                        <!-- X-axis labels -->
+                        <text x="130" y="370" text-anchor="middle" class="axis-label">1</text>
+                        <text x="200" y="370" text-anchor="middle" class="axis-label">2</text>
+                        <text x="270" y="370" text-anchor="middle" class="axis-label">3</text>
+                        <text x="340" y="370" text-anchor="middle" class="axis-label">4</text>
+                        <text x="410" y="370" text-anchor="middle" class="axis-label">5</text>
+                        <text x="480" y="370" text-anchor="middle" class="axis-label">6</text>
+                        <text x="550" y="370" text-anchor="middle" class="axis-label">7</text>
+                        <text x="620" y="370" text-anchor="middle" class="axis-label">8</text>
+                        <text x="690" y="370" text-anchor="middle" class="axis-label">9</text>
+                        <text x="760" y="370" text-anchor="middle" class="axis-label">10</text>
+                    </svg>
+                    <div id="chartTooltip" class="chart-tooltip"></div>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item-chart">
+                        <span class="legend-line" style="background: #667eea;"></span>
+                        <span>Technical Skills & Competence</span>
+                    </div>
+                    <div class="legend-item-chart">
+                        <span class="legend-line" style="background: #764ba2;"></span>
+                        <span>Compositional & Musicianship</span>
+                    </div>
+                    <div class="legend-item-chart">
+                        <span class="legend-line" style="background: #48dbfb;"></span>
+                        <span>Repertoire & Cultural Knowledge</span>
+                    </div>
+                    <div class="legend-item-chart">
+                        <span class="legend-line" style="background: #1dd1a1;"></span>
+                        <span>Performing Artistry</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
