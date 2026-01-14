@@ -134,12 +134,14 @@ class RiamLmsStack(Stack):
                     "bedrock:ConverseStream",
                 ],
                 resources=[
-                    # Allow all foundation models in all regions (for flexibility)
-                    f"arn:aws:bedrock:*::foundation-model/*",
+                    # Allow all foundation models in all regions
+                    "arn:aws:bedrock:*::foundation-model/*",
+                    # Allow cross-region inference profiles (us.* prefix)
+                    f"arn:aws:bedrock:{self.region}:{self.account}:inference-profile/us.*",
                     # Allow inference profiles in this region
                     f"arn:aws:bedrock:{self.region}:{self.account}:inference-profile/*",
-                    # Allow global inference profiles
-                    f"arn:aws:bedrock:*::inference-profile/*"
+                    # Allow system-defined inference profiles
+                    "arn:aws:bedrock:*::inference-profile/*"
                 ],
             )
         )

@@ -50,8 +50,8 @@ class BedrockService:
                     region_name=settings.aws_region,
                     config=bedrock_config
                 )
-            elif settings.aws_profile:
-                # Local development with AWS profile
+            elif settings.aws_profile and settings.aws_profile.strip():
+                # Local development with AWS profile (only if non-empty)
                 print(f"[INFO] Using AWS profile: {settings.aws_profile}")
                 session = boto3.Session(
                     profile_name=settings.aws_profile,
@@ -73,7 +73,7 @@ class BedrockService:
                     config=bedrock_config
                 )
             else:
-                # Fallback to default credential chain
+                # Fallback to default credential chain (IAM role in ECS, or default profile locally)
                 print("[INFO] Using default AWS credential chain")
                 self.bedrock_runtime = boto3.client(
                     'bedrock-runtime',

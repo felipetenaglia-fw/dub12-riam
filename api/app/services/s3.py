@@ -24,8 +24,8 @@ class S3Service:
                 # Running in ECS/Lambda - use IAM role automatically
                 print("[INFO] S3: Running in AWS environment - using IAM role credentials")
                 self.s3_client = boto3.client('s3', region_name=settings.aws_region)
-            elif settings.aws_profile:
-                # Local development with AWS profile
+            elif settings.aws_profile and settings.aws_profile.strip():
+                # Local development with AWS profile (only if non-empty)
                 print(f"[INFO] S3: Using AWS profile: {settings.aws_profile}")
                 session = boto3.Session(
                     profile_name=settings.aws_profile,
@@ -42,7 +42,7 @@ class S3Service:
                     aws_secret_access_key=settings.aws_secret_access_key
                 )
             else:
-                # Fallback to default credential chain
+                # Fallback to default credential chain (IAM role in ECS, or default profile locally)
                 print("[INFO] S3: Using default AWS credential chain")
                 self.s3_client = boto3.client('s3', region_name=settings.aws_region)
             
