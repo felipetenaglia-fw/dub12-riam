@@ -47,7 +47,7 @@
                     </button>
                 </div>
                 <div class="passport-info">
-                    <h2>Alex Johnson</h2>
+                    <h2>Emma Walsh</h2>
                     <p class="passport-detail"><i class="fas fa-music"></i> Piano • Intermediate</p>
                     <p class="passport-detail"><i class="fas fa-calendar"></i> Student since 2023</p>
                 </div>
@@ -197,7 +197,7 @@
                         <i class="fas fa-user"></i>
                     </div>
                     <div class="student-info">
-                        <h4>Alex Johnson</h4>
+                        <h4>Emma Walsh</h4>
                         <p>Piano • Intermediate</p>
                     </div>
                     <div class="student-status">
@@ -291,6 +291,34 @@
                         <i class="fas fa-chart-line"></i>
                         View Reports
                     </button>
+                </div>
+            </div>
+
+            <!-- Student Assignments Pending Review -->
+            <div class="card student-assignments-card">
+                <div class="card-header">
+                    <h3>Student Assignments</h3>
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <div id="pendingAssignmentsList">
+                    <!-- Dynamic entries will be added here -->
+                    <div class="assignment-review-item clickable" onclick="openStudentAssessmentReview()">
+                        <div class="assignment-review-info">
+                            <div class="student-avatar-small">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="assignment-review-details">
+                                <h4>Emma Walsh</h4>
+                                <p>Scales Practice - Audio Recording</p>
+                                <span class="submission-time">Submitted just now</span>
+                            </div>
+                        </div>
+                        <span class="status-badge pending-review">Pending Review</span>
+                    </div>
+                </div>
+                <div id="noAssignmentsMessage" style="display: none; text-align: center; padding: 2rem; color: #999;">
+                    <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                    <p>No pending assignments</p>
                 </div>
             </div>
         </div>
@@ -641,9 +669,9 @@
                         ></textarea>
                     </div>
 
-                    <button id="aiCoachAnalyzeBtn" class="submit-btn" onclick="startAICoachAnalysis()" style="margin: 0; width: 100%;">
-                        <i class="fas fa-brain"></i>
-                        Analyze My Performance
+                    <button id="aiCoachAnalyzeBtn" class="submit-btn" onclick="submitForTeacherReview()" style="margin: 0; width: 100%;">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit for Teacher Review
                     </button>
                 </div>
             </div>
@@ -656,8 +684,8 @@
                         <div class="brain-wave"></div>
                         <div class="brain-wave"></div>
                     </div>
-                    <h2>AI Analyzing Your Performance...</h2>
-                    <p>Extracting musical features and generating personalized feedback</p>
+                    <h2>Submitting for Review...</h2>
+                    <p>Uploading your recording to your teacher</p>
                     <div class="analysis-progress">
                         <div class="progress-bar">
                             <div class="progress-fill analysis-progress-fill"></div>
@@ -691,6 +719,43 @@
                     <div id="aiCoachFeedbackContent" style="padding: 1.5rem; line-height: 1.8; white-space: pre-wrap; font-size: 0.95rem;">
                         <!-- Feedback will be inserted here -->
                     </div>
+                </div>
+            </div>
+
+            <!-- Submission Success Message -->
+            <div id="aiCoachSubmissionSuccess" style="display: none;">
+                <div class="card" style="text-align: center; padding: 3rem;">
+                    <div style="font-size: 4rem; color: #28a745; margin-bottom: 1rem;">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2 style="color: #333; margin-bottom: 1rem;">Recording Submitted Successfully!</h2>
+                    <p style="color: #666; font-size: 1.1rem; margin-bottom: 2rem;">
+                        Your recording has been submitted to your teacher for review.<br>
+                        You will receive feedback once your teacher has assessed your performance.
+                    </p>
+                    <div style="background: #f8f9fa; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+                        <div style="display: flex; justify-content: space-around; text-align: center;">
+                            <div>
+                                <i class="fas fa-music" style="font-size: 1.5rem; color: #667eea; margin-bottom: 0.5rem;"></i>
+                                <p style="font-weight: 600; color: #333;" id="submittedFileName">Recording.mp3</p>
+                                <p style="font-size: 0.85rem; color: #999;">File Submitted</p>
+                            </div>
+                            <div>
+                                <i class="fas fa-clock" style="font-size: 1.5rem; color: #f39c12; margin-bottom: 0.5rem;"></i>
+                                <p style="font-weight: 600; color: #333;">Pending Review</p>
+                                <p style="font-size: 0.85rem; color: #999;">Status</p>
+                            </div>
+                            <div>
+                                <i class="fas fa-user-tie" style="font-size: 1.5rem; color: #764ba2; margin-bottom: 0.5rem;"></i>
+                                <p style="font-weight: 600; color: #333;">Professor Smith</p>
+                                <p style="font-size: 0.85rem; color: #999;">Assigned Teacher</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="submit-btn" onclick="returnToStudentDashboard()" style="margin: 0 auto;">
+                        <i class="fas fa-home"></i>
+                        Return to Dashboard
+                    </button>
                 </div>
             </div>
         </div>
@@ -870,6 +935,219 @@
                     <div class="legend-item-chart">
                         <span class="legend-line" style="background: #1dd1a1;"></span>
                         <span>Performing Artistry</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Student Assessment Review Page (Teacher View) -->
+    <main id="studentAssessmentReview" class="dashboard session-page">
+        <div class="session-header">
+            <button class="back-btn" onclick="closeStudentAssessmentReview()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </button>
+            <h1>Student Assessment Review</h1>
+        </div>
+        
+        <div class="session-content">
+            <!-- Student Info Card -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div class="card-header">
+                    <h3><i class="fas fa-user-graduate"></i> Student Submission</h3>
+                    <span class="status-badge pending-review">Pending Review</span>
+                </div>
+                <div style="padding: 1rem; display: flex; align-items: center; gap: 1.5rem;">
+                    <div class="student-avatar" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin: 0 0 0.25rem 0; color: #333;">Alex Johnson</h4>
+                        <p style="margin: 0; color: #666;">Piano • Intermediate</p>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem; color: #999;">
+                            <i class="fas fa-clock"></i> Submitted: Just now
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scores Card -->
+            <div class="card results-card">
+                <div class="card-header">
+                    <h3>Performance Scores</h3>
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="results-stats">
+                    <!-- Overall Scores Summary -->
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                        <div style="text-align: center; padding: 1.5rem; background: rgba(102, 126, 234, 0.1); border-radius: 12px;">
+                            <div style="font-size: 2.5rem; font-weight: 700; color: #667eea; margin-bottom: 0.25rem;">68</div>
+                            <div style="font-size: 0.9rem; color: #666;">Overall Score</div>
+                        </div>
+                        <div style="text-align: center; padding: 1.5rem; background: rgba(40, 167, 69, 0.1); border-radius: 12px;">
+                            <div style="font-size: 2.5rem; font-weight: 700; color: #28a745; margin-bottom: 0.25rem;">63</div>
+                            <div style="font-size: 0.9rem; color: #666;">Technical</div>
+                        </div>
+                        <div style="text-align: center; padding: 1.5rem; background: rgba(118, 75, 162, 0.1); border-radius: 12px;">
+                            <div style="font-size: 2.5rem; font-weight: 700; color: #764ba2; margin-bottom: 0.25rem;">74</div>
+                            <div style="font-size: 0.9rem; color: #666;">Expression</div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Metrics Grid -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem;">
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-size: 0.75rem; color: #666; margin-bottom: 0.25rem;">Tempo</div>
+                            <div style="font-weight: 600; font-size: 1rem;">133 BPM</div>
+                            <div style="font-size: 0.75rem; color: #999;">Allegro (fast, bright)</div>
+                        </div>
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-size: 0.75rem; color: #666; margin-bottom: 0.25rem;">Tempo Stability</div>
+                            <div style="font-weight: 600; font-size: 1rem;">93%</div>
+                            <div style="width: 100%; height: 4px; background: #e0e0e0; border-radius: 2px; margin-top: 0.25rem;">
+                                <div style="width: 93%; height: 100%; background: #667eea; border-radius: 2px;"></div>
+                            </div>
+                        </div>
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-size: 0.75rem; color: #666; margin-bottom: 0.25rem;">Key</div>
+                            <div style="font-weight: 600; font-size: 1rem;">A#</div>
+                        </div>
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-size: 0.75rem; color: #666; margin-bottom: 0.25rem;">Pitch Stability</div>
+                            <div style="font-weight: 600; font-size: 1rem;">64%</div>
+                            <div style="width: 100%; height: 4px; background: #e0e0e0; border-radius: 2px; margin-top: 0.25rem;">
+                                <div style="width: 64%; height: 100%; background: #28a745; border-radius: 2px;"></div>
+                            </div>
+                        </div>
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-size: 0.75rem; color: #666; margin-bottom: 0.25rem;">Dynamic Range</div>
+                            <div style="font-weight: 600; font-size: 1rem;">63.2 dB</div>
+                            <div style="font-size: 0.75rem; color: #999;">Exceptional (ppp-fff)</div>
+                        </div>
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-size: 0.75rem; color: #666; margin-bottom: 0.25rem;">Dynamic Contrast</div>
+                            <div style="font-weight: 600; font-size: 1rem;">21%</div>
+                            <div style="width: 100%; height: 4px; background: #e0e0e0; border-radius: 2px; margin-top: 0.25rem;">
+                                <div style="width: 21%; height: 100%; background: #764ba2; border-radius: 2px;"></div>
+                            </div>
+                        </div>
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-size: 0.75rem; color: #666; margin-bottom: 0.25rem;">Articulation</div>
+                            <div style="font-weight: 600; font-size: 1rem; text-transform: capitalize;">staccato</div>
+                        </div>
+                        <div style="padding: 0.75rem; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-size: 0.75rem; color: #666; margin-bottom: 0.25rem;">Tone Quality</div>
+                            <div style="font-weight: 600; font-size: 1rem; text-transform: capitalize;">tonal</div>
+                        </div>
+                    </div>
+
+                    <!-- Performance Level and Difficulty -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: rgba(0, 177, 211, 0.05); border-radius: 8px; margin-bottom: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 0.9rem; color: #666;">Performance Level:</span>
+                            <span style="padding: 0.5rem 1rem; background: rgba(102, 126, 234, 0.15); color: #667eea; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">Proficient</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 0.9rem; color: #666;">Difficulty:</span>
+                            <span style="padding: 0.5rem 1rem; background: rgba(255, 193, 7, 0.15); color: #f39c12; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">Intermediate (Grade 3-5)</span>
+                        </div>
+                    </div>
+
+                    <!-- Four Pillars Scores -->
+                    <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: #333;">Four Pillars Assessment</h4>
+                    <div class="result-item">
+                        <span class="result-number">63</span>
+                        <span class="result-label">Technical Skills & Competence</span>
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 63%"></div>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-number">81</span>
+                        <span class="result-label">Compositional & Musicianship</span>
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 81%"></div>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-number">48</span>
+                        <span class="result-label">Repertoire & Cultural Knowledge</span>
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 48%"></div>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-number">74</span>
+                        <span class="result-label">Performing Artistry</span>
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 74%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Coach Feedback Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-comment-dots"></i> AI Coach Feedback</h3>
+                </div>
+                <div style="padding: 1.5rem; line-height: 1.8; font-size: 0.95rem; max-height: 400px; overflow-y: auto;">
+                    <h4 style="color: #667eea; margin-bottom: 1rem;">RIAM Practice Recording Assessment</h4>
+                    
+                    <h5 style="margin-top: 1.5rem; color: #333;">1. Opening: What You Did Well</h5>
+                    <p>Excellent work on this recording! Your tempo stability at 93% is truly impressive—you've developed a strong internal pulse that keeps the music grounded and secure. Your harmonic content score of 93% tells me you're producing a rich, resonant tone with excellent fundamental pitch, and your expressiveness rating of 74% shows you're already thinking musically beyond just the notes.</p>
+                    
+                    <h5 style="margin-top: 1.5rem; color: #333;">2. Technical Breakdown</h5>
+                    
+                    <h6 style="margin-top: 1rem; color: #667eea;">Rhythm & Tempo (Stability: 93% | Regularity: 52%)</h6>
+                    <p><strong>What the data shows:</strong> While your overall tempo is rock-solid (93% stability—excellent!), your rhythm regularity at 52% indicates inconsistencies in note durations and rhythmic accuracy within that steady pulse.</p>
+                    
+                    <h6 style="margin-top: 1rem; color: #667eea;">Intonation & Pitch (Stability: 64% | Harmonic Content: 93%)</h6>
+                    <p><strong>What the data shows:</strong> Your 93% harmonic content is excellent—you're producing a rich, resonant tone with strong overtones. However, your pitch stability at 64% suggests you're experiencing tuning drift or inconsistent intonation across registers.</p>
+                    
+                    <h5 style="margin-top: 1.5rem; color: #333;">4. Your Biggest Strengths</h5>
+                    <ul style="margin-left: 1.5rem;">
+                        <li><strong>Exceptional Tempo Stability (93%)</strong> - Your internal sense of pulse is outstanding.</li>
+                        <li><strong>Outstanding Harmonic Content (93%)</strong> - You're producing a resonant, rich tone.</li>
+                        <li><strong>Impressive Dynamic Range (63.2dB)</strong> - You have the physical capability to produce everything from whisper-soft to very loud playing.</li>
+                    </ul>
+                    
+                    <h5 style="margin-top: 1.5rem; color: #333;">5. Priority Improvements</h5>
+                    <ul style="margin-left: 1.5rem;">
+                        <li><strong>Attack Clarity (43%)</strong> - Your note beginnings lack definition and precision.</li>
+                        <li><strong>Rhythm Regularity (52%)</strong> - Individual note durations are inconsistent.</li>
+                        <li><strong>Pitch Stability (64%)</strong> - Your intonation wanders, creating tuning inconsistencies.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Teacher Actions -->
+            <div class="card" style="margin-top: 1.5rem;">
+                <div class="card-header">
+                    <h3><i class="fas fa-edit"></i> Teacher Actions</h3>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #333;">
+                            Additional Comments (Optional)
+                        </label>
+                        <textarea 
+                            id="teacherComments"
+                            placeholder="Add your personal feedback or notes for the student..."
+                            rows="4"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; resize: vertical; font-family: 'Inter', sans-serif;"
+                        ></textarea>
+                    </div>
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button class="task-btn edit-btn" onclick="closeStudentAssessmentReview()">
+                            <i class="fas fa-times"></i>
+                            Cancel
+                        </button>
+                        <button class="task-btn approve-btn" onclick="approveStudentAssessment()">
+                            <i class="fas fa-check"></i>
+                            Approve & Send to Student
+                        </button>
                     </div>
                 </div>
             </div>

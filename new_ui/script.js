@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Helper function to hide all pages
 function hideAllPages() {
-    const allPages = ['studentDashboard', 'teacherDashboard', 'sessionDetails', 'assignmentDetails', 'aiAnalysis', 'classReport', 'progressHistory', 'aiCoachPage'];
+    const allPages = ['studentDashboard', 'teacherDashboard', 'sessionDetails', 'assignmentDetails', 'aiAnalysis', 'classReport', 'progressHistory', 'aiCoachPage', 'studentAssessmentReview'];
     allPages.forEach(pageId => {
         const page = document.getElementById(pageId);
         if (page) {
@@ -1082,4 +1082,200 @@ function initializeChartInteractivity() {
             tooltip.classList.remove('show');
         });
     });
+}
+
+// ==========================================
+// Teacher Review Flow Functions
+// ==========================================
+
+// Submit recording for teacher review (instead of AI analysis)
+async function submitForTeacherReview() {
+    if (!uploadedAudioFile) {
+        alert('Please select an audio file first!');
+        return;
+    }
+    
+    console.log('Submitting recording for teacher review...');
+    
+    // Get context from form
+    const pieceName = document.getElementById('aiCoachPieceName').value.trim();
+    const composer = document.getElementById('aiCoachComposer').value.trim();
+    const notes = document.getElementById('aiCoachNotes').value.trim();
+    
+    // Hide form, show loading
+    document.getElementById('aiCoachForm').style.display = 'none';
+    document.getElementById('aiCoachLoading').style.display = 'block';
+    
+    try {
+        // Still call the AI analysis API in the background for the teacher
+        const result = await analyzeAudioWithAI(uploadedAudioFile, {
+            piece_name: pieceName || undefined,
+            composer: composer || undefined,
+            student_notes: notes || undefined
+        });
+        
+        console.log('Analysis complete (for teacher):', result);
+        
+        // Store the result for when teacher views it
+        if (result.success) {
+            // Store in localStorage for demo purposes
+            localStorage.setItem('pendingStudentSubmission', JSON.stringify({
+                studentName: currentUser?.name || 'Alex Johnson',
+                fileName: uploadedAudioFile.name,
+                timestamp: new Date().toISOString(),
+                analysisResult: result
+            }));
+        }
+        
+        // Show submission success message to student
+        document.getElementById('aiCoachLoading').style.display = 'none';
+        document.getElementById('aiCoachSubmissionSuccess').style.display = 'block';
+        
+        // Update the filename in success message
+        document.getElementById('submittedFileName').textContent = uploadedAudioFile.name;
+        
+        // Add a new entry to the teacher's pending assignments (stored in localStorage)
+        addPendingAssignment({
+            studentName: currentUser?.name || 'Alex Johnson',
+            assignmentName: pieceName || 'Audio Recording',
+            fileName: uploadedAudioFile.name,
+            submittedAt: 'Just now'
+        });
+        
+    } catch (error) {
+        console.error('Error during submission:', error);
+        // Still show success to student (for demo robustness)
+        document.getElementById('aiCoachLoading').style.display = 'none';
+        document.getElementById('aiCoachSubmissionSuccess').style.display = 'block';
+        document.getElementById('submittedFileName').textContent = uploadedAudioFile.name;
+        
+        // Add pending assignment anyway for demo
+        addPendingAssignment({
+            studentName: currentUser?.name || 'Alex Johnson',
+            assignmentName: 'Audio Recording',
+            fileName: uploadedAudioFile.name,
+            submittedAt: 'Just now'
+        });
+    }
+}
+
+// Add a pending assignment to the teacher's view
+function addPendingAssignment(assignment) {
+    // Get existing assignments from localStorage
+    let pendingAssignments = JSON.parse(localStorage.getItem('pendingTeacherAssignments') || '[]');
+    
+    // Add new assignment at the beginning
+    pendingAssignments.unshift({
+        id: Date.now(),
+        ...assignment
+    });
+    
+    // Keep only last 10 for demo
+    pendingAssignments = pendingAssignments.slice(0, 10);
+    
+    // Save back to localStorage
+    localStorage.setItem('pendingTeacherAssignments', JSON.stringify(pendingAssignments));
+    
+    console.log('Added pending assignment:', assignment);
+}
+
+// Return to student dashboard from submission success
+function returnToStudentDashboard() {
+    const aiCoachPage = document.getElementById('aiCoachPage');
+    const studentDashboard = document.getElementById('studentDashboard');
+    
+    if (aiCoachPage) {
+        aiCoachPage.classList.remove('active');
+        setTimeout(() => {
+            aiCoachPage.style.display = 'none';
+            
+            // Reset all states
+            document.getElementById('aiCoachForm').style.display = 'block';
+            document.getElementById('aiCoachLoading').style.display = 'none';
+            document.getElementById('aiCoachResults').style.display = 'none';
+            document.getElementById('aiCoachSubmissionSuccess').style.display = 'none';
+            
+            // Clear form
+            document.getElementById('aiCoachPieceName').value = '';
+            document.getElementById('aiCoachComposer').value = '';
+            document.getElementById('aiCoachNotes').value = '';
+            document.getElementById('aiCoachAudioName').textContent = '';
+            uploadedAudioFile = null;
+            
+            // Show student dashboard
+            if (studentDashboard) {
+                studentDashboard.classList.add('active');
+            }
+        }, 250);
+    }
+}
+
+// Open student assessment review page (teacher view)
+function openStudentAssessmentReview() {
+    const teacherDashboard = document.getElementById('teacherDashboard');
+    const studentAssessmentReview = document.getElementById('studentAssessmentReview');
+    
+    if (teacherDashboard) {
+        teacherDashboard.classList.remove('active');
+    }
+    
+    if (studentAssessmentReview) {
+        studentAssessmentReview.style.display = 'block';
+        setTimeout(() => {
+            studentAssessmentReview.classList.add('active');
+        }, 50);
+    }
+}
+
+// Close student assessment review page
+function closeStudentAssessmentReview() {
+    const teacherDashboard = document.getElementById('teacherDashboard');
+    const studentAssessmentReview = document.getElementById('studentAssessmentReview');
+    
+    if (studentAssessmentReview) {
+        studentAssessmentReview.classList.remove('active');
+        setTimeout(() => {
+            studentAssessmentReview.style.display = 'none';
+            
+            if (teacherDashboard) {
+                teacherDashboard.classList.add('active');
+            }
+        }, 250);
+    }
+}
+
+// Approve student assessment and send feedback
+function approveStudentAssessment() {
+    const teacherComments = document.getElementById('teacherComments')?.value || '';
+    
+    // Show success animation
+    const studentAssessmentReview = document.getElementById('studentAssessmentReview');
+    if (studentAssessmentReview) {
+        // Create success overlay
+        const successOverlay = document.createElement('div');
+        successOverlay.className = 'success-message';
+        successOverlay.style.display = 'block';
+        successOverlay.innerHTML = `
+            <div class="success-content">
+                <i class="fas fa-check-circle"></i>
+                <h3>Assessment Approved!</h3>
+                <p>The feedback has been sent to Alex Johnson and will appear in their dashboard.</p>
+            </div>
+        `;
+        
+        studentAssessmentReview.querySelector('.session-content').appendChild(successOverlay);
+        
+        // Return to dashboard after 2 seconds
+        setTimeout(() => {
+            closeStudentAssessmentReview();
+            successOverlay.remove();
+            
+            // Clear the teacher comments
+            if (document.getElementById('teacherComments')) {
+                document.getElementById('teacherComments').value = '';
+            }
+        }, 2000);
+    }
+    
+    console.log('Assessment approved with comments:', teacherComments);
 }

@@ -1505,3 +1505,106 @@ body {
         justify-content: center;
     }
 }
+
+/* Student Assignments Section (Teacher Dashboard) */
+.student-assignments-card {
+    grid-column: span 2;
+}
+
+.assignment-review-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background: rgba(255, 193, 7, 0.08);
+    border-radius: 12px;
+    border: 2px solid rgba(255, 193, 7, 0.2);
+    transition: all 0.3s ease;
+}
+
+.assignment-review-item:hover {
+    background: rgba(255, 193, 7, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+}
+
+.assignment-review-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.student-avatar-small {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+}
+
+.assignment-review-details h4 {
+    margin: 0 0 0.25rem 0;
+    color: #333;
+    font-size: 1rem;
+}
+
+.assignment-review-details p {
+    margin: 0 0 0.25rem 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.submission-time {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.status-badge.pending-review {
+    background: rgba(255, 193, 7, 0.2);
+    color: #d39e00;
+    font-weight: 600;
+}
+
+/* Student Assessment Review Page */
+#studentAssessmentReview .session-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#studentAssessmentReview .student-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+}
+
+/* Submission Success Styles */
+#aiCoachSubmissionSuccess .card {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+@media (max-width: 768px) {
+    .student-assignments-card {
+        grid-column: span 1;
+    }
+    
+    .assignment-review-item {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .assignment-review-info {
+        width: 100%;
+    }
+}
