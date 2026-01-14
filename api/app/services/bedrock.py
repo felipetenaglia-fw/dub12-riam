@@ -576,8 +576,8 @@ You're definitely on the right track - just needs a little fine-tuning!"
             if conversation_history:
                 for msg in conversation_history[-10:]:  # Keep last 10 messages for context
                     messages.append({
-                        "role": msg.get("role", "user"),
-                        "content": [{"text": msg.get("content", "")}]
+                        "role": msg.role if hasattr(msg, "role") else msg.get("role", "user"),
+                        "content": [{"text": msg.content if hasattr(msg, "content") else msg.get("content", "")}]
                     })
             
             # Add current question
