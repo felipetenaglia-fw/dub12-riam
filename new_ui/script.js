@@ -1068,3 +1068,195 @@ function initializeChartInteractivity() {
         });
     });
 }
+
+// Submit to Teacher Function
+async function submitToTeacher() {
+    if (!uploadedAudioFile) {
+        alert('Please select an audio file first!');
+        return;
+    }
+    
+    console.log('Submitting to teacher...');
+    
+    // Get context from form
+    const pieceName = document.getElementById('aiCoachPieceName').value.trim();
+    const composer = document.getElementById('aiCoachComposer').value.trim();
+    const notes = document.getElementById('aiCoachNotes').value.trim();
+    
+    // Hide form
+    document.getElementById('aiCoachForm').style.display = 'none';
+    
+    // Prepare submission data
+    const submissionData = {
+        audioFile: uploadedAudioFile,
+        pieceName: pieceName || 'Untitled',
+        composer: composer || 'Unknown',
+        studentNotes: notes || 'No additional notes provided',
+        submittedAt: new Date().toISOString()
+    };
+    
+    console.log('Submission data:', submissionData);
+    
+    // Display submitted message immediately
+    const submittedHTML = `
+        <div style="text-align: center; padding: 4rem 2rem;">
+            <div style="width: 100px; height: 100px; margin: 0 auto 2rem; background: rgba(40, 167, 69, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: scaleIn 0.5s ease-out;">
+                <i class="fas fa-check-circle" style="font-size: 4rem; color: #28a745;"></i>
+            </div>
+            <h1 style="color: #28a745; margin-bottom: 1rem; font-size: 2.5rem;">Submitted!</h1>
+            <p style="color: #666; font-size: 1.2rem; margin-bottom: 3rem;">
+                Your performance has been submitted to your teacher for review.
+            </p>
+            <button class="submit-btn" onclick="closeAICoach()" style="margin: 0 auto;">
+                <i class="fas fa-arrow-left"></i>
+                Back to Assignments
+            </button>
+        </div>
+    `;
+    
+    document.getElementById('aiCoachResults').innerHTML = submittedHTML;
+    document.getElementById('aiCoachResults').style.display = 'block';
+    
+    console.log('Submission successful!');
+}
+
+
+// View Submission Function
+function viewSubmission(submissionId) {
+    console.log('Viewing submission:', submissionId);
+    
+    // You can implement this to show submission details
+    // For now, just show an alert
+    alert('Opening submission details for: ' + submissionId);
+    
+    // In a real implementation, you might navigate to a submission review page
+    // or open a modal with the submission details
+}
+
+
+// Open Emma Walsh Submission Page
+function openEmmaSubmission() {
+    console.log('Opening Emma Walsh submission...');
+    
+    const teacherDashboard = document.getElementById('teacherDashboard');
+    const emmaSubmissionPage = document.getElementById('emmaSubmissionPage');
+    
+    if (teacherDashboard && emmaSubmissionPage) {
+        teacherDashboard.classList.remove('active');
+        emmaSubmissionPage.style.display = 'block';
+        setTimeout(() => {
+            emmaSubmissionPage.classList.add('active');
+        }, 50);
+    } else {
+        console.error('Emma submission page not found');
+    }
+}
+
+// Close Emma Walsh Submission Page
+function closeEmmaSubmission() {
+    const teacherDashboard = document.getElementById('teacherDashboard');
+    const emmaSubmissionPage = document.getElementById('emmaSubmissionPage');
+    
+    if (emmaSubmissionPage) {
+        emmaSubmissionPage.classList.remove('active');
+        setTimeout(() => {
+            emmaSubmissionPage.style.display = 'none';
+            if (teacherDashboard) {
+                teacherDashboard.classList.add('active');
+            }
+        }, 250);
+    }
+}
+
+// Emma Walsh Submission Alpine.js Data
+function emmaSubmissionData() {
+    return {
+        loading: false,
+        aiFeedback: `Emma demonstrates excellent musicality and technical control in this performance of Chopin's Etude Op. 10 No. 3. Her interpretation shows a deep understanding of the romantic style and the emotional depth required for this piece.
+
+**Strengths:** The dynamic range is particularly impressive, with smooth transitions between pianissimo and forte passages. The legato touch is consistent and appropriate for the lyrical nature of the piece. Tempo stability shows good control, maintaining the expressive rubato without losing the underlying pulse.
+
+**Areas for Improvement:** While the overall performance is strong, there are opportunities to enhance the clarity of note attacks, particularly in the more technically demanding middle section. Consider working on finger independence exercises to achieve even greater precision.
+
+**Recommendation:** Continue exploring the emotional narrative of the piece. Experiment with subtle variations in phrasing to bring out the singing quality of the melody even more. Overall, this is an advanced-level performance that demonstrates significant progress.`,
+        audioAnalysis: {
+            performance_scores: {
+                overall_score: 8.5,
+                technical_proficiency: 8.2,
+                expressiveness: 8.8,
+                performance_level: 'Advanced',
+                difficulty_estimate: 'Intermediate-Advanced'
+            },
+            tempo_rhythm: {
+                tempo_bpm: 72,
+                tempo_category: 'Moderate',
+                tempo_stability_score: 0.85
+            },
+            pitch_intonation: {
+                estimated_key: 'E Major',
+                pitch_stability_score: 0.92
+            },
+            dynamics: {
+                dynamic_range_db: 24.5,
+                dynamic_range_category: 'Wide',
+                dynamic_contrast_score: 0.88
+            },
+            articulation: {
+                predominant_articulation: 'legato',
+                attack_clarity_score: 0.79
+            }
+        },
+        aiCoachError: null,
+
+        // Helper function to get nested values safely
+        getValue(obj, ...keys) {
+            try {
+                let value = obj;
+                for (const key of keys) {
+                    if (value && typeof value === 'object' && key in value) {
+                        value = value[key];
+                    } else {
+                        return 'N/A';
+                    }
+                }
+                return value !== null && value !== undefined ? value : 'N/A';
+            } catch (e) {
+                return 'N/A';
+            }
+        },
+
+        // Helper function to get score with formatting
+        getScore(obj, ...keys) {
+            const value = this.getValue(obj, ...keys);
+            if (value === 'N/A') return 'N/A';
+            if (typeof value === 'number') {
+                return value.toFixed(1);
+            }
+            return value;
+        },
+
+        // Helper function to get numeric score for progress bars
+        getNumericScore(obj, ...keys) {
+            const value = this.getValue(obj, ...keys);
+            if (value === 'N/A') return 0;
+            if (typeof value === 'number') {
+                return Math.max(0, Math.min(1, value));
+            }
+            return 0;
+        },
+
+        // Format feedback text with proper line breaks and styling
+        formatFeedback(feedback) {
+            if (!feedback) return '';
+            
+            // Convert markdown-style formatting to HTML
+            let formatted = feedback
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')  // Bold
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')              // Italic
+                .replace(/\n\n/g, '</p><p>')                       // Paragraphs
+                .replace(/\n/g, '<br>');                           // Line breaks
+            
+            return `<p>${formatted}</p>`;
+        }
+    };
+}

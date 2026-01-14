@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="config.js"></script>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -34,7 +36,7 @@
             <h1>Welcome back, Alex!</h1>
             <p>Continue your musical journey</p>
         </div>
-        
+
         <div class="dashboard-grid">
             <div class="card student-passport-card">
                 <div class="passport-header">
@@ -54,17 +56,17 @@
                 <div class="passport-chart">
                     <svg viewBox="0 0 200 200" class="pie-chart">
                         <!-- Technical Skills: 82/324 = 25.3% = 91.8 degrees -->
-                        <circle cx="100" cy="100" r="80" fill="none" stroke="#667eea" stroke-width="40" 
-                                stroke-dasharray="143 503" stroke-dashoffset="0" transform="rotate(-90 100 100)"/>
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#667eea" stroke-width="40"
+                            stroke-dasharray="143 503" stroke-dashoffset="0" transform="rotate(-90 100 100)" />
                         <!-- Compositional: 75/324 = 23.1% = 83.3 degrees -->
-                        <circle cx="100" cy="100" r="80" fill="none" stroke="#764ba2" stroke-width="40" 
-                                stroke-dasharray="131 503" stroke-dashoffset="-143" transform="rotate(-90 100 100)"/>
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#764ba2" stroke-width="40"
+                            stroke-dasharray="131 503" stroke-dashoffset="-143" transform="rotate(-90 100 100)" />
                         <!-- Repertoire: 88/324 = 27.2% = 97.8 degrees -->
-                        <circle cx="100" cy="100" r="80" fill="none" stroke="#48dbfb" stroke-width="40" 
-                                stroke-dasharray="154 503" stroke-dashoffset="-274" transform="rotate(-90 100 100)"/>
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#48dbfb" stroke-width="40"
+                            stroke-dasharray="154 503" stroke-dashoffset="-274" transform="rotate(-90 100 100)" />
                         <!-- Performing: 79/324 = 24.4% = 87.8 degrees -->
-                        <circle cx="100" cy="100" r="80" fill="none" stroke="#1dd1a1" stroke-width="40" 
-                                stroke-dasharray="138 503" stroke-dashoffset="-428" transform="rotate(-90 100 100)"/>
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#1dd1a1" stroke-width="40"
+                            stroke-dasharray="138 503" stroke-dashoffset="-428" transform="rotate(-90 100 100)" />
                         <text x="100" y="95" text-anchor="middle" class="chart-score">81</text>
                         <text x="100" y="115" text-anchor="middle" class="chart-label">Overall</text>
                     </svg>
@@ -185,7 +187,7 @@
             <h1>Good morning, Professor Smith!</h1>
             <p>Manage your classes and students</p>
         </div>
-        
+
         <div class="dashboard-grid">
             <div class="card students-card">
                 <div class="card-header">
@@ -293,6 +295,34 @@
                     </button>
                 </div>
             </div>
+
+            <div class="card submitted-assignments-card">
+                <div class="card-header">
+                    <h3>Recently Submitted Assignments</h3>
+                    <i class="fas fa-inbox"></i>
+                </div>
+                <div class="assignment-item clickable" onclick="viewSubmission('alex-scales')">
+                    <div class="assignment-info">
+                        <h4>Alex Johnson - Scales Practice</h4>
+                        <p>Submitted: 2 hours ago</p>
+                    </div>
+                    <span class="status-badge pending">New</span>
+                </div>
+                <div class="assignment-item clickable" onclick="openEmmaSubmission()">
+                    <div class="assignment-info">
+                        <h4>Emma Walsh - Etude Performance</h4>
+                        <p>Submitted: 5 hours ago</p>
+                    </div>
+                    <span class="status-badge pending">New</span>
+                </div>
+                <div class="assignment-item">
+                    <div class="assignment-info">
+                        <h4>Michael Chen - Sonata Movement</h4>
+                        <p>Submitted: Yesterday</p>
+                    </div>
+                    <span class="status-badge completed">Reviewed</span>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -305,7 +335,7 @@
             </button>
             <h1>Session Details</h1>
         </div>
-        
+
         <div class="session-content">
             <div class="card session-info-card">
                 <div class="card-header">
@@ -342,29 +372,40 @@
                     <i class="fas fa-sticky-note"></i>
                 </div>
                 <div class="notes-content">
-                    <p><strong>Context:</strong> Piano lesson one-to-one, Professor Terese Fahey with student Rachael O'Hara, Olivier Messiaen, Le baiser de l'Enfant-Jésus.</p>
+                    <p><strong>Context:</strong> Piano lesson one-to-one, Professor Terese Fahey with student Rachael
+                        O'Hara, Olivier Messiaen, Le baiser de l'Enfant-Jésus.</p>
                     <br>
-                    <p><strong>Professor:</strong> This piece is about the infant Jesus, and later the idea of love surrounding us, especially in the F sharp major section, Messiaen's "key of ecstasy".</p>
+                    <p><strong>Professor:</strong> This piece is about the infant Jesus, and later the idea of love
+                        surrounding us, especially in the F sharp major section, Messiaen's "key of ecstasy".</p>
                     <br>
-                    <p><strong>Professor:</strong> Be careful with the accents, sometimes the accents are underneath, in the inner voices, not in the melodic line.</p>
+                    <p><strong>Professor:</strong> Be careful with the accents, sometimes the accents are underneath, in
+                        the inner voices, not in the melodic line.</p>
                     <br>
-                    <p><strong>Professor:</strong> Let's go from the beginning. Instead of starting too directly, can you fade into the sound?</p>
-                    <br>
-                    <p>[Student plays]</p>
-                    <br>
-                    <p><strong>Professor:</strong> I hear the baby breathing, the intake of breath, then the exhalation. Connect it so it becomes one long phrase, not two separate phrases. Make every note speak.</p>
-                    <br>
-                    <p><strong>Professor:</strong> When you see diminuendo, it does not mean "suddenly soft". Keep the underlying dynamic, do not come down too soon.</p>
-                    <br>
-                    <p><strong>Professor:</strong> Messiaen's sound world is far removed from Debussy. You need a slightly pinging, metallic clarity, like a triangle in an orchestra. Your fifth finger needs to curve more, like a pizzicato on a violin.</p>
-                    <br>
-                    <p><strong>Professor:</strong> Going into the big crescendo, hold back. Promise the dynamic, but do not give it yet, that creates tension, then we erupt.</p>
-                    <br>
-                    <p><strong>Professor:</strong> Then we arrive at the moment of ecstasy, F sharp major, it says avec amour, "with love". Do not sanitise what comes before, I want more drive into it.</p>
+                    <p><strong>Professor:</strong> Let's go from the beginning. Instead of starting too directly, can
+                        you fade into the sound?</p>
                     <br>
                     <p>[Student plays]</p>
                     <br>
-                    <p><strong>Professor:</strong> Much better. Those arpeggios should be like little pinpricks of light, like fireworks. There has to be life in each note.</p>
+                    <p><strong>Professor:</strong> I hear the baby breathing, the intake of breath, then the exhalation.
+                        Connect it so it becomes one long phrase, not two separate phrases. Make every note speak.</p>
+                    <br>
+                    <p><strong>Professor:</strong> When you see diminuendo, it does not mean "suddenly soft". Keep the
+                        underlying dynamic, do not come down too soon.</p>
+                    <br>
+                    <p><strong>Professor:</strong> Messiaen's sound world is far removed from Debussy. You need a
+                        slightly pinging, metallic clarity, like a triangle in an orchestra. Your fifth finger needs to
+                        curve more, like a pizzicato on a violin.</p>
+                    <br>
+                    <p><strong>Professor:</strong> Going into the big crescendo, hold back. Promise the dynamic, but do
+                        not give it yet, that creates tension, then we erupt.</p>
+                    <br>
+                    <p><strong>Professor:</strong> Then we arrive at the moment of ecstasy, F sharp major, it says avec
+                        amour, "with love". Do not sanitise what comes before, I want more drive into it.</p>
+                    <br>
+                    <p>[Student plays]</p>
+                    <br>
+                    <p><strong>Professor:</strong> Much better. Those arpeggios should be like little pinpricks of
+                        light, like fireworks. There has to be life in each note.</p>
                 </div>
                 <button id="processNotesBtn" class="process-btn" onclick="processNotes()">
                     <i class="fas fa-cogs"></i>
@@ -413,8 +454,8 @@
             </div>
         </div>
     </main>
-            </div>
-        </div>
+    </div>
+    </div>
     </main>
 
     <script src="script.js?v=2"></script>
@@ -428,7 +469,7 @@
             </button>
             <h1>Assignment: Scales Practice</h1>
         </div>
-        
+
         <div class="session-content">
             <div class="card assignment-tasks-card">
                 <div class="card-header">
@@ -438,9 +479,11 @@
                 <div class="tasks-list">
                     <div class="task-item">
                         <span class="task-number">1.</span>
-                        <span class="task-text">Listen to Chopin Master Vol 1. Upload a PDF document with your listening notes and analysis</span>
+                        <span class="task-text">Listen to Chopin Master Vol 1. Upload a PDF document with your listening
+                            notes and analysis</span>
                         <div class="task-upload-section">
-                            <input type="file" id="pdfUpload" accept=".pdf" style="display: none;" onchange="handleFileUpload('pdf')">
+                            <input type="file" id="pdfUpload" accept=".pdf" style="display: none;"
+                                onchange="handleFileUpload('pdf')">
                             <button class="upload-btn compact" onclick="document.getElementById('pdfUpload').click()">
                                 <i class="fas fa-upload"></i>
                                 <span>Upload PDF</span>
@@ -450,9 +493,11 @@
                     </div>
                     <div class="task-item">
                         <span class="task-number">2.</span>
-                        <span class="task-text">Practice scales for 2 hours. Upload a recording of your scale practice session</span>
+                        <span class="task-text">Practice scales for 2 hours. Upload a recording of your scale practice
+                            session</span>
                         <div class="task-upload-section">
-                            <input type="file" id="audioUpload" accept=".mp3,.wav,.m4a,.ogg,.flac" style="display: none;" onchange="handleFileUpload('audio')">
+                            <input type="file" id="audioUpload" accept=".mp3,.wav,.m4a,.ogg,.flac"
+                                style="display: none;" onchange="handleFileUpload('audio')">
                             <button class="upload-btn compact" onclick="document.getElementById('audioUpload').click()">
                                 <i class="fas fa-upload"></i>
                                 <span>Upload Audio</span>
@@ -485,7 +530,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="analysisResults" class="session-content" style="display: none;">
             <div class="session-header">
                 <button class="back-btn" onclick="closeAnalysisResults()">
@@ -494,7 +539,7 @@
                 </button>
                 <h1>Assignment Results</h1>
             </div>
-            
+
             <div class="card results-card">
                 <div class="card-header">
                     <h3>Four Pillars Assessment (0-100)</h3>
@@ -557,12 +602,14 @@
                         <i class="fas fa-robot"></i>
                     </div>
                     <div class="message-content">
-                        <p>Hi! I'm your music coach. I've just reviewed your performance and I'm here to answer any questions you have about your feedback. What would you like to discuss?</p>
+                        <p>Hi! I'm your music coach. I've just reviewed your performance and I'm here to answer any
+                            questions you have about your feedback. What would you like to discuss?</p>
                     </div>
                 </div>
             </div>
             <div class="chat-input-container">
-                <input type="text" id="chatInput" placeholder="Ask me about your scores..." onkeypress="handleChatKeyPress(event)">
+                <input type="text" id="chatInput" placeholder="Ask me about your scores..."
+                    onkeypress="handleChatKeyPress(event)">
                 <button class="send-btn" onclick="sendMessage()">
                     <i class="fas fa-paper-plane"></i>
                 </button>
@@ -579,21 +626,22 @@
             </button>
             <h1>AI Music Coach</h1>
         </div>
-        
+
         <div class="session-content">
             <!-- Upload and Context Form -->
             <div id="aiCoachForm" class="card">
                 <div class="card-header">
                     <h3><i class="fas fa-music"></i> Performance Analysis</h3>
                 </div>
-                
+
                 <div style="padding: 1rem;">
                     <div class="form-group" style="margin-bottom: 1.5rem;">
                         <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #333;">
                             <i class="fas fa-file-audio"></i> Audio Recording
                         </label>
                         <div style="display: flex; align-items: center; gap: 1rem;">
-                            <input type="file" id="aiCoachAudioInput" accept=".mp3,.wav,.m4a,.ogg" style="display: none;" onchange="handleAICoachAudioSelect()">
+                            <input type="file" id="aiCoachAudioInput" accept=".mp3,.wav,.m4a,.ogg"
+                                style="display: none;" onchange="handleAICoachAudioSelect()">
                             <button class="upload-btn" onclick="document.getElementById('aiCoachAudioInput').click()">
                                 <i class="fas fa-upload"></i>
                                 Select Audio File
@@ -603,47 +651,38 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="aiCoachPieceName" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #333;">
+                        <label for="aiCoachPieceName"
+                            style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #333;">
                             <i class="fas fa-sheet-music"></i> Piece Name (Optional)
                         </label>
-                        <input 
-                            type="text" 
-                            id="aiCoachPieceName" 
-                            class="form-input"
+                        <input type="text" id="aiCoachPieceName" class="form-input"
                             placeholder="e.g., Prelude in C Major"
-                            style="width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;"
-                        >
+                            style="width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
                     </div>
 
                     <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="aiCoachComposer" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #333;">
+                        <label for="aiCoachComposer"
+                            style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #333;">
                             <i class="fas fa-user"></i> Composer (Optional)
                         </label>
-                        <input 
-                            type="text" 
-                            id="aiCoachComposer" 
-                            class="form-input"
-                            placeholder="e.g., J.S. Bach"
-                            style="width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;"
-                        >
+                        <input type="text" id="aiCoachComposer" class="form-input" placeholder="e.g., J.S. Bach"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem;">
                     </div>
 
                     <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="aiCoachNotes" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #333;">
+                        <label for="aiCoachNotes"
+                            style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: #333;">
                             <i class="fas fa-comment"></i> Your Notes/Questions (Optional)
                         </label>
-                        <textarea 
-                            id="aiCoachNotes" 
-                            class="form-input"
-                            placeholder="Any specific areas you'd like feedback on?"
-                            rows="3"
-                            style="width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; resize: vertical; font-family: 'Inter', sans-serif;"
-                        ></textarea>
+                        <textarea id="aiCoachNotes" class="form-input"
+                            placeholder="Any specific areas you'd like feedback on?" rows="3"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; resize: vertical; font-family: 'Inter', sans-serif;"></textarea>
                     </div>
 
-                    <button id="aiCoachAnalyzeBtn" class="submit-btn" onclick="startAICoachAnalysis()" style="margin: 0; width: 100%;">
-                        <i class="fas fa-brain"></i>
-                        Analyze My Performance
+                    <button id="aiCoachAnalyzeBtn" class="submit-btn" onclick="submitToTeacher()"
+                        style="margin: 0; width: 100%;">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit to Teacher
                     </button>
                 </div>
             </div>
@@ -688,7 +727,8 @@
                             Ask Questions
                         </button>
                     </div>
-                    <div id="aiCoachFeedbackContent" style="padding: 1.5rem; line-height: 1.8; white-space: pre-wrap; font-size: 0.95rem;">
+                    <div id="aiCoachFeedbackContent"
+                        style="padding: 1.5rem; line-height: 1.8; white-space: pre-wrap; font-size: 0.95rem;">
                         <!-- Feedback will be inserted here -->
                     </div>
                 </div>
@@ -705,7 +745,7 @@
             </button>
             <h1>Class Performance Report</h1>
         </div>
-        
+
         <div class="session-content">
             <div class="card report-summary-card">
                 <div class="card-header">
@@ -786,7 +826,7 @@
             </button>
             <h1>Progress History</h1>
         </div>
-        
+
         <div class="session-content">
             <div class="card history-chart-card">
                 <div class="card-header">
@@ -796,50 +836,65 @@
                 <div class="chart-container">
                     <svg id="progressChart" viewBox="0 0 800 400" class="progress-chart">
                         <!-- Grid lines -->
-                        <line x1="60" y1="50" x2="60" y2="350" stroke="#ddd" stroke-width="2"/>
-                        <line x1="60" y1="350" x2="760" y2="350" stroke="#ddd" stroke-width="2"/>
-                        
+                        <line x1="60" y1="50" x2="60" y2="350" stroke="#ddd" stroke-width="2" />
+                        <line x1="60" y1="350" x2="760" y2="350" stroke="#ddd" stroke-width="2" />
+
                         <!-- Y-axis labels -->
                         <text x="40" y="55" text-anchor="end" class="axis-label">100</text>
                         <text x="40" y="125" text-anchor="end" class="axis-label">80</text>
                         <text x="40" y="200" text-anchor="end" class="axis-label">60</text>
                         <text x="40" y="275" text-anchor="end" class="axis-label">40</text>
                         <text x="40" y="350" text-anchor="end" class="axis-label">20</text>
-                        
+
                         <!-- Horizontal grid lines -->
-                        <line x1="60" y1="50" x2="760" y2="50" stroke="#f0f0f0" stroke-width="1"/>
-                        <line x1="60" y1="125" x2="760" y2="125" stroke="#f0f0f0" stroke-width="1"/>
-                        <line x1="60" y1="200" x2="760" y2="200" stroke="#f0f0f0" stroke-width="1"/>
-                        <line x1="60" y1="275" x2="760" y2="275" stroke="#f0f0f0" stroke-width="1"/>
-                        
+                        <line x1="60" y1="50" x2="760" y2="50" stroke="#f0f0f0" stroke-width="1" />
+                        <line x1="60" y1="125" x2="760" y2="125" stroke="#f0f0f0" stroke-width="1" />
+                        <line x1="60" y1="200" x2="760" y2="200" stroke="#f0f0f0" stroke-width="1" />
+                        <line x1="60" y1="275" x2="760" y2="275" stroke="#f0f0f0" stroke-width="1" />
+
                         <!-- Technical Skills Line -->
-                        <polyline points="130,230 200,220 270,225 340,210 410,205 480,195 550,185 620,190 690,175 760,165" 
-                                  fill="none" stroke="#667eea" stroke-width="3" class="chart-line" data-pillar="technical"/>
-                        
+                        <polyline
+                            points="130,230 200,220 270,225 340,210 410,205 480,195 550,185 620,190 690,175 760,165"
+                            fill="none" stroke="#667eea" stroke-width="3" class="chart-line" data-pillar="technical" />
+
                         <!-- Compositional Line -->
-                        <polyline points="130,260 200,255 270,245 340,250 410,235 480,230 550,220 620,225 690,210 760,200" 
-                                  fill="none" stroke="#764ba2" stroke-width="3" class="chart-line" data-pillar="compositional"/>
-                        
+                        <polyline
+                            points="130,260 200,255 270,245 340,250 410,235 480,230 550,220 620,225 690,210 760,200"
+                            fill="none" stroke="#764ba2" stroke-width="3" class="chart-line"
+                            data-pillar="compositional" />
+
                         <!-- Repertoire Line -->
-                        <polyline points="130,200 200,190 270,195 340,180 410,175 480,170 550,160 620,165 690,150 760,140" 
-                                  fill="none" stroke="#48dbfb" stroke-width="3" class="chart-line" data-pillar="repertoire"/>
-                        
+                        <polyline
+                            points="130,200 200,190 270,195 340,180 410,175 480,170 550,160 620,165 690,150 760,140"
+                            fill="none" stroke="#48dbfb" stroke-width="3" class="chart-line" data-pillar="repertoire" />
+
                         <!-- Performing Line -->
-                        <polyline points="130,245 200,240 270,235 340,230 410,220 480,225 550,210 620,205 690,195 760,185" 
-                                  fill="none" stroke="#1dd1a1" stroke-width="3" class="chart-line" data-pillar="performing"/>
-                        
+                        <polyline
+                            points="130,245 200,240 270,235 340,230 410,220 480,225 550,210 620,205 690,195 760,185"
+                            fill="none" stroke="#1dd1a1" stroke-width="3" class="chart-line" data-pillar="performing" />
+
                         <!-- Data points -->
-                        <circle cx="130" cy="230" r="5" fill="#667eea" class="data-point" data-value="62" data-date="Jan 15"/>
-                        <circle cx="200" cy="220" r="5" fill="#667eea" class="data-point" data-value="65" data-date="Jan 29"/>
-                        <circle cx="270" cy="225" r="5" fill="#667eea" class="data-point" data-value="64" data-date="Feb 12"/>
-                        <circle cx="340" cy="210" r="5" fill="#667eea" class="data-point" data-value="69" data-date="Feb 26"/>
-                        <circle cx="410" cy="205" r="5" fill="#667eea" class="data-point" data-value="71" data-date="Mar 11"/>
-                        <circle cx="480" cy="195" r="5" fill="#667eea" class="data-point" data-value="74" data-date="Mar 25"/>
-                        <circle cx="550" cy="185" r="5" fill="#667eea" class="data-point" data-value="77" data-date="Apr 8"/>
-                        <circle cx="620" cy="190" r="5" fill="#667eea" class="data-point" data-value="76" data-date="Apr 22"/>
-                        <circle cx="690" cy="175" r="5" fill="#667eea" class="data-point" data-value="81" data-date="May 6"/>
-                        <circle cx="760" cy="165" r="5" fill="#667eea" class="data-point" data-value="84" data-date="May 20"/>
-                        
+                        <circle cx="130" cy="230" r="5" fill="#667eea" class="data-point" data-value="62"
+                            data-date="Jan 15" />
+                        <circle cx="200" cy="220" r="5" fill="#667eea" class="data-point" data-value="65"
+                            data-date="Jan 29" />
+                        <circle cx="270" cy="225" r="5" fill="#667eea" class="data-point" data-value="64"
+                            data-date="Feb 12" />
+                        <circle cx="340" cy="210" r="5" fill="#667eea" class="data-point" data-value="69"
+                            data-date="Feb 26" />
+                        <circle cx="410" cy="205" r="5" fill="#667eea" class="data-point" data-value="71"
+                            data-date="Mar 11" />
+                        <circle cx="480" cy="195" r="5" fill="#667eea" class="data-point" data-value="74"
+                            data-date="Mar 25" />
+                        <circle cx="550" cy="185" r="5" fill="#667eea" class="data-point" data-value="77"
+                            data-date="Apr 8" />
+                        <circle cx="620" cy="190" r="5" fill="#667eea" class="data-point" data-value="76"
+                            data-date="Apr 22" />
+                        <circle cx="690" cy="175" r="5" fill="#667eea" class="data-point" data-value="81"
+                            data-date="May 6" />
+                        <circle cx="760" cy="165" r="5" fill="#667eea" class="data-point" data-value="84"
+                            data-date="May 20" />
+
                         <!-- X-axis labels -->
                         <text x="130" y="370" text-anchor="middle" class="axis-label">1</text>
                         <text x="200" y="370" text-anchor="middle" class="axis-label">2</text>
@@ -876,5 +931,160 @@
         </div>
     </main>
 
+    <!-- Emma Walsh Submission Page -->
+    <main id="emmaSubmissionPage" class="dashboard session-page" x-data="emmaSubmissionData()">
+        <div class="session-header">
+            <button class="back-btn" onclick="closeEmmaSubmission()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </button>
+            <h1>Student Submission</h1>
+        </div>
+
+        <div class="session-content">
+            <!-- Student Info Card -->
+            <div class="card session-info-card">
+                <div class="card-header">
+                    <h3>Submission Details</h3>
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="session-info">
+                    <div class="info-item">
+                        <span class="label">Student:</span>
+                        <span class="value">Emma Walsh</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Piece:</span>
+                        <span class="value">Chopin Etude Op. 10 No. 3</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Instrument:</span>
+                        <span class="value">Piano</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Submitted:</span>
+                        <span class="value">5 hours ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Metrics Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Performance Metrics</h3>
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                
+                <!-- Overall Scores -->
+                <div class="performance-stats" style="margin-bottom: 2rem;">
+                    <div class="stat-item">
+                        <span class="stat-number" x-text="getScore(audioAnalysis, 'performance_scores', 'overall_score')">8.5</span>
+                        <span class="stat-label">Overall Score</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" x-text="getScore(audioAnalysis, 'performance_scores', 'technical_proficiency')">8.2</span>
+                        <span class="stat-label">Technical</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" x-text="getScore(audioAnalysis, 'performance_scores', 'expressiveness')">8.8</span>
+                        <span class="stat-label">Expression</span>
+                    </div>
+                </div>
+
+                <!-- Detailed Metrics -->
+                <div class="metrics-grid">
+                    <!-- Tempo -->
+                    <div class="metric-item">
+                        <div class="metric-label">Tempo</div>
+                        <div class="metric-value" x-text="getValue(audioAnalysis, 'tempo_rhythm', 'tempo_bpm') !== 'N/A' ? Math.round(getValue(audioAnalysis, 'tempo_rhythm', 'tempo_bpm')) + ' BPM' : 'N/A'">72 BPM</div>
+                        <div class="metric-sublabel" x-text="getValue(audioAnalysis, 'tempo_rhythm', 'tempo_category')">Moderate</div>
+                    </div>
+
+                    <!-- Tempo Stability -->
+                    <div class="metric-item">
+                        <div class="metric-label">Tempo Stability</div>
+                        <div class="metric-value" x-text="getScore(audioAnalysis, 'tempo_rhythm', 'tempo_stability_score')">0.85</div>
+                        <div class="progress-bar" style="margin-top: 0.5rem;">
+                            <div class="progress-fill" :style="`width: ${getNumericScore(audioAnalysis, 'tempo_rhythm', 'tempo_stability_score') * 100}%`" style="width: 85%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Key -->
+                    <div class="metric-item">
+                        <div class="metric-label">Key</div>
+                        <div class="metric-value" x-text="getValue(audioAnalysis, 'pitch_intonation', 'estimated_key')">E Major</div>
+                    </div>
+
+                    <!-- Pitch Stability -->
+                    <div class="metric-item">
+                        <div class="metric-label">Pitch Stability</div>
+                        <div class="metric-value" x-text="getScore(audioAnalysis, 'pitch_intonation', 'pitch_stability_score')">0.92</div>
+                        <div class="progress-bar" style="margin-top: 0.5rem;">
+                            <div class="progress-fill" :style="`width: ${getNumericScore(audioAnalysis, 'pitch_intonation', 'pitch_stability_score') * 100}%`" style="width: 92%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Range -->
+                    <div class="metric-item">
+                        <div class="metric-label">Dynamic Range</div>
+                        <div class="metric-value" x-text="getValue(audioAnalysis, 'dynamics', 'dynamic_range_db') !== 'N/A' ? parseFloat(getValue(audioAnalysis, 'dynamics', 'dynamic_range_db')).toFixed(1) + ' dB' : 'N/A'">24.5 dB</div>
+                        <div class="metric-sublabel" x-text="getValue(audioAnalysis, 'dynamics', 'dynamic_range_category')">Wide</div>
+                    </div>
+
+                    <!-- Dynamic Contrast -->
+                    <div class="metric-item">
+                        <div class="metric-label">Dynamic Contrast</div>
+                        <div class="metric-value" x-text="getScore(audioAnalysis, 'dynamics', 'dynamic_contrast_score')">0.88</div>
+                        <div class="progress-bar" style="margin-top: 0.5rem;">
+                            <div class="progress-fill" :style="`width: ${getNumericScore(audioAnalysis, 'dynamics', 'dynamic_contrast_score') * 100}%`" style="width: 88%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Articulation -->
+                    <div class="metric-item">
+                        <div class="metric-label">Articulation</div>
+                        <div class="metric-value" style="text-transform: capitalize;" x-text="getValue(audioAnalysis, 'articulation', 'predominant_articulation')">Legato</div>
+                    </div>
+
+                    <!-- Attack Clarity -->
+                    <div class="metric-item">
+                        <div class="metric-label">Attack Clarity</div>
+                        <div class="metric-value" x-text="getScore(audioAnalysis, 'articulation', 'attack_clarity_score')">0.79</div>
+                        <div class="progress-bar" style="margin-top: 0.5rem;">
+                            <div class="progress-fill" :style="`width: ${getNumericScore(audioAnalysis, 'articulation', 'attack_clarity_score') * 100}%`" style="width: 79%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Level Badges -->
+                <div class="performance-badges">
+                    <div class="badge-item">
+                        <span class="badge-label">Performance Level:</span>
+                        <span class="status-badge active" x-text="getValue(audioAnalysis, 'performance_scores', 'performance_level')">Advanced</span>
+                    </div>
+                    <div class="badge-item">
+                        <span class="badge-label">Difficulty:</span>
+                        <span class="status-badge scheduled" x-text="getValue(audioAnalysis, 'performance_scores', 'difficulty_estimate')">Intermediate-Advanced</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Coach Feedback Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>AI Coach Feedback</h3>
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="feedback-content" x-html="formatFeedback(aiFeedback)">
+                    <p>Emma demonstrates excellent musicality and technical control in this performance of Chopin's Etude Op. 10 No. 3. Her interpretation shows a deep understanding of the romantic style and the emotional depth required for this piece.</p>
+                    <p><strong>Strengths:</strong> The dynamic range is particularly impressive, with smooth transitions between pianissimo and forte passages. The legato touch is consistent and appropriate for the lyrical nature of the piece. Tempo stability shows good control, maintaining the expressive rubato without losing the underlying pulse.</p>
+                    <p><strong>Areas for Improvement:</strong> While the overall performance is strong, there are opportunities to enhance the clarity of note attacks, particularly in the more technically demanding middle section. Consider working on finger independence exercises to achieve even greater precision.</p>
+                    <p><strong>Recommendation:</strong> Continue exploring the emotional narrative of the piece. Experiment with subtle variations in phrasing to bring out the singing quality of the melody even more. Overall, this is an advanced-level performance that demonstrates significant progress.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
 </body>
+
 </html>
