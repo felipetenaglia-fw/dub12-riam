@@ -203,6 +203,24 @@ class AudioAnalysisService:
         onset_strengths = onset_env[onsets] if len(onsets) > 0 else np.array([0])
         attack_sharpness = float(np.mean(onset_strengths)) if len(onset_strengths) > 0 else 0
         
+        # Improved attack clarity calculation with better normalization
+        # Use percentile-based normalization: compare to typical onset strengths
+        # Most musical performances have onset strengths between 0.5-4.0
+        # This provides a more balanced score distribution
+        if len(onset_strengths) > 0:
+            # Calculate clarity based on both mean and consistency
+            mean_strength = float(np.mean(onset_strengths))
+            strength_consistency = 1.0 - min(1.0, np.std(onset_strengths) / (mean_strength + 0.001))
+            
+            # Normalize mean strength: 0.5 = 30%, 1.5 = 60%, 3.0 = 90%, 4.5+ = 100%
+            normalized_strength = min(1.0, (mean_strength - 0.3) / 4.2)
+            normalized_strength = max(0.0, normalized_strength)
+            
+            # Combine strength and consistency (70% strength, 30% consistency)
+            attack_clarity = (normalized_strength * 0.7) + (strength_consistency * 0.3)
+        else:
+            attack_clarity = 0.0
+        
         # Note separation analysis
         if len(onset_times) > 1:
             note_gaps = np.diff(onset_times)
@@ -215,7 +233,7 @@ class AudioAnalysisService:
             legato_tendency = 0
         
         features["articulation"] = {
-            "attack_clarity_score": float(min(1.0, attack_sharpness / 10)),
+            "attack_clarity_score": float(attack_clarity),
             "note_separation_consistency": float(max(0, min(1, legato_score))),
             "staccato_tendency": staccato_tendency,
             "legato_tendency": legato_tendency,

@@ -180,74 +180,118 @@ class BedrockService:
 
 ---
 
-Based on these actual audio analysis metrics, provide comprehensive RIAM-standard coaching feedback. Your feedback should:
+Based on these actual audio analysis metrics, provide comprehensive, **actionable** RIAM-standard coaching feedback that students can immediately apply in their practice. 
 
-## 1. Overall Performance Assessment
-Provide an honest, constructive assessment based on the metrics. What does the data reveal about this student's playing?
+## CRITICAL INSTRUCTIONS FOR FEEDBACK:
 
-## 2. Technical Analysis
+### Feedback Philosophy:
+- **BE SPECIFIC**: Instead of "work on rhythm," say "practice measures 5-8 with a metronome at 80 BPM, clapping the rhythm before playing"
+- **BE ACTIONABLE**: Every criticism must include HOW to fix it with concrete steps
+- **BE ENCOURAGING**: Start with genuine strengths, end with motivation
+- **USE STUDENT LANGUAGE**: Avoid overly technical jargon; explain concepts clearly
+- **PROVIDE EXAMPLES**: Reference specific techniques, exercises, or practice methods by name
 
-### Rhythm & Tempo
-- Interpret the tempo stability ({features['tempo_rhythm']['tempo_stability_score']:.0%}) and rhythm regularity ({features['tempo_rhythm']['rhythm_regularity_score']:.0%})
-- What do these scores indicate about rhythmic control?
-- Specific exercises to improve rhythm if scores are below 70%
-
-### Intonation & Pitch Control
-- Interpret the pitch stability ({features['pitch_intonation']['pitch_stability_score']:.0%})
-- What does the harmonic content ({features['pitch_intonation']['harmonic_content_ratio']:.0%}) suggest about tone production?
-- Suggestions for improving intonation if needed
-
-### Tone Quality
-- Interpret brightness ({features['tone_quality']['brightness_score']:.0%}) and warmth ({features['tone_quality']['tone_warmth']:.0%})
-- Comment on timbre consistency ({features['tone_quality']['timbre_consistency']:.0%})
-- Exercises for tone development if scores are below 70%
-
-### Articulation
-- Interpret the articulation patterns (attack clarity: {features['articulation']['attack_clarity_score']:.0%})
-- Comment on the {features['articulation']['predominant_articulation']} tendency
-- How to develop more varied articulation
-
-## 3. Musical Expression
-- Interpret dynamic control (range: {features['dynamics']['dynamic_range_db']:.1f} dB, contrast: {features['dynamics']['dynamic_contrast_score']:.0%})
-- Comment on expressiveness level: {features['dynamics']['dynamic_expressiveness']}
-- Suggestions for developing greater musical expression
-
-## 4. Strengths to Build On
-List 3-4 specific strengths evident from the highest scores in the analysis.
-
-## 5. Priority Areas for Improvement
-List 3-4 specific areas needing attention based on the lowest scores.
-
-## 6. Practice Plan (2-4 weeks)
-Create a structured practice plan targeting the weakest areas:
-- **Weeks 1-2:** Focus areas and specific exercises
-- **Weeks 3-4:** Integration and refinement
-- Include daily practice routine (30-60 min breakdown)
-
-## 7. Recommended Repertoire for Development
-Based on performance level ({features['performance_scores']['performance_level']}) and weak areas, suggest:
-- 2-3 études or technical studies addressing weak areas
-- 2-3 pieces at appropriate level
-- Explain WHY each recommendation would help
-
-## 8. Technical Exercises
-Provide 3-5 specific exercises with detailed instructions targeting:
-- Rhythm (if tempo stability < 70%)
-- Intonation (if pitch stability < 70%)
-- Dynamics (if dynamic contrast < 50%)
-- Articulation variety
-- Tone development
-
-## 9. Encouragement & Next Steps
-End with specific encouragement based on strengths observed, and clear next steps.
+### Score Interpretation Guidelines:
+- **70%+ = Strong**: Acknowledge excellence, suggest refinement
+- **50-69% = Developing**: Needs focused practice, provide clear exercises  
+- **Below 50% = Priority**: Requires immediate attention with detailed practice plan
 
 ---
 
-**Important:** 
-- Reference the actual metrics in your feedback
-- Be specific and practical
-- Adjust tone to match performance level: {features['performance_scores']['performance_level']}
-- If piece/composer provided, incorporate piece-specific advice
+## 1. Opening: What You Did Well (2-3 sentences)
+Start with genuine, specific praise based on highest metric scores. Make the student feel their effort is recognized.
+
+## 2. Technical Breakdown (Be ULTRA-SPECIFIC)
+
+### Rhythm & Tempo (Stability: {features['tempo_rhythm']['tempo_stability_score']:.0%} | Regularity: {features['tempo_rhythm']['rhythm_regularity_score']:.0%})
+
+**What the data shows:** [Interpret scores in plain language]
+
+**If below 70%, provide THIS level of detail:**
+- **Exercise 1:** "Set metronome to [X] BPM. Play each passage 5 times perfectly before moving on. Record yourself."
+- **Exercise 2:** "Practice with subdivisions: Count '1-e-and-a, 2-e-and-a' out loud while clapping the rhythm"
+- **Daily goal:** "15 minutes of metronome work, focusing on [specific measure ranges or patterns]"
+
+### Intonation & Pitch (Stability: {features['pitch_intonation']['pitch_stability_score']:.0%} | Harmonic Content: {features['pitch_intonation']['harmonic_content_ratio']:.0%})
+
+**What the data shows:** [Interpret scores in plain language]
+
+**If below 70%, provide actionable steps:**
+- **Tuning Exercise:** "Play long tones on [specific notes] for 8 counts each with a tuner visible. Aim for steady needle at 0 cents."
+- **Scale Practice:** "Practice [key] scale at 60 BPM, holding each note for 4 beats, checking intonation"
+- **Drone Practice:** "Use a drone app set to [key note]. Play scales/passages against the drone to train your ear"
+
+### Tone Quality (Brightness: {features['tone_quality']['brightness_score']:.0%} | Consistency: {features['tone_quality']['brightness_consistency']:.0%})
+
+**What the data shows:** [Interpret scores in plain language - too bright? too dark? inconsistent?]
+
+**Specific exercises:**
+- "Long tone routine: 4-4-4-4 breathing (4 beats in, hold 4, out 4, rest 4). Focus on [fuller/brighter/warmer] tone."
+- "Record yourself playing [exercise]. Listen for tone changes between registers."
+- "Practice messa di voce (crescendo-decrescendo) on single notes to develop control"
+
+### Articulation (Attack Clarity: {features['articulation']['attack_clarity_score']:.0%} | Style: {features['articulation']['predominant_articulation']})
+
+**What the data shows:** [Are note starts clear? Too harsh? Too soft? Too uniform?]
+
+**Exercises for variety and control:**
+- "Practice THIS pattern: 4 notes staccato, 4 legato, 4 mixed. Start slow (60 BPM) and gradually increase."
+- "Tongue position exercise: Say 'tah-tah-tah' vs 'dah-dah-dah' to develop articulation options"
+- "Use a mirror: Watch your [embouchure/bow contact/finger position] to ensure consistency"
+
+## 3. Musical Expression (Range: {features['dynamics']['dynamic_range_db']:.1f}dB | Contrast: {features['dynamics']['dynamic_contrast_score']:.0%} | Expression: {features['dynamics']['dynamic_expressiveness']})
+
+**What the data shows:** [Do dynamics exist? Are they varied? Are they musical?]
+
+**Actionable practice:**
+- "Mark your score: pp, p, mp, mf, f, ff at 5-10 second intervals. Practice exaggerating each level."
+- "Record yourself: Can you HEAR the difference between your p and f? If not, make it more extreme."
+- "Practice crescendos: Start at whisper volume, gradually build to full volume over 16 beats. Reverse for decrescendos."
+
+## 4. Your Biggest Strengths (3-4 specific)
+[List actual strong points from highest scores, being specific about what they're doing RIGHT]
+
+Example: "Your tempo stability (95%) is exceptional - you have an excellent internal sense of pulse that many students struggle to develop."
+
+## 5. Priority Improvements (Top 3 most important)
+[List lowest scoring areas, but ALWAYS paired with how to fix them]
+
+Example: "Attack clarity (45%) - Your note starts are unclear. FIX: Practice scales with exaggerated tongue/bow/finger attacks for 10 minutes daily."
+
+## 6. This Week's Practice Plan (Be ULTRA-SPECIFIC)
+
+**Daily 40-Minute Routine:**
+- **0-10 min:** [Exact warm-up with specific exercises]
+- **10-25 min:** [Technical work addressing weakest metric]
+- **25-35 min:** [Musical passages applying technical improvements]
+- **35-40 min:** [Specific challenging sections, with practice method]
+
+**Weekly Focus:** [One clear goal: "By Friday, play measures 12-24 with 70%+ rhythm accuracy"]
+
+## 7. Recommended Next Pieces/Études
+Suggest 2-3 specific pieces BY NAME that address the weakest areas:
+- "[Piece Name] by [Composer]" - WHY: "This develops [specific skill] through [specific technical feature]"
+
+## 8. Quick Technical Exercises (3-5 with EXACT instructions)
+Format: **Exercise Name | Time | Purpose | Instructions**
+
+Example: 
+- **Drone Scale Practice | 5 min | Intonation | Set drone to [key]. Play scale 3x, adjusting each note to eliminate beats. Record progress.**
+
+## 9. Encouragement & Next Recording Goals
+End with:
+- Specific praise for effort/improvement potential
+- Clear goal for next recording: "Next time, focus on improving [specific metric] by [specific method]"
+- Motivational closer referencing their current level ({features['performance_scores']['performance_level']})
+
+---
+
+**FINAL REMINDERS:**
+✓ Every critique MUST have a "how to fix it" 
+✓ Use numbers: "practice 5 times," "10 minutes," "at 80 BPM"
+✓ Reference scores to show you're analyzing THEIR performance
+✓ Make feedback feel personal and achievable
+✓ If piece/composer provided, include piece-specific technical advice
 """
 
         # Call Claude
