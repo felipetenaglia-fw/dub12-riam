@@ -1,13 +1,28 @@
-// API Configuration
-const API_CONFIG = {
-    baseURL: window.RIAM_CONFIG?.apiBaseUrl || 'http://localhost:8000',
-    endpoints: {
-        aiCoach: '/ai-coach/analyze',  // Analysis endpoint
-        aiCoachChat: '/ai-coach/chat', // Chat endpoint
-        login: '/auth/login',
-        me: '/auth/me'
+// API Configuration Helper
+function getApiConfig() {
+    // Wait for config to load if necessary
+    if (window.RIAM_CONFIG?.isLoading) {
+        console.warn('[API] Config still loading, using defaults');
     }
-};
+    
+    // Use loaded config or fallback to defaults
+    return {
+        baseURL: window.RIAM_CONFIG?.apiBaseUrl || 'http://localhost:8000',
+        endpoints: window.RIAM_CONFIG?.endpoints || {
+            aiCoach: '/ai-coach/analyze',
+            aiCoachChat: '/ai-coach/chat',
+            login: '/auth/login',
+            me: '/auth/me'
+        }
+    };
+}
+
+// Legacy support - API_CONFIG as getter
+const API_CONFIG = new Proxy({}, {
+    get(target, prop) {
+        return getApiConfig()[prop];
+    }
+});
 
 // Authentication state
 let authToken = localStorage.getItem('access_token');
