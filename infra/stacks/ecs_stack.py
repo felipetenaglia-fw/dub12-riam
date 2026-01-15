@@ -103,6 +103,11 @@ class RiamLmsStack(Stack):
             unhealthy_threshold_count=5,  # Increased tolerance
         )
 
+        # Increase ALB idle timeout for long-running AI requests (default is 60s)
+        fargate_service.load_balancer.set_attribute(
+            "idle_timeout.timeout_seconds", "300"  # 5 minutes
+        )
+
         # Grant S3 permissions to the task role
         recordings_bucket.grant_read_write(fargate_service.task_definition.task_role)
 
@@ -129,10 +134,14 @@ class RiamLmsStack(Stack):
                     "bedrock:ConverseStream",
                 ],
                 resources=[
-                    # Claude 3.5 Sonnet v2 in us-west-2
-                    f"arn:aws:bedrock:us-west-2::foundation-model/us.anthropic.claude-3-5-sonnet-20241022-v2:0",
-                    # Allow all models in the region for flexibility
-                    f"arn:aws:bedrock:{self.region}::foundation-model/*",
+                    # Allow all foundation models in all regions
+                    "arn:aws:bedrock:*::foundation-model/*",
+                    # Allow cross-region inference profiles (us.* prefix)
+                    f"arn:aws:bedrock:{self.region}:{self.account}:inference-profile/us.*",
+                    # Allow inference profiles in this region
+                    f"arn:aws:bedrock:{self.region}:{self.account}:inference-profile/*",
+                    # Allow system-defined inference profiles
+                    "arn:aws:bedrock:*::inference-profile/*"
                 ],
             )
         )
@@ -156,10 +165,15 @@ class RiamLmsStack(Stack):
             self,
             "UiBucket",
             bucket_name=f"riam-lms-ui-{self.account}",
-            website_index_document="login.html",  # Changed from index.html to login.html
+            website_index_document="login.html",
             website_error_document="login.html",
-            public_read_access=False,  # CloudFront will access via OAI
-            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
+            public_read_access=True,
+            block_public_access=s3.BlockPublicAccess(
+                block_public_acls=False,
+                block_public_policy=False,
+                ignore_public_acls=False,
+                restrict_public_buckets=False,
+            ),
             removal_policy=RemovalPolicy.DESTROY,
             auto_delete_objects=True,
             cors=[
@@ -179,6 +193,16 @@ class RiamLmsStack(Stack):
         )
         
         ui_bucket.grant_read(oai)
+        
+        # Add bucket policy to allow all principals to read
+        ui_bucket.add_to_resource_policy(
+            iam.PolicyStatement(
+                effect=iam.Effect.ALLOW,
+                principals=[iam.AnyPrincipal()],
+                actions=["s3:GetObject"],
+                resources=[f"{ui_bucket.bucket_arn}/*"],
+            )
+        )
 
         # Create CloudFront distribution
         distribution = cloudfront.Distribution(
@@ -207,10 +231,21 @@ class RiamLmsStack(Stack):
         )
 
         # Deploy static UI files to S3
-        s3deploy.BucketDeployment(
+        deployment = s3deploy.BucketDeployment(
             self,
             "UiDeployment",
-            sources=[s3deploy.Source.asset("../new_ui")],
+            sources=[
+                s3deploy.Source.asset("../new_ui"),
+                s3deploy.Source.json_data("api-config.json", {
+                    "apiBaseUrl": f"http://{fargate_service.load_balancer.load_balancer_dns_name}",
+                    "endpoints": {
+                        "aiCoach": "/ai-coach/analyze",
+                        "aiCoachChat": "/ai-coach/chat",
+                        "login": "/auth/login",
+                        "me": "/auth/me"
+                    }
+                })
+            ],
             destination_bucket=ui_bucket,
             distribution=distribution,
             distribution_paths=["/*"],

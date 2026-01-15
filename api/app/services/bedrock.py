@@ -7,6 +7,7 @@ comprehensive music coaching feedback based on actual performance metrics.
 
 import boto3
 import json
+from botocore.config import Config
 from botocore.exceptions import ClientError
 from typing import Optional
 
@@ -23,6 +24,17 @@ class BedrockService:
         """Initialize Bedrock client with proper credential handling."""
         import os
         
+        # Log environment for debugging
+        print(f"[INFO] AWS_REGION env var: {os.environ.get('AWS_REGION', 'not set')}")
+        print(f"[INFO] Settings aws_region: {settings.aws_region}")
+        
+        # Configure longer timeouts for AI operations
+        bedrock_config = Config(
+            read_timeout=300,  # 5 minutes for long AI responses
+            connect_timeout=10,
+            retries={'max_attempts': 2}
+        )
+        
         # Determine which credential method to use
         # Priority: 1) IAM Role (ECS), 2) Profile (local), 3) Access Keys
         
@@ -35,16 +47,21 @@ class BedrockService:
                 print("[INFO] Running in AWS environment - using IAM role credentials")
                 self.bedrock_runtime = boto3.client(
                     'bedrock-runtime',
-                    region_name=settings.aws_region
+                    region_name=settings.aws_region,
+                    config=bedrock_config
                 )
-            elif settings.aws_profile:
-                # Local development with AWS profile
+            elif settings.aws_profile and settings.aws_profile.strip():
+                # Local development with AWS profile (only if non-empty)
                 print(f"[INFO] Using AWS profile: {settings.aws_profile}")
                 session = boto3.Session(
                     profile_name=settings.aws_profile,
                     region_name=settings.aws_region
                 )
-                self.bedrock_runtime = session.client('bedrock-runtime')
+                self.bedrock_runtime = session.client(
+                    'bedrock-runtime', 
+                    region_name=settings.aws_region,  # Explicitly set region on client
+                    config=bedrock_config
+                )
             elif settings.aws_access_key_id and settings.aws_secret_access_key:
                 # Explicit credentials provided
                 print("[INFO] Using explicit AWS credentials")
@@ -52,24 +69,33 @@ class BedrockService:
                     'bedrock-runtime',
                     region_name=settings.aws_region,
                     aws_access_key_id=settings.aws_access_key_id,
-                    aws_secret_access_key=settings.aws_secret_access_key
+                    aws_secret_access_key=settings.aws_secret_access_key,
+                    config=bedrock_config
                 )
             else:
-                # Fallback to default credential chain
+                # Fallback to default credential chain (IAM role in ECS, or default profile locally)
                 print("[INFO] Using default AWS credential chain")
                 self.bedrock_runtime = boto3.client(
                     'bedrock-runtime',
-                    region_name=settings.aws_region
+                    region_name=settings.aws_region,
+                    config=bedrock_config
                 )
             
-            print(f"[INFO] Bedrock client initialized successfully for region: {settings.aws_region}")
+            # Verify the region actually set on the client
+            actual_region = self.bedrock_runtime.meta.region_name
+            print(f"[INFO] Bedrock client initialized for region: {actual_region}")
+            
+            if actual_region != settings.aws_region:
+                print(f"[WARNING] Region mismatch! Expected {settings.aws_region}, got {actual_region}")
             
         except Exception as e:
             print(f"[ERROR] Failed to initialize Bedrock client: {str(e)}")
             raise
         
-        # Use Claude 3.5 Sonnet v2
-        self.model_id = "us.anthropic.claude-3-5-sonnet-20241022-v2:0"
+        # Use Claude Sonnet 4.5 (cross-region inference profile)
+        # Verified to work with current IAM policy
+        self.model_id = "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+        print(f"[INFO] Using model: {self.model_id}")
     
     def analyze_audio_performance(
         self, 
@@ -436,11 +462,10 @@ Be specific to the piece mentioned."""
         try:
             # Build the system context from the analysis
             student_name = student_name or "there"
-            system_context = f"""You are a master musician and expert teacher at the Royal Irish Academy of Music (RIAM). 
+            system_context = f"""You are a classical music teacher assistant tool for teacther at the Royal Irish Academy of Music (RIAM). 
 You are personally coaching {student_name}, having a one-on-one conversation about their recent performance.
 
-As a master musician, you:
-- Have decades of performance and teaching experience
+As a classical music teacher assistant tool, you:
 - Understand the subtle nuances of musical expression
 - Can hear both what's working well and areas for growth
 - Speak with authority but also warmth and encouragement
@@ -448,6 +473,7 @@ As a master musician, you:
 - Make technical concepts accessible and relatable
 
 Your coaching style:
+- Refer to the teacther for detailed guidance when needed
 - Call the student by name occasionally to make it personal
 - Answer questions directly and conversationally, as if speaking face-to-face
 - Explain technical concepts in simple, student-friendly language
@@ -456,6 +482,7 @@ Your coaching style:
 - Speak naturally, like a mentor having coffee with a student
 
 IMPORTANT Guidelines:
+- Always start by saying the teachers are better equipped to provide detailed guidance, but you can help with general questions
 - Answer the SPECIFIC question asked - don't give generic responses or unrelated information
 - Keep responses conversational and concise (2-3 short paragraphs max)
 - When asked about a specific metric (tempo, pitch, dynamics, etc.), focus on THAT metric with their actual numbers
