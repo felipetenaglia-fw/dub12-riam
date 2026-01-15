@@ -96,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const personaText = document.getElementById('personaText');
     const studentDashboard = document.getElementById('studentDashboard');
     const teacherDashboard = document.getElementById('teacherDashboard');
+    const compositionAnalysisReview = document.getElementById('compositionAnalysisReview');
     const sessionDetails = document.getElementById('sessionDetails');
     
     let isStudent = true;
@@ -121,6 +122,8 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.backgroundAttachment = 'fixed';
             
             setTimeout(() => {
+                studentDashboard.style.display = 'block';
+                compositionAnalysisReview.style.display = 'none';
                 studentDashboard.classList.add('active');
             }, 250);
             
@@ -132,6 +135,8 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.backgroundAttachment = 'fixed';
             
             setTimeout(() => {
+                teacherDashboard.style.display = 'block';
+                compositionAnalysisReview.style.display = 'none';
                 teacherDashboard.classList.add('active');
             }, 250);
         }
@@ -307,9 +312,12 @@ console.log('Script loaded! Assignment functions initialized.');
 function openAssignmentDetails() {
     console.log('Opening assignment details...');
     const studentDashboard = document.getElementById('studentDashboard');
+    const teacherDashboard = document.getElementById('teacherDashboard');
     const assignmentDetails = document.getElementById('assignmentDetails');
     
     studentDashboard.classList.remove('active');
+    studentDashboard.style.display = 'none';
+    teacherDashboard.style.display = 'none';
     assignmentDetails.style.display = 'block';
     setTimeout(() => {
         assignmentDetails.classList.add('active');
@@ -1106,27 +1114,8 @@ async function submitForTeacherReview() {
     document.getElementById('aiCoachForm').style.display = 'none';
     document.getElementById('aiCoachLoading').style.display = 'block';
     
-    try {
-        // Still call the AI analysis API in the background for the teacher
-        const result = await analyzeAudioWithAI(uploadedAudioFile, {
-            piece_name: pieceName || undefined,
-            composer: composer || undefined,
-            student_notes: notes || undefined
-        });
-        
-        console.log('Analysis complete (for teacher):', result);
-        
-        // Store the result for when teacher views it
-        if (result.success) {
-            // Store in localStorage for demo purposes
-            localStorage.setItem('pendingStudentSubmission', JSON.stringify({
-                studentName: currentUser?.name || 'Alex Johnson',
-                fileName: uploadedAudioFile.name,
-                timestamp: new Date().toISOString(),
-                analysisResult: result
-            }));
-        }
-        
+    // Show loading for 2 seconds, then show success page (no API call)
+    setTimeout(() => {
         // Show submission success message to student
         document.getElementById('aiCoachLoading').style.display = 'none';
         document.getElementById('aiCoachSubmissionSuccess').style.display = 'block';
@@ -1141,22 +1130,7 @@ async function submitForTeacherReview() {
             fileName: uploadedAudioFile.name,
             submittedAt: 'Just now'
         });
-        
-    } catch (error) {
-        console.error('Error during submission:', error);
-        // Still show success to student (for demo robustness)
-        document.getElementById('aiCoachLoading').style.display = 'none';
-        document.getElementById('aiCoachSubmissionSuccess').style.display = 'block';
-        document.getElementById('submittedFileName').textContent = uploadedAudioFile.name;
-        
-        // Add pending assignment anyway for demo
-        addPendingAssignment({
-            studentName: currentUser?.name || 'Alex Johnson',
-            assignmentName: 'Audio Recording',
-            fileName: uploadedAudioFile.name,
-            submittedAt: 'Just now'
-        });
-    }
+    }, 2000); // Show loading for exactly 2 seconds
 }
 
 // Add a pending assignment to the teacher's view
@@ -1278,4 +1252,257 @@ function approveStudentAssessment() {
     }
     
     console.log('Assessment approved with comments:', teacherComments);
+}
+
+// Open composition analysis review page (student view)
+function openCompositionAnalysisReview() {
+    const studentDashboard = document.getElementById('studentDashboard');
+    const compositionAnalysisReview = document.getElementById('compositionAnalysisReview');
+    
+    if (studentDashboard) {
+        studentDashboard.classList.remove('active');
+    }
+    
+    if (compositionAnalysisReview) {
+        compositionAnalysisReview.style.display = 'block';
+        setTimeout(() => {
+            compositionAnalysisReview.classList.add('active');
+        }, 50);
+    }
+}
+
+// Close composition analysis review page
+function closeCompositionAnalysisReview() {
+    const studentDashboard = document.getElementById('studentDashboard');
+    const compositionAnalysisReview = document.getElementById('compositionAnalysisReview');
+    
+    if (compositionAnalysisReview) {
+        compositionAnalysisReview.classList.remove('active');
+        setTimeout(() => {
+            compositionAnalysisReview.style.display = 'none';
+            
+            if (studentDashboard) {
+                studentDashboard.classList.add('active');
+            }
+        }, 250);
+    }
+}
+
+// Hardcoded composition analysis context for AI chat
+const compositionAnalysisContext = {
+    feedback: `Composition Analysis: Beethoven's "Moonlight Sonata" (Op. 27, No. 2)
+
+1. What You Did Exceptionally Well
+Emma, your analysis demonstrates a sophisticated understanding of Beethoven's compositional techniques. Your identification of the sonata's innovative structure—particularly how the first movement breaks from traditional sonata-allegro form—shows excellent analytical thinking. Your discussion of the harmonic progression from C# minor to D-flat major in the third movement reveals a strong grasp of enharmonic relationships and their dramatic effect.
+
+2. Compositional & Musicianship Analysis (90/100)
+Strengths: Your harmonic analysis is thorough and accurate. You correctly identified the use of diminished seventh chords as transitional devices and explained their function in creating tension. Your discussion of the triplet figuration in the first movement and its relationship to the "moonlight" imagery shows creative interpretive thinking.
+Areas for Growth: While you mentioned the pedal markings, you could explore more deeply how Beethoven's specific pedal instructions (una corda, tre corde) affect the tonal color and emotional impact.
+
+3. Repertoire & Cultural Knowledge (88/100)
+Strengths: Excellent historical context! You effectively placed the sonata within the early Romantic period and discussed Beethoven's transition from Classical to Romantic style. Your reference to the dedication to Countess Giulietta Guicciardi and the "moonlight" nickname's origin demonstrates thorough research.
+Suggestion: You could strengthen this section by comparing this sonata to other works from Beethoven's "middle period" (1803-1814).
+
+4. Technical Skills & Competence (82/100)
+Strengths: Your score annotations are clear and well-organized. You correctly identified key modulations, cadence types, and formal sections.
+Improvement Area: In measure 42 of the first movement, you labeled the chord as V7/iv, but it's actually a German augmented sixth chord (Ger+6) resolving to the dominant.
+
+5. Performing Artistry Insights (80/100)
+Strengths: You made thoughtful connections between the compositional elements and performance practice.
+Next Level: Consider discussing specific technical challenges for the performer.
+
+Teacher Comments from Dr. Sarah Murphy:
+Emma, I'm thoroughly impressed with your analysis! Your understanding of Beethoven's harmonic language is maturing beautifully. The AI coach caught the one small error in m.42 (the Ger+6 chord), but don't let that overshadow the excellent work here. I particularly appreciated your discussion of the pedal markings and how they create the "moonlight" effect. For your next analysis, I'd love to see you explore more about performance practice and how different interpretations can highlight different aspects of the composition. Keep up this level of work, and you'll be ready for advanced analysis by next term. Well done!`,
+    
+    audio_analysis: {
+        overall_score: 85,
+        performance_scores: {
+            technical_proficiency: 82,
+            expressiveness: 80,
+            overall_score: 85
+        },
+        assignment_type: "Composition Analysis",
+        piece: "Moonlight Sonata",
+        composer: "Beethoven",
+        marks: {
+            technical_skills: 82,
+            compositional_musicianship: 90,
+            repertoire_knowledge: 88,
+            performing_artistry: 80,
+            total: 85
+        },
+        grade: "Distinction",
+        teacher: "Dr. Sarah Murphy"
+    }
+};
+
+// Open AI chat with composition analysis context
+function openCompositionAnalysisChat() {
+    // Set the current analysis to the composition analysis context
+    currentAIAnalysis = compositionAnalysisContext;
+    
+    // Clear conversation history for fresh start
+    conversationHistory = [];
+    
+    // Open the chat overlay
+    document.getElementById('aiChatOverlay').style.display = 'flex';
+    
+    // Reset chat messages with custom welcome message
+    const messagesContainer = document.getElementById('chatMessages');
+    messagesContainer.innerHTML = `
+        <div class="message ai-message">
+            <div class="message-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="message-content">
+                <p>Hi Emma! I've reviewed your Composition Analysis assignment on Beethoven's Moonlight Sonata. You scored 85/100 (Distinction)! I'm here to answer any questions about your marks, feedback, or how to improve. What would you like to discuss?</p>
+            </div>
+        </div>
+    `;
+}
+
+
+// Send composition chat message
+async function sendCompositionChatMessage() {
+    const input = document.getElementById('compositionChatInput');
+    const messagesContainer = document.getElementById('compositionChatMessages');
+    const sendBtn = document.getElementById('compositionChatSendBtn');
+    const errorDiv = document.getElementById('compositionChatError');
+    const errorText = document.getElementById('compositionChatErrorText');
+    
+    const question = input.value.trim();
+    
+    if (!question) {
+        return;
+    }
+    
+    // Clear any previous errors
+    errorDiv.style.display = 'none';
+    
+    // Clear welcome message if it's the first message
+    const welcomeMsg = messagesContainer.querySelector('[style*="text-align: center"]');
+    if (welcomeMsg && welcomeMsg.parentElement) {
+        welcomeMsg.parentElement.remove();
+    }
+    
+    // Add user message to UI
+    const userMessageDiv = document.createElement('div');
+    userMessageDiv.style.cssText = 'margin-bottom: 1rem; display: flex; justify-content: flex-end;';
+    userMessageDiv.innerHTML = `
+        <div style="max-width: 70%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.75rem 1rem; border-radius: 12px 12px 0 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="font-size: 0.85rem; opacity: 0.9; margin-bottom: 0.25rem;">You</div>
+            <div style="line-height: 1.5;">${escapeHtml(question)}</div>
+        </div>
+    `;
+    messagesContainer.appendChild(userMessageDiv);
+    
+    // Clear input and disable button
+    input.value = '';
+    sendBtn.disabled = true;
+    sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Thinking...';
+    
+    // Add loading indicator
+    const loadingDiv = document.createElement('div');
+    loadingDiv.id = 'compositionChatLoading';
+    loadingDiv.style.cssText = 'margin-bottom: 1rem; display: flex; justify-content: flex-start;';
+    loadingDiv.innerHTML = `
+        <div style="max-width: 70%; background: white; border: 2px solid #e0e0e0; padding: 0.75rem 1rem; border-radius: 12px 12px 12px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+            <div style="display: flex; align-items: center; gap: 0.5rem; color: #667eea;">
+                <i class="fas fa-robot"></i>
+                <span style="font-size: 0.85rem; font-weight: 600;">AI Coach</span>
+            </div>
+            <div style="margin-top: 0.5rem; color: #999;">
+                <i class="fas fa-spinner fa-spin"></i> Analyzing your question...
+            </div>
+        </div>
+    `;
+    messagesContainer.appendChild(loadingDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    
+    try {
+        // Build conversation history for this chat
+        const chatHistory = [];
+        const messages = messagesContainer.querySelectorAll('[style*="margin-bottom: 1rem"]');
+        messages.forEach((msg, index) => {
+            if (index < messages.length - 2) { // Exclude current question and loading
+                const isUser = msg.querySelector('[style*="justify-content: flex-end"]') !== null;
+                const content = msg.textContent.replace(/^(You|AI Coach)/, '').trim();
+                if (content) {
+                    chatHistory.push({
+                        role: isUser ? 'user' : 'assistant',
+                        content: content
+                    });
+                }
+            }
+        });
+        
+        // Call the API
+        const response = await fetch(`${API_CONFIG.baseURL}/api/ai-coach/chat-public`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                question: question,
+                analysis_context: compositionAnalysisContext,
+                conversation_history: chatHistory
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Remove loading indicator
+        loadingDiv.remove();
+        
+        if (data.success && data.response) {
+            // Add AI response to UI
+            const aiMessageDiv = document.createElement('div');
+            aiMessageDiv.style.cssText = 'margin-bottom: 1rem; display: flex; justify-content: flex-start;';
+            aiMessageDiv.innerHTML = `
+                <div style="max-width: 70%; background: white; border: 2px solid #e0e0e0; padding: 0.75rem 1rem; border-radius: 12px 12px 12px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; color: #667eea; margin-bottom: 0.5rem;">
+                        <i class="fas fa-robot"></i>
+                        <span style="font-size: 0.85rem; font-weight: 600;">AI Coach</span>
+                    </div>
+                    <div style="line-height: 1.6; color: #333; white-space: pre-wrap;">${escapeHtml(data.response)}</div>
+                </div>
+            `;
+            messagesContainer.appendChild(aiMessageDiv);
+        } else {
+            throw new Error(data.error || 'Failed to get response from AI coach');
+        }
+        
+    } catch (error) {
+        console.error('Chat error:', error);
+        
+        // Remove loading indicator
+        const loading = document.getElementById('compositionChatLoading');
+        if (loading) {
+            loading.remove();
+        }
+        
+        // Show error message
+        errorText.textContent = 'Failed to get response. Please try again.';
+        errorDiv.style.display = 'block';
+    } finally {
+        // Re-enable button
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send';
+        
+        // Scroll to bottom
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+}
+
+// Helper function to escape HTML (if not already defined)
+if (typeof escapeHtml === 'undefined') {
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
 }
