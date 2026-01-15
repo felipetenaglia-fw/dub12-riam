@@ -149,7 +149,7 @@
                     </div>
                     <span class="status-badge pending">Pending</span>
                 </div>
-                <div class="assignment-item">
+                <div class="assignment-item clickable" onclick="openCompositionAnalysisReview()">
                     <div class="assignment-info">
                         <h4>Composition Analysis</h4>
                         <p>Due: March 20</p>
@@ -1176,6 +1176,176 @@
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Student Composition Analysis Review Page (Student View) -->
+    <main id="compositionAnalysisReview" class="dashboard session-page">
+        <div class="session-header">
+            <button class="back-btn" onclick="closeCompositionAnalysisReview()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </button>
+            <h1>Composition Analysis - Feedback</h1>
+        </div>
+        
+        <div class="session-content">
+            <!-- Assignment Info Card -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div class="card-header">
+                    <h3><i class="fas fa-file-alt"></i> Assignment Details</h3>
+                    <span class="status-badge completed">Completed</span>
+                </div>
+                <div style="padding: 1rem;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div>
+                            <p style="margin: 0; color: #666; font-size: 0.85rem;">Assignment</p>
+                            <p style="margin: 0.25rem 0 0 0; font-weight: 600; color: #333;">Composition Analysis</p>
+                        </div>
+                        <div>
+                            <p style="margin: 0; color: #666; font-size: 0.85rem;">Due Date</p>
+                            <p style="margin: 0.25rem 0 0 0; font-weight: 600; color: #333;">March 20, 2026</p>
+                        </div>
+                        <div>
+                            <p style="margin: 0; color: #666; font-size: 0.85rem;">Submitted</p>
+                            <p style="margin: 0.25rem 0 0 0; font-weight: 600; color: #28a745;">March 18, 2026</p>
+                        </div>
+                        <div>
+                            <p style="margin: 0; color: #666; font-size: 0.85rem;">Status</p>
+                            <p style="margin: 0.25rem 0 0 0; font-weight: 600; color: #28a745;">Graded</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scores Card -->
+            <div class="card results-card">
+                <div class="card-header">
+                    <h3>Your Marks</h3>
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="results-stats">
+                    <!-- Overall Score -->
+                    <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); border-radius: 12px; margin-bottom: 2rem;">
+                        <div style="font-size: 4rem; font-weight: 700; color: #667eea; margin-bottom: 0.5rem;">85/100</div>
+                        <div style="font-size: 1.2rem; color: #666; font-weight: 600;">Overall Grade</div>
+                        <div style="margin-top: 1rem; padding: 0.5rem 1.5rem; background: rgba(40, 167, 69, 0.15); color: #28a745; border-radius: 20px; display: inline-block; font-weight: 600;">Distinction</div>
+                    </div>
+
+                    <!-- Four Pillars Breakdown -->
+                    <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: #333;">Four Pillars Assessment</h4>
+                    <div class="result-item">
+                        <span class="result-number">82</span>
+                        <span class="result-label">Technical Skills & Competence</span>
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 82%"></div>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-number">90</span>
+                        <span class="result-label">Compositional & Musicianship</span>
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-number">88</span>
+                        <span class="result-label">Repertoire & Cultural Knowledge</span>
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 88%"></div>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-number">80</span>
+                        <span class="result-label">Performing Artistry</span>
+                        <div class="result-bar">
+                            <div class="result-fill" style="width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Coach Feedback Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-robot"></i> AI Coach Analysis</h3>
+                </div>
+                <div style="padding: 1.5rem; line-height: 1.8; font-size: 0.95rem; max-height: 500px; overflow-y: auto;">
+                    <h4 style="color: #667eea; margin-bottom: 1rem;">Composition Analysis: Beethoven's "Moonlight Sonata" (Op. 27, No. 2)</h4>
+                    
+                    <h5 style="margin-top: 1.5rem; color: #333;">1. What You Did Exceptionally Well</h5>
+                    <p>Emma, your analysis demonstrates a sophisticated understanding of Beethoven's compositional techniques. Your identification of the sonata's innovative structure—particularly how the first movement breaks from traditional sonata-allegro form—shows excellent analytical thinking. Your discussion of the harmonic progression from C# minor to D-flat major in the third movement reveals a strong grasp of enharmonic relationships and their dramatic effect.</p>
+                    
+                    <h5 style="margin-top: 1.5rem; color: #333;">2. Compositional & Musicianship Analysis (90/100)</h5>
+                    <p><strong>Strengths:</strong> Your harmonic analysis is thorough and accurate. You correctly identified the use of diminished seventh chords as transitional devices and explained their function in creating tension. Your discussion of the triplet figuration in the first movement and its relationship to the "moonlight" imagery shows creative interpretive thinking.</p>
+                    <p><strong>Areas for Growth:</strong> While you mentioned the pedal markings, you could explore more deeply how Beethoven's specific pedal instructions (una corda, tre corde) affect the tonal color and emotional impact. Consider analyzing how the pedal creates the "blurred" harmonic effect that was revolutionary for its time.</p>
+                    
+                    <h5 style="margin-top: 1.5rem; color: #333;">3. Repertoire & Cultural Knowledge (88/100)</h5>
+                    <p><strong>Strengths:</strong> Excellent historical context! You effectively placed the sonata within the early Romantic period and discussed Beethoven's transition from Classical to Romantic style. Your reference to the dedication to Countess Giulietta Guicciardi and the "moonlight" nickname's origin (from poet Ludwig Rellstab) demonstrates thorough research.</p>
+                    <p><strong>Suggestion:</strong> You could strengthen this section by comparing this sonata to other works from Beethoven's "middle period" (1803-1814) to show how it fits into his compositional evolution. Mention works like the "Waldstein" or "Appassionata" sonatas for context.</p>
+                    
+                    <h5 style="margin-top: 1.5rem; color: #333;">4. Technical Skills & Competence (82/100)</h5>
+                    <p><strong>Strengths:</strong> Your score annotations are clear and well-organized. You correctly identified key modulations, cadence types, and formal sections. Your use of Roman numeral analysis for the harmonic progressions is accurate.</p>
+                    <p><strong>Improvement Area:</strong> In measure 42 of the first movement, you labeled the chord as V7/iv, but it's actually a German augmented sixth chord (Ger+6) resolving to the dominant. This is a subtle but important distinction that affects how we understand Beethoven's harmonic language.</p>
+                    
+                    <h5 style="margin-top: 1.5rem; color: #333;">5. Performing Artistry Insights (80/100)</h5>
+                    <p><strong>Strengths:</strong> You made thoughtful connections between the compositional elements and performance practice. Your discussion of tempo choices and their effect on the movement's character shows you're thinking like a performer, not just an analyst.</p>
+                    <p><strong>Next Level:</strong> Consider discussing specific technical challenges for the performer—for example, how to voice the melody in the right hand while maintaining the triplet accompaniment in the first movement, or how to achieve the necessary velocity in the Presto agitato finale while maintaining clarity.</p>
+                    
+                    <h5 style="margin-top: 1.5rem; color: #333;">6. Recommended Next Steps</h5>
+                    <ul style="margin-left: 1.5rem; line-height: 2;">
+                        <li><strong>Deep Dive Exercise:</strong> Analyze the first 16 measures of the first movement measure-by-measure, identifying every non-chord tone (suspensions, passing tones, neighbor tones). This will sharpen your analytical precision.</li>
+                        <li><strong>Comparative Analysis:</strong> Compare this sonata's first movement to a traditional Classical sonata-allegro form (try Mozart's K. 545). Write 2 paragraphs on how Beethoven deviates from convention.</li>
+                        <li><strong>Performance Study:</strong> Listen to three different recordings (suggest: Wilhelm Kempff, Mitsuko Uchida, and Barenboim). Write brief notes on how each pianist interprets the tempo and pedaling differently.</li>
+                        <li><strong>Score Study:</strong> Review German augmented sixth chords and their resolution. Find 3 more examples in Beethoven's piano sonatas.</li>
+                    </ul>
+                    
+                    <h5 style="margin-top: 1.5rem; color: #333;">7. Encouragement & Final Thoughts</h5>
+                    <p>Emma, this is distinction-level work that shows genuine musical insight and analytical rigor. Your writing is clear, your arguments are well-supported, and you demonstrate both technical knowledge and artistic sensitivity. The small areas for improvement are really about refining an already strong analytical approach. Keep pushing yourself to connect the "what" (what Beethoven wrote) with the "why" (why these choices create the emotional impact they do) and the "how" (how a performer brings these elements to life). You're developing the kind of comprehensive musicianship that will serve you well whether you pursue performance, teaching, or scholarship. Excellent work!</p>
+                </div>
+            </div>
+
+            <!-- Teacher Feedback Card -->
+            <div class="card" style="margin-top: 1.5rem; border-left: 4px solid #667eea;">
+                <div class="card-header" style="background: rgba(102, 126, 234, 0.05);">
+                    <h3><i class="fas fa-user-tie"></i> Teacher Comments</h3>
+                </div>
+                <div style="padding: 1.5rem; background: rgba(102, 126, 234, 0.02);">
+                    <div style="display: flex; align-items: start; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="student-avatar" style="width: 50px; height: 50px; background: #667eea; flex-shrink: 0;">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <p style="margin: 0; font-weight: 600; color: #333;">Dr. Sarah Murphy</p>
+                            <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: #666;">Piano Instructor</p>
+                        </div>
+                    </div>
+                    <div style="padding: 1.25rem; background: white; border-radius: 8px; border: 1px solid #e0e0e0;">
+                        <p style="margin: 0; line-height: 1.8; color: #333;">
+                            Emma, I'm thoroughly impressed with your analysis! Your understanding of Beethoven's harmonic language is maturing beautifully. The AI coach caught the one small error in m.42 (the Ger+6 chord), but don't let that overshadow the excellent work here. 
+                        </p>
+                        <p style="margin: 1rem 0 0 0; line-height: 1.8; color: #333;">
+                            I particularly appreciated your discussion of the pedal markings and how they create the "moonlight" effect—this shows you're thinking about the connection between notation and sound. For your next analysis, I'd love to see you explore more about performance practice and how different interpretations can highlight different aspects of the composition.
+                        </p>
+                        <p style="margin: 1rem 0 0 0; line-height: 1.8; color: #333;">
+                            Keep up this level of work, and you'll be ready for advanced analysis by next term. Well done! 🎹✨
+                        </p>
+                    </div>
+                    <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(40, 167, 69, 0.1); border-radius: 8px; border-left: 3px solid #28a745;">
+                        <p style="margin: 0; font-size: 0.9rem; color: #28a745; font-weight: 600;">
+                            <i class="fas fa-check-circle"></i> Approved and graded on March 19, 2026
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                <button class="task-btn" onclick="closeCompositionAnalysisReview()" style="background: #667eea; color: white; padding: 0.75rem 2rem; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </button>
             </div>
         </div>
     </main>

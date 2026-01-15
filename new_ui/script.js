@@ -96,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const personaText = document.getElementById('personaText');
     const studentDashboard = document.getElementById('studentDashboard');
     const teacherDashboard = document.getElementById('teacherDashboard');
+    const compositionAnalysisReview = document.getElementById('compositionAnalysisReview');
     const sessionDetails = document.getElementById('sessionDetails');
     
     let isStudent = true;
@@ -122,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             setTimeout(() => {
                 studentDashboard.style.display = 'block';
+                compositionAnalysisReview.style.display = 'none';
                 studentDashboard.classList.add('active');
             }, 250);
             
@@ -134,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             setTimeout(() => {
                 teacherDashboard.style.display = 'block';
+                compositionAnalysisReview.style.display = 'none';
                 teacherDashboard.classList.add('active');
             }, 250);
         }
@@ -1283,4 +1286,38 @@ function approveStudentAssessment() {
     }
     
     console.log('Assessment approved with comments:', teacherComments);
+}
+
+// Open composition analysis review page (student view)
+function openCompositionAnalysisReview() {
+    const studentDashboard = document.getElementById('studentDashboard');
+    const compositionAnalysisReview = document.getElementById('compositionAnalysisReview');
+    
+    if (studentDashboard) {
+        studentDashboard.classList.remove('active');
+    }
+    
+    if (compositionAnalysisReview) {
+        compositionAnalysisReview.style.display = 'block';
+        setTimeout(() => {
+            compositionAnalysisReview.classList.add('active');
+        }, 50);
+    }
+}
+
+// Close composition analysis review page
+function closeCompositionAnalysisReview() {
+    const studentDashboard = document.getElementById('studentDashboard');
+    const compositionAnalysisReview = document.getElementById('compositionAnalysisReview');
+    
+    if (compositionAnalysisReview) {
+        compositionAnalysisReview.classList.remove('active');
+        setTimeout(() => {
+            compositionAnalysisReview.style.display = 'none';
+            
+            if (studentDashboard) {
+                studentDashboard.classList.add('active');
+            }
+        }, 250);
+    }
 }
