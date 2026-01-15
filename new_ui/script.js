@@ -121,6 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.backgroundAttachment = 'fixed';
             
             setTimeout(() => {
+                studentDashboard.style.display = 'block';
                 studentDashboard.classList.add('active');
             }, 250);
             
@@ -132,6 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.backgroundAttachment = 'fixed';
             
             setTimeout(() => {
+                teacherDashboard.style.display = 'block';
                 teacherDashboard.classList.add('active');
             }, 250);
         }
@@ -307,9 +309,12 @@ console.log('Script loaded! Assignment functions initialized.');
 function openAssignmentDetails() {
     console.log('Opening assignment details...');
     const studentDashboard = document.getElementById('studentDashboard');
+    const teacherDashboard = document.getElementById('teacherDashboard');
     const assignmentDetails = document.getElementById('assignmentDetails');
     
     studentDashboard.classList.remove('active');
+    studentDashboard.style.display = 'none';
+    teacherDashboard.style.display = 'none';
     assignmentDetails.style.display = 'block';
     setTimeout(() => {
         assignmentDetails.classList.add('active');
