@@ -7,6 +7,12 @@ window.RIAM_CONFIG = {
     isLoading: true
 };
 
+// Promise that resolves when config is loaded - other scripts should await this
+let configResolve;
+window.RIAM_CONFIG_READY = new Promise((resolve) => {
+    configResolve = resolve;
+});
+
 // Function to load API config
 async function loadApiConfig() {
     // Check if running locally
@@ -20,6 +26,7 @@ async function loadApiConfig() {
             me: '/auth/me'
         };
         window.RIAM_CONFIG.isLoading = false;
+        configResolve();
         return;
     }
 
@@ -44,7 +51,7 @@ async function loadApiConfig() {
         console.error('[Config] Failed to load api-config.json:', error);
         // Fallback - should not happen if CDK deployed correctly
         console.warn('[Config] Using fallback configuration');
-        window.RIAM_CONFIG.apiBaseUrl = 'http://RiamAc-RiamL-X8IA04mztrFd-1195284546.us-west-2.elb.amazonaws.com';
+        window.RIAM_CONFIG.apiBaseUrl = window.location.origin.replace(':5000', ':8000');
         window.RIAM_CONFIG.endpoints = {
             aiCoach: '/ai-coach/analyze',
             aiCoachChat: '/ai-coach/chat',
@@ -54,6 +61,7 @@ async function loadApiConfig() {
     }
     
     window.RIAM_CONFIG.isLoading = false;
+    configResolve();
 }
 
 // Load config immediately

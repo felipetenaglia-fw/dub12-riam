@@ -1,13 +1,14 @@
 // API Configuration Helper
 function getApiConfig() {
-    // Wait for config to load if necessary
+    // Config should be loaded by the time this is called
+    // If still loading, warn but return what we have
     if (window.RIAM_CONFIG?.isLoading) {
-        console.warn('[API] Config still loading, using defaults');
+        console.warn('[API] Config still loading - API calls may fail');
     }
     
-    // Use loaded config or fallback to defaults
+    // Use loaded config - no localhost fallback for prod safety
     return {
-        baseURL: window.RIAM_CONFIG?.apiBaseUrl || 'http://localhost:8000',
+        baseURL: window.RIAM_CONFIG?.apiBaseUrl,
         endpoints: window.RIAM_CONFIG?.endpoints || {
             aiCoach: '/ai-coach/analyze',
             aiCoachChat: '/ai-coach/chat',
@@ -15,6 +16,12 @@ function getApiConfig() {
             me: '/auth/me'
         }
     };
+}
+
+// Async version that waits for config to be ready
+async function getApiConfigAsync() {
+    await window.RIAM_CONFIG_READY;
+    return getApiConfig();
 }
 
 // Legacy support - API_CONFIG as getter

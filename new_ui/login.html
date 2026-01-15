@@ -272,7 +272,11 @@
     </div>
 
     <script>
-        const API_BASE_URL = window.RIAM_CONFIG?.apiBaseUrl || 'http://localhost:8000';
+        // Get API base URL - wait for config if needed
+        async function getApiBaseUrl() {
+            await window.RIAM_CONFIG_READY;
+            return window.RIAM_CONFIG?.apiBaseUrl;
+        }
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -300,6 +304,9 @@
             errorMessage.classList.remove('show');
 
             try {
+                // Wait for config to be ready
+                const API_BASE_URL = await getApiBaseUrl();
+                
                 const response = await fetch(`${API_BASE_URL}/auth/login`, {
                     method: 'POST',
                     headers: {
